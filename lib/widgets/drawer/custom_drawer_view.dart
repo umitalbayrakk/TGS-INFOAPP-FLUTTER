@@ -1,14 +1,13 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:tgs_info_app_flutter/presentation/viewmodel/drawer_viewmodel.dart';
 import 'package:tgs_info_app_flutter/presentation/views/corporate_agreements/corporate_agreements_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/feedback/feedback_page_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/login/login_page_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/permission_information/permission_information_view.dart';
-import 'package:tgs_info_app_flutter/presentation/views/service_hours/service_hours_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/settings/settings_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/useful_document/useful_document_view.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
-import 'package:tgs_info_app_flutter/widgets/drawer/custom_drawer_viewmodel.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key});
@@ -134,22 +133,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             );
           },
         ),
-        _buildMenuItem(
-          context: context,
-          icon: FeatherIcons.clock,
-          title: 'Servis Saatleri',
-          onTap: () {
-            debugPrint("Fikir Öneri İstek'e tıklanıldı");
-            Navigator.push(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (_, __, ___) => const ServiceHoursView(),
-                transitionDuration: Duration.zero,
-                reverseTransitionDuration: Duration.zero,
-              ),
-            );
-          },
-        ),
+
         _buildMenuItem(
           context: context,
           icon: FeatherIcons.list,
@@ -223,7 +207,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           height: 50,
           decoration: BoxDecoration(
             gradient: const LinearGradient(
-              colors: [AppColors.borderColor, AppColors.borderColor],
+              colors: [AppColors.snackBarGreen, AppColors.snackBarGreen],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),

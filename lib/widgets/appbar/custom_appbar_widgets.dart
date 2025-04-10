@@ -12,7 +12,7 @@ class AppBarWidgets extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       iconTheme: IconThemeData(color: AppColors.borderColor, size: 35),
       backgroundColor: AppColors.scaffoldBackgroundColor,
-      elevation: 8,
+      elevation: 2,
       shadowColor: AppColors.borderColor,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,

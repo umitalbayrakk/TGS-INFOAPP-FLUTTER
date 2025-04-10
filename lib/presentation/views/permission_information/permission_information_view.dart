@@ -1,101 +1,42 @@
-import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
 
 class PermissionModel with ChangeNotifier {
-  int totalDays = 30;
-  int usedDays = 0;
-  List<Map<String, String>> permissions = [];
-  final Map<String, Timer> _pendingTimers = {};
+  int annualEntitlement = 15; 
+  int usedAnnualDays = 0; 
+  int usedExcuseDays = 0; 
+  final List<Map<String, dynamic>> permissions = [
+    {'date': '2024-01-10', 'type': 'Yıllık İzin', 'status': 'Approved'}, 
+    {'date': '2024-01-11', 'type': 'Yıllık İzin', 'status': 'Approved'}, // Used
+    {'date': '2024-01-12', 'type': 'Yıllık İzin', 'status': 'Approved'}, // Used
+    {'date': '2024-03-15', 'type': 'Mazeret İzni', 'status': 'Approved'}, // Used
+    {'date': '2024-05-20', 'type': 'Yıllık İzin', 'status': 'Approved'}, // Used
+    {'date': '2024-05-21', 'type': 'Yıllık İzin', 'status': 'Approved'}, // Used
+    {'date': '2024-07-01', 'type': 'Mazeret İzni', 'status': 'Approved'}, 
+    {'date': '2024-09-10', 'type': 'Yıllık İzin', 'status': 'Approved'}, 
+    {'date': '2024-09-11', 'type': 'Yıllık İzin', 'status': 'Approved'},
+    {'date': '2024-11-05', 'type': 'Yıllık İzin', 'status': 'Approved'}, 
+    {'date': '2024-12-01', 'type': 'Mazeret İzni', 'status': 'Rejected'},
+    {'date': '2025-01-15', 'type': 'Yıllık İzin', 'status': 'Pending'},
+    {'date': '2025-01-16', 'type': 'Yıllık İzin', 'status': 'Pending'},
+    {'date': '2025-02-10', 'type': 'Mazeret İzni', 'status': 'Pending'},
+    {'date': '2025-03-01', 'type': 'Yıllık İzin', 'status': 'Pending'},
+  ];
 
   PermissionModel() {
-    _loadPermissions();
+    _calculateUsedDays();
   }
 
-  Future<void> _loadPermissions() async {
-    final prefs = await SharedPreferences.getInstance();
-    final savedPermissions = prefs.getString('permissions');
-    if (savedPermissions != null) {
-      permissions = List<Map<String, String>>.from(
-        json.decode(savedPermissions).map((item) => Map<String, String>.from(item)),
-      );
-      usedDays = permissions.where((p) => p['status'] == 'Approved' && p['type'] != 'Ücretsiz İzin').length;
-    }
-    _startPendingTimers();
-    notifyListeners();
+  void _calculateUsedDays() {
+    usedAnnualDays = permissions.where((p) => p['type'] == 'Yıllık İzin' && p['status'] == 'Approved').length;
+    usedExcuseDays = permissions.where((p) => p['type'] == 'Mazeret İzni' && p['status'] == 'Approved').length;
   }
 
-  Future<void> _savePermissions() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('permissions', json.encode(permissions));
-  }
-
-  void _startPendingTimers() {
-    for (var permission in permissions) {
-      if (permission['status'] == 'Pending') {
-        _scheduleAutoApproval(permission);
-      }
-    }
-  }
-
-  void _scheduleAutoApproval(Map<String, String> permission) {
-    final key = '${permission['date']}_${permission['type']}';
-    _pendingTimers[key]?.cancel();
-
-    final timer = Timer(const Duration(minutes: 1), () {
-      // 1 dakika olarak ayarlandı (test için)
-      final index = permissions.indexWhere(
-        (p) => p['date'] == permission['date'] && p['type'] == permission['type'] && p['status'] == 'Pending',
-      );
-
-      if (index != -1) {
-        permissions[index]['status'] = 'Approved';
-        if (permissions[index]['type'] != 'Ücretsiz İzin') {
-          usedDays++;
-        }
-        _pendingTimers.remove(key);
-        _savePermissions();
-        notifyListeners();
-      }
-    });
-
-    _pendingTimers[key] = timer;
-  }
-
-  void addPermission(String type, DateTime date) {
-    final newPermission = {'date': DateFormat('yyyy-MM-dd').format(date), 'type': type, 'status': 'Pending'};
-    permissions.insert(0, newPermission);
-    _scheduleAutoApproval(newPermission);
-    _savePermissions();
-    notifyListeners();
-  }
-
-  void removePermission(int index) {
-    if (index < permissions.length) {
-      final permission = permissions[index];
-      final key = '${permission['date']}_${permission['type']}';
-      if (permission['status'] == 'Approved' && permission['type'] != 'Ücretsiz İzin') {
-        usedDays--;
-      }
-      _pendingTimers[key]?.cancel();
-      _pendingTimers.remove(key);
-      permissions.removeAt(index);
-      _savePermissions();
-      notifyListeners();
-    }
-  }
-
-  @override
-  void dispose() {
-    _pendingTimers.forEach((_, timer) => timer.cancel());
-    _pendingTimers.clear();
-    super.dispose();
-  }
+  int get remainingAnnualDays => annualEntitlement - usedAnnualDays;
+  int get pendingDays => permissions.where((p) => p['status'] == 'Pending').length;
 }
 
 class PermissionInformationView extends StatelessWidget {
@@ -114,7 +55,7 @@ class PermissionInformationView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const _PermissionStatusCard(),
+                _PermissionStatusCard(),
                 const SizedBox(height: 24),
                 Text(
                   'İzin Geçmişi',
@@ -123,9 +64,7 @@ class PermissionInformationView extends StatelessWidget {
                   ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold, color: Colors.grey[800]),
                 ),
                 const SizedBox(height: 12),
-                const Expanded(child: _PermissionHistoryList()),
-                const SizedBox(height: 24),
-                const _NewRequestButton(),
+                Expanded(child: _PermissionHistoryList()),
               ],
             ),
           ),
@@ -141,7 +80,6 @@ class _PermissionStatusCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = Provider.of<PermissionModel>(context);
-    final pendingDays = model.permissions.where((p) => p['status'] == 'Pending' && p['type'] != 'Ücretsiz İzin').length;
 
     return Card(
       elevation: 0,
@@ -157,31 +95,58 @@ class _PermissionStatusCard extends StatelessWidget {
           children: [
             Text('İzin Durumu', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildStatusItem('Toplam', '${model.totalDays} Gün', Colors.grey[700]!),
-                _buildStatusItem('Kullanılan', '${model.usedDays} Gün', Colors.red),
-                _buildStatusItem('Kalan', '${model.totalDays - model.usedDays} Gün', Colors.green),
-              ],
-            ),
-            if (pendingDays > 0) ...[
-              const SizedBox(height: 12),
-              Text(
-                'Bekleyen: $pendingDays Gün',
-                style: const TextStyle(fontSize: 14, color: Colors.orange, fontWeight: FontWeight.w500),
+            _buildEntitlementSection(model),
+            const SizedBox(height: 16),
+            _buildStats(model),
+            if (model.pendingDays > 0)
+              Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: Text(
+                  'Bekleyen: ${model.pendingDays} Gün',
+                  style: const TextStyle(fontSize: 14, color: Colors.orange, fontWeight: FontWeight.w500),
+                ),
               ),
-            ],
           ],
         ),
       ),
     );
   }
 
-  Widget _buildStatusItem(String title, String value, Color valueColor) {
+  Widget _buildEntitlementSection(PermissionModel model) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Yıllık Hak Ediş: ${model.annualEntitlement} Gün',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.blue),
+        ),
+        const SizedBox(height: 8),
+        LinearProgressIndicator(
+          value: model.usedAnnualDays / model.annualEntitlement,
+          backgroundColor: AppColors.cardColor,
+          color: AppColors.appBarColor,
+          minHeight: 8,
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStats(PermissionModel model) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        _buildStat('Kullanılan Yıllık', '${model.usedAnnualDays} Gün', Colors.red),
+        _buildStat('Kalan Yıllık', '${model.remainingAnnualDays} Gün', Colors.green),
+        _buildStat('Kullanılan Mazeret', '${model.usedExcuseDays} Gün', Colors.orange),
+      ],
+    );
+  }
+
+  Widget _buildStat(String title, String value, Color valueColor) {
     return Column(
       children: [
-        Text(value, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: valueColor)),
+        Text(value, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: valueColor)),
         const SizedBox(height: 4),
         Text(title, style: TextStyle(fontSize: 14, color: Colors.grey[600])),
       ],
@@ -201,195 +166,39 @@ class _PermissionHistoryList extends StatelessWidget {
       itemCount: model.permissions.length,
       itemBuilder: (context, index) {
         final permission = model.permissions[index];
-        final date = DateFormat('dd MMMM yyyy', 'tr').format(DateTime.parse(permission['date']!));
-
-        return Dismissible(
-          key: Key('${permission['date']}$index'),
-          direction: DismissDirection.endToStart,
-          onDismissed: (_) => model.removePermission(index),
-          background: Container(
-            color: Colors.red,
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.only(right: 20),
-            child: const Icon(Icons.delete, color: Colors.white),
+        final date = DateFormat('dd MMMM yyyy', 'tr').format(DateTime.parse(permission['date']));
+        return ListTile(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+            side: BorderSide(color: Colors.grey[200]!),
           ),
-          child: Card(
-            elevation: 0,
-            color: Colors.grey[50],
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            child: ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              title: Text(permission['type']!, style: const TextStyle(fontWeight: FontWeight.w500)),
-              subtitle: Text(date),
-              trailing: _buildStatusChip(permission['status']!),
-            ),
-          ),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          title: Text(permission['type'], style: const TextStyle(fontWeight: FontWeight.w500)),
+          subtitle: Text(date, style: TextStyle(color: Colors.grey[600])),
+          trailing: _buildStatusChip(permission['status']),
         );
       },
     );
   }
 
   Widget _buildStatusChip(String status) {
-    final statusColors = {'Approved': Colors.green, 'Rejected': Colors.red, 'Pending': Colors.orange};
+    final Map<String, Color> statusColors = {
+      'Approved': Colors.green,
+      'Pending': Colors.orange,
+      'Rejected': Colors.red,
+    };
 
     return Chip(
       label: Text(
         status == 'Approved'
             ? 'Onaylandı'
-            : status == 'Rejected'
-            ? 'Reddedildi'
-            : 'Beklemede',
+            : status == 'Pending'
+            ? 'Beklemede'
+            : 'Reddedildi',
         style: const TextStyle(color: Colors.white, fontSize: 12),
       ),
-      backgroundColor: statusColors[status],
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+      backgroundColor: statusColors[status]!,
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
     );
   }
-}
-
-class _NewRequestButton extends StatelessWidget {
-  const _NewRequestButton();
-
-  @override
-  Widget build(BuildContext context) {
-    return FilledButton(
-      onPressed: () => _showRequestDialog(context),
-      style: FilledButton.styleFrom(
-        backgroundColor: AppColors.borderColor,
-        foregroundColor: AppColors.scaffoldBackgroundColor,
-        minimumSize: const Size(double.infinity, 56),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      ),
-      child: const Text('Yeni İzin Talebi', style: TextStyle(fontSize: 16)),
-    );
-  }
-
-  void _showRequestDialog(BuildContext context) {
-    String? selectedType;
-    DateTime? selectedDate;
-
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-      builder:
-          (dialogContext) => Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(dialogContext).viewInsets.bottom,
-              left: 16,
-              right: 16,
-              top: 16,
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Yeni İzin Talebi',
-                    style: Theme.of(dialogContext).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 16),
-                  DropdownButtonFormField<String>(
-                    decoration: const InputDecoration(labelText: 'İzin Türü', border: OutlineInputBorder()),
-                    items:
-                        [
-                          'Yıllık İzin',
-                          'Hastalık İzni',
-                          'Ücretsiz İzin',
-                        ].map((type) => DropdownMenuItem(value: type, child: Text(type))).toList(),
-                    onChanged: (value) => selectedType = value,
-                    validator: (value) => value == null ? 'Lütfen bir tür seçin' : null,
-                  ),
-                  const SizedBox(height: 16),
-                  OutlinedButton(
-                    onPressed: () async {
-                      selectedDate = await showDatePicker(
-                        context: dialogContext,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2025),
-                        lastDate: DateTime(2026),
-                        builder: (context, child) {
-                          return Theme(
-                            data: Theme.of(context).copyWith(
-                              colorScheme: const ColorScheme.light(primary: Colors.blue, onPrimary: Colors.white),
-                            ),
-                            child: child!,
-                          );
-                        },
-                      );
-                      if (selectedDate != null) {
-                        (dialogContext as Element).markNeedsBuild();
-                      }
-                    },
-                    style: OutlinedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 48),
-                      side: const BorderSide(color: AppColors.borderColor),
-                    ),
-                    child: Text(
-                      selectedDate == null ? 'Tarih Seç' : DateFormat('dd MMMM yyyy', 'tr').format(selectedDate!),
-                      style: const TextStyle(color: AppColors.borderColor),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextButton(
-                          onPressed: () => Navigator.pop(dialogContext),
-                          child: const Text('İptal', style: TextStyle(color: Colors.red)),
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: FilledButton(
-                          onPressed: () {
-                            if (selectedType != null && selectedDate != null) {
-                              try {
-                                Provider.of<PermissionModel>(
-                                  context,
-                                  listen: false,
-                                ).addPermission(selectedType!, selectedDate!);
-                                Navigator.pop(dialogContext);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    backgroundColor: Colors.green,
-                                    content: Text('İzin talebiniz oluşturuldu. Otomatik onaylanacaktır.'),
-                                    duration: Duration(seconds: 2),
-                                  ),
-                                );
-                              } catch (e) {
-                                ScaffoldMessenger.of(
-                                  context,
-                                ).showSnackBar(SnackBar(content: Text('Hata oluştu: $e'), backgroundColor: Colors.red));
-                              }
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Lütfen tüm alanları doldurun'),
-                                  backgroundColor: Colors.red,
-                                ),
-                              );
-                            }
-                          },
-                          style: FilledButton.styleFrom(
-                            backgroundColor: AppColors.borderColor,
-                            foregroundColor: Colors.white,
-                          ),
-                          child: const Text('Gönder'),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                ],
-              ),
-            ),
-          ),
-    );
-  }
-}
-
-void main() {
-  runApp(MaterialApp(home: const PermissionInformationView(), theme: ThemeData(useMaterial3: true)));
 }

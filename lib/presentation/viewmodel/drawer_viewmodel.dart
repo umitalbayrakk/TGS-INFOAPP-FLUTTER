@@ -16,13 +16,11 @@ class CustomDrawerViewModel {
       _image = File(savedImagePath);
     }
   }
-
   // Resmi Kaydetmek İçin
   Future<void> _saveImage(String path) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('profile_image_path', path);
   }
-
   // Galeriye Gitmek için
   Future<void> pickImage() async {
     final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -34,7 +32,6 @@ class CustomDrawerViewModel {
       print("Resim seçilmedi.");
     }
   }
-
   // Logout işlemi için
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();

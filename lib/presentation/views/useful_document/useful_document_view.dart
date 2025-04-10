@@ -16,12 +16,12 @@ class _UsefulDocumentViewState extends State<UsefulDocumentView> {
   final List<Map<String, String>> documents = [
     {
       "title": "İzin Dilekçesi",
-      "url": "https://example.com/permission.pdf",
-      "description": "İzin dilekçesi örneği.",
+      "url": "https://example.com/tgs_permission.pdf",
+      "description": "TGS Yer Hizmetleri A.Ş. için izin dilekçesi örneği.",
       "content": """
-       TGS YER Hizmetleri A.Ş Müdürlüğüne
+       TGS Yer Hizmetleri A.Ş. İnsan Kaynakları Müdürlüğüne
 
-        Fakülteniz ... Bölümü ... Anabilim Dalında ... numaralı öğrencisiyim. 
+        Şirketiniz bünyesinde ... Departmanında ... pozisyonunda çalışmaktayım. 
         ... tarihleri arasında ... nedeniyle izinli sayılmamı arz ederim.
 
         Gereğini arz ederim.
@@ -30,37 +30,44 @@ class _UsefulDocumentViewState extends State<UsefulDocumentView> {
         
         Ad Soyad
         İmza
+        Personel No:
       """,
     },
     {
       "title": "İzin Talep Formu",
-      "url": "https://example.com/leave_request.pdf",
-      "description": "Resmi izin talep formu.",
+      "url": "https://example.com/tgs_leave_request.pdf",
+      "description": "TGS Yer Hizmetleri A.Ş. resmi izin talep formu.",
       "content": """
-        İZİN TALEP FORMU
+        TGS YER HİZMETLERİ A.Ş. İZİN TALEP FORMU
         
         Personel Adı Soyadı:
+        Personel No:
         Departman:
+        Pozisyon:
         İzin Türü: (Yıllık, Ücretsiz, Hastalık, Diğer)
         İzin Başlangıç Tarihi:
         İzin Bitiş Tarihi:
         Toplam İzin Günü:
         İzin Nedeni:
         
-        Onaylayan:
+        Onaylayan Müdür:
+        İmza:
+        Tarih:
+        İnsan Kaynakları Onayı:
         İmza:
         Tarih:
       """,
     },
     {
       "title": "Sağlık Raporu Şablonu",
-      "url": "https://example.com/health_report.pdf",
-      "description": "Sağlık raporu için örnek şablon.",
+      "url": "https://example.com/tgs_health_report.pdf",
+      "description": "TGS Yer Hizmetleri A.Ş. için sağlık raporu şablonu.",
       "content": """
-        SAĞLIK RAPORU
+        TGS YER HİZMETLERİ A.Ş. SAĞLIK RAPORU
         
-        Hastanın Adı Soyadı:
+        Personelin Adı Soyadı:
         TC Kimlik No:
+        Personel No:
         Doğum Tarihi:
         
         Muayene Bulguları:
@@ -73,40 +80,43 @@ class _UsefulDocumentViewState extends State<UsefulDocumentView> {
         İmza:
         Tarih:
         Hastane/Muayenehane Mühürü
+        TGS Yer Hizmetleri A.Ş. Onay Mührü
       """,
     },
     {
       "title": "Görevlendirme Belgesi",
-      "url": "https://example.com/assignment_doc.pdf",
-      "description": "Görevlendirme için resmi belge.",
+      "url": "https://example.com/tgs_assignment_doc.pdf",
+      "description": "TGS Yer Hizmetleri A.Ş. için görevlendirme belgesi.",
       "content": """
-        GÖREVLENDİRME BELGESİ
+        TGS YER HİZMETLERİ A.Ş. GÖREVLENDİRME BELGESİ
         
         Personel Adı Soyadı:
+        Personel No:
         Görevi:
-        Görevlendirildiği Birim:
+        Görevlendirildiği Birim/Departman:
         Görevlendirme Nedeni:
         Görev Başlangıç Tarihi:
         Görev Bitiş Tarihi:
         Görev Yeri:
         
-        Onaylayan:
+        Onaylayan Müdür:
         Ünvan:
         İmza:
         Tarih:
-        Kurum Mühürü
+        TGS Yer Hizmetleri A.Ş. Mührü
       """,
     },
     {
       "title": "Seyahat İzin Belgesi",
-      "url": "https://example.com/travel_permit.pdf",
-      "description": "Seyahat izni almak için gerekli belge.",
+      "url": "https://example.com/tgs_travel_permit.pdf",
+      "description": "TGS Yer Hizmetleri A.Ş. için seyahat izni belgesi.",
       "content": """
-        SEYAHAT İZİN BELGESİ
+        TGS YER HİZMETLERİ A.Ş. SEYAHAT İZİN BELGESİ
         
         Adı Soyadı:
         TC Kimlik No:
-        Kurumu:
+        Personel No:
+        Departman:
         Görevi:
         Seyahat Nedeni:
         Gidilecek Yer:
@@ -115,22 +125,24 @@ class _UsefulDocumentViewState extends State<UsefulDocumentView> {
         Konaklama Bilgileri:
         Ulaşım Bilgileri:
         
-        Onaylayan:
+        Onaylayan Müdür:
         Ünvan:
         İmza:
         Tarih:
-        Kurum Mühürü
+        TGS Yer Hizmetleri A.Ş. Mührü
       """,
     },
     {
       "title": "Fazla Mesai Formu",
-      "url": "https://example.com/overtime_form.pdf",
-      "description": "Fazla mesai bildirim formu.",
+      "url": "https://example.com/tgs_overtime_form.pdf",
+      "description": "TGS Yer Hizmetleri A.Ş. fazla mesai bildirim formu.",
       "content": """
-        FAZLA MESAİ BİLDİRİM FORMU
+        TGS YER HİZMETLERİ A.Ş. FAZLA MESAİ BİLDİRİM FORMU
         
         Personel Adı Soyadı:
+        Personel No:
         Departman:
+        Pozisyon:
         Mesai Tarihi:
         Mesai Başlangıç Saati:
         Mesai Bitiş Saati:
@@ -138,13 +150,14 @@ class _UsefulDocumentViewState extends State<UsefulDocumentView> {
         Mesai Nedeni:
         Yapılan İşin Açıklaması:
         
-        Onaylayan Yönetici:
+        Onaylayan Müdür:
         İmza:
         Tarih:
         
         İnsan Kaynakları Onayı:
         İmza:
         Tarih:
+        TGS Yer Hizmetleri A.Ş. Mührü
       """,
     },
   ];
@@ -156,19 +169,6 @@ class _UsefulDocumentViewState extends State<UsefulDocumentView> {
         backgroundColor: AppColors.snackBarGreen,
       ),
     );
-  }
-
-  Future<void> _openDocument(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Belge açılamadı!", style: TextStyle(color: AppColors.borderColor)),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
   }
 
   void _navigateToDetailPage(Map<String, String> document) {
@@ -186,7 +186,7 @@ class _UsefulDocumentViewState extends State<UsefulDocumentView> {
           const Padding(
             padding: EdgeInsets.all(16.0),
             child: Text(
-              "Faydalı Dokümanlar",
+              "TGS Yer Hizmetleri A.Ş. Faydalı Dokümanlar",
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppColors.borderColor),
             ),
           ),
@@ -251,13 +251,7 @@ class DocumentDetailPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton.icon(
-                  icon: const Icon(Icons.visibility, color: Colors.white),
-                  label: const Text("Önizleme", style: TextStyle(color: Colors.white)),
-                  onPressed: () => _launchUrl(context, document["url"]!),
-                  style: ElevatedButton.styleFrom(backgroundColor: AppColors.snackBarGreen),
-                ),
-                ElevatedButton.icon(
-                  icon: const Icon(Icons.download, color: Colors.white),
+                  icon: const Icon(Bootstrap.download, color: Colors.white),
                   label: const Text("İndir", style: TextStyle(color: Colors.white)),
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -268,7 +262,7 @@ class DocumentDetailPage extends StatelessWidget {
                     );
                     _launchUrl(context, document["url"]!);
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: AppColors.borderColor),
+                  style: ElevatedButton.styleFrom(backgroundColor: AppColors.snackBarGreen),
                 ),
               ],
             ),

@@ -3,18 +3,13 @@ import 'package:flutter/material.dart';
 
 class CourselSlider extends StatelessWidget {
   CourselSlider({super.key});
-  final List<String> imageList = [
-    'https://www.turizmajansi.com/images/haber/thy-nin-sidney-ucuslarina_2b25.jpg',
-    'https://www.turizmajansi.com/images/haber/thy-nin-sidney-ucuslarina_2b25.jpg',
-    'https://www.turizmajansi.com/images/haber/thy-nin-sidney-ucuslarina_2b25.jpg',
-    'https://www.turizmajansi.com/images/haber/thy-nin-sidney-ucuslarina_2b25.jpg',
-  ];
+  final List<String> imageList = ['assets/images/apron.png', 'assets/images/apron2.png', 'assets/images/new.png'];
 
   @override
   Widget build(BuildContext context) {
     return CarouselSlider(
       options: CarouselOptions(
-        height: 250.0,
+        height: 300,
         autoPlay: true,
         autoPlayInterval: Duration(seconds: 3),
         autoPlayAnimationDuration: Duration(milliseconds: 800),
@@ -27,7 +22,7 @@ class CourselSlider extends StatelessWidget {
           imageList.map((item) {
             return ClipRRect(
               borderRadius: BorderRadius.circular(15.0),
-              child: Image.network(item, fit: BoxFit.cover, width: double.infinity),
+              child: Image.asset(item, fit: BoxFit.cover, width: double.infinity),
             );
           }).toList(),
     );

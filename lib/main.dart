@@ -4,15 +4,19 @@ import 'package:tgs_info_app_flutter/presentation/views/oboardind/onboarding_vie
 
 void main() {
   runApp(const MyApp());
-
+// Cihazın sadece dikey olarak açılmasını sağlayan kod...
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
+  SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp,
+     DeviceOrientation.portraitDown]
+     ).then((_) {
     runApp(MyApp());
   });
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

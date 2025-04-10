@@ -1,7 +1,7 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
+import 'package:tgs_info_app_flutter/widgets/tgs_news/news_details_page.dart';
 
 class NewsSection extends StatelessWidget {
   const NewsSection({super.key});
@@ -13,7 +13,6 @@ class NewsSection extends StatelessWidget {
       {"title": "TGS Personel Eğitimi Programı", "date": "20 Ekim 2023"},
       {"title": "Havalimanı Güvenlik Güncellemeleri", "date": "8 Nisan 2025"},
     ];
-
     return Container(
       padding: EdgeInsets.all(16.0),
       color: Colors.grey[200],
@@ -22,7 +21,7 @@ class NewsSection extends StatelessWidget {
         children: [
           Text(
             "TGS Son Haberler",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.borderColor),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: AppColors.borderColor),
           ),
           SizedBox(height: 10),
           ...newsItems.map((news) => NewsCard(title: news["title"]!, date: news["date"]!)).toList(),
@@ -44,14 +43,16 @@ class NewsCard extends StatelessWidget {
       color: AppColors.customCardColor,
       margin: EdgeInsets.only(bottom: 10),
       child: ListTile(
-        leading: Icon(Bootstrap.info_square, size: 30, color: AppColors.borderColor),
+        contentPadding: EdgeInsets.all(16.0),
+        dense: false,
+        leading: Icon(FeatherIcons.bell, size: 30, color: AppColors.borderColor),
         title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
         subtitle: Text(
           "Yayımlanma Tarihi: $date",
           style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.borderColor),
         ),
         onTap: () {
-          // Navigator.push(context, MaterialPageRoute(builder: (context) => TGSNewsDetailsPage()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const NewsDetailsPage()));
         },
       ),
     );

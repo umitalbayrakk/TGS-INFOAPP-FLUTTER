@@ -2,6 +2,7 @@ import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:tgs_info_app_flutter/presentation/views/home/home_page_screen.dart';
 import 'package:tgs_info_app_flutter/presentation/views/phone_number/phone_numbers_views.dart';
+import 'package:tgs_info_app_flutter/presentation/views/service_hours/service_hours_view.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 
 class CustomNavbarWidgets extends StatefulWidget {
@@ -25,15 +26,20 @@ class _CustomNavbarWidgetsState extends State<CustomNavbarWidgets> {
     return Scaffold(
       body: Column(
         children: [
-          Expanded(child: IndexedStack(index: _selectedIndex, children: const [HomePageScreen(), PhoneNumbersViews()])),
+          Expanded(
+            child: IndexedStack(
+              index: _selectedIndex,
+              children: const [HomePageScreen(), ServiceHoursView(), PhoneNumbersViews()],
+            ),
+          ),
           Container(
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  spreadRadius: 0,
-                  blurRadius: 10,
+                  color: Colors.black.withOpacity(0.1),
+                  spreadRadius: 1,
+                  blurRadius: 1,
                   offset: const Offset(0, -5),
                 ),
               ],
@@ -72,9 +78,24 @@ class _CustomNavbarWidgetsState extends State<CustomNavbarWidgets> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Icon(
-                        FeatherIcons.phoneCall,
+                        FeatherIcons.clock,
                         size: 32,
                         color: _selectedIndex == 1 ? AppColors.borderColor : AppColors.borderColor,
+                      ),
+                    ),
+                    label: "Servis Saatleri",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: _selectedIndex == 2 ? AppColors.borderColor.withOpacity(0.2) : Colors.transparent,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        FeatherIcons.phoneCall,
+                        size: 32,
+                        color: _selectedIndex == 2 ? AppColors.borderColor : AppColors.borderColor,
                       ),
                     ),
                     label: "Telefon",

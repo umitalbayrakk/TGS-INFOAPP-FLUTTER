@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
-import 'package:tgs_info_app_flutter/utils/constant.dart';
 
 class TurkishFoodCard extends StatelessWidget {
   final VoidCallback? onTap;
@@ -159,10 +158,11 @@ class TurkishFoodCard extends StatelessWidget {
                           const SizedBox(height: 4),
                           Text(
                             food['category'],
+                            maxLines: 1,
                             style: TextStyle(
                               fontSize: 13,
-                              color: AppColors.borderColor,
-                              fontWeight: FontWeight.bold,
+                              color: AppColors.greenSpot,
+                              fontWeight: FontWeight.w600,
                               fontStyle: FontStyle.normal,
                             ),
                           ),

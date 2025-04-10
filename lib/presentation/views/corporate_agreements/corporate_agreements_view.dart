@@ -47,7 +47,6 @@ class _CorporateAgreementsViewState extends State<CorporateAgreementsView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSearchFilterBar(),
         const SizedBox(height: 16),
         Text(
           "TGS olarak, Türk Hava Yolları ve iş ortaklarımızla yer hizmetleri alanında imzaladığımız modern anlaşmaları keşfedin.",
@@ -57,7 +56,8 @@ class _CorporateAgreementsViewState extends State<CorporateAgreementsView> {
     );
   }
 
-  Widget _buildSearchFilterBar() {
+  //Serach bar widget
+  /*Widget _buildSearchFilterBar() {
     return Row(
       children: [
         Expanded(
@@ -80,6 +80,7 @@ class _CorporateAgreementsViewState extends State<CorporateAgreementsView> {
       ],
     );
   }
+  */
 
   Widget _buildAgreementCard({required CorporateAgreement agreement}) {
     return Card(
@@ -119,7 +120,7 @@ class _CorporateAgreementsViewState extends State<CorporateAgreementsView> {
                         const SizedBox(height: 4),
                         Text(
                           "Geçerlilik: ${viewModel.formatDate(agreement.startDate)} - ${viewModel.formatDate(agreement.endDate)}",
-                          style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                          style: TextStyle(fontSize: 12, color: AppColors.greenSpot, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -138,7 +139,7 @@ class _CorporateAgreementsViewState extends State<CorporateAgreementsView> {
                         .map(
                           (benefit) => Chip(
                             label: Text(benefit),
-                            backgroundColor: AppColors.borderColor.withOpacity(0.1),
+                            backgroundColor: AppColors.darkColor.withOpacity(0.1),
                             labelStyle: TextStyle(color: AppColors.borderColor, fontSize: 12),
                           ),
                         )
