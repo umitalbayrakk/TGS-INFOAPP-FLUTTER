@@ -1,13 +1,11 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:tgs_info_app_flutter/presentation/views/home/home_page_screen.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
-import 'package:tgs_info_app_flutter/widgets/navbar/custom_navbar_widgets.dart';
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _LoginScreenState createState() => _LoginScreenState();
 }
 
@@ -325,8 +323,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (isAuthenticated) {
       // Giriş başarılı, BornTodayScreen'e yönlendirme yapabilirsin..
-      Navigator.push(context, MaterialPageRoute(builder: (context) => CustomNavbarWidgets()));
-      
+      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePageScreen()));
     } else {
       showDialog(
         context: context,

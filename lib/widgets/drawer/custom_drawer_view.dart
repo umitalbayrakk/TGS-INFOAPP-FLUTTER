@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:tgs_info_app_flutter/presentation/viewmodel/drawer_viewmodel.dart';
 import 'package:tgs_info_app_flutter/presentation/views/corporate_agreements/corporate_agreements_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/feedback/feedback_page_view.dart';
+import 'package:tgs_info_app_flutter/presentation/views/flight_time/flight_time_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/login/login_page_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/permission_information/permission_information_view.dart';
+import 'package:tgs_info_app_flutter/presentation/views/phone_number/phone_numbers_views.dart';
+import 'package:tgs_info_app_flutter/presentation/views/service_hours/service_hours_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/settings/settings_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/useful_document/useful_document_view.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
@@ -35,7 +38,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
   Widget build(BuildContext context) {
     debugPrint("CustomDrawer build çağrıldı");
     return Drawer(
-      backgroundColor: AppColors.scaffoldBackgroundColor,
+      backgroundColor: AppColors.darkColor,
       elevation: 0,
       child: Container(
         color: Colors.grey[50],
@@ -45,7 +48,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             Expanded(child: _buildMenuItems(context)),
             _buildLogoutButton(context),
             const Text(
-              "TURKISH GROUNS SERVICES",
+              "TURKISH GROUNDS SERVICES",
               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.borderColor),
             ),
             const SizedBox(height: 40),
@@ -82,108 +85,38 @@ class _CustomDrawerState extends State<CustomDrawer> {
   }
 
   Widget _buildMenuItems(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+    return GridView.count(
+      padding: const EdgeInsets.all(16),
+      crossAxisCount: 3,
+      mainAxisSpacing: 16,
+      crossAxisSpacing: 16,
+      childAspectRatio: 0.8,
       children: [
-        _buildMenuItem(
-          context: context,
-          icon: FeatherIcons.settings,
-          title: 'Ayarlar',
-          onTap: () {
-            debugPrint("Ayarlar'a tıklanıldı");
-            Navigator.push(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (_, __, ___) => const SettingsPageView(),
-                transitionDuration: Duration.zero,
-                reverseTransitionDuration: Duration.zero,
-              ),
-            );
-          },
-        ),
-        _buildMenuItem(
-          context: context,
-          icon: FeatherIcons.messageSquare,
+        CustomNavigationButton(title: 'Ayarlar', navigateTo: const SettingsPageView(), icon: Icons.settings_outlined),
+        CustomNavigationButton(
           title: 'Fikir Öneri İstek',
-          onTap: () {
-            debugPrint("Fikir Öneri İstek'e tıklanıldı");
-            Navigator.push(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (_, __, ___) => const FeedbackPage(),
-                transitionDuration: Duration.zero,
-                reverseTransitionDuration: Duration.zero,
-              ),
-            );
-          },
+          navigateTo: const FeedbackPage(),
+          icon: Icons.feedback_outlined,
         ),
-        _buildMenuItem(
-          context: context,
-          icon: FeatherIcons.send,
+        CustomNavigationButton(
           title: 'İzin Bilgileri',
-          onTap: () {
-            debugPrint("Fikir Öneri İstek'e tıklanıldı");
-            Navigator.push(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (_, __, ___) => const PermissionInformationView(),
-                transitionDuration: Duration.zero,
-                reverseTransitionDuration: Duration.zero,
-              ),
-            );
-          },
+          navigateTo: const PermissionInformationView(),
+          icon: Icons.assignment_ind_outlined,
         ),
-
-        _buildMenuItem(
-          context: context,
-          icon: FeatherIcons.list,
+        CustomNavigationButton(title: 'Telefon', navigateTo: const PhoneNumbersViews(), icon: Icons.phone),
+        CustomNavigationButton(title: 'Uçuş Saatleri', navigateTo: const FlightTimeView(), icon: Icons.flight),
+        CustomNavigationButton(title: 'Servis Saatleri', navigateTo: const ServiceHoursView(), icon: Icons.car_crash),
+        CustomNavigationButton(
           title: 'Kurumsal Anlaşmalar',
-          onTap: () {
-            debugPrint("Fikir Öneri İstek'e tıklanıldı");
-            Navigator.push(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (_, __, ___) => const CorporateAgreementsView(),
-                transitionDuration: Duration.zero,
-                reverseTransitionDuration: Duration.zero,
-              ),
-            );
-          },
+          navigateTo: const CorporateAgreementsView(),
+          icon: Icons.business_center_outlined,
         ),
-        _buildMenuItem(
-          context: context,
-          icon: FeatherIcons.package,
+        CustomNavigationButton(
           title: 'Faydalı Dökümanlar',
-          onTap: () {
-            debugPrint("Fikir Öneri İstek'e tıklanıldı");
-            Navigator.push(
-              context,
-              PageRouteBuilder(
-                pageBuilder: (_, __, ___) => const UsefulDocumentView(),
-                transitionDuration: Duration.zero,
-                reverseTransitionDuration: Duration.zero,
-              ),
-            );
-          },
+          navigateTo: const UsefulDocumentView(),
+          icon: Icons.document_scanner_outlined,
         ),
       ],
-    );
-  }
-
-  Widget _buildMenuItem({
-    required BuildContext context,
-    required IconData icon,
-    required String title,
-    required VoidCallback onTap,
-  }) {
-    return ListTile(
-      leading: Icon(icon, color: Colors.grey[600]),
-      title: Text(title, style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w500)),
-      trailing: Icon(Icons.chevron_right, color: Colors.grey[400]),
-      onTap: onTap,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      tileColor: Colors.transparent,
-      hoverColor: Colors.grey[200],
     );
   }
 
@@ -207,7 +140,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           height: 50,
           decoration: BoxDecoration(
             gradient: const LinearGradient(
-              colors: [AppColors.snackBarGreen, AppColors.snackBarGreen],
+              colors: [AppColors.cardColor, AppColors.cardColor],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -248,5 +181,44 @@ class _CustomDrawerState extends State<CustomDrawer> {
   Future<void> _handleImagePick() async {
     await _viewModel.pickImage();
     if (mounted) setState(() {});
+  }
+}
+
+class CustomNavigationButton extends StatelessWidget {
+  final String title;
+  final Widget navigateTo;
+  final IconData icon;
+
+  const CustomNavigationButton({Key? key, required this.title, required this.navigateTo, required this.icon})
+    : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          height: 60,
+          width: 60,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: AppColors.cardColor),
+          child: MaterialButton(
+            padding: EdgeInsets.zero,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => navigateTo));
+            },
+            child: Icon(icon, color: Colors.white, size: 30),
+          ),
+        ),
+        const SizedBox(height: 5),
+        Text(
+          title,
+          style: const TextStyle(color: Colors.black, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.0),
+          textAlign: TextAlign.center,
+          maxLines: 3,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ],
+    );
   }
 }

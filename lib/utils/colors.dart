@@ -4,7 +4,7 @@ class AppColors {
   static const scaffoldBackgroundColor = Color(0xFFF3F3F4);
   static const appBarColor = Color(0xff03AED2);
   static const whiteColor = Color(0xffffff);
-  static const cardColor = Color(0xffCBE4DE);
+  static const cardColor = Color(0xffd03b29);
   static const Color searcColor = Color(0xffb0a8b9);
   static const Color generalBackground = Color(0xFFF3F3F4);
   static const Color borderColor = Color(0xFF0c0231);
@@ -21,4 +21,5 @@ class AppColors {
   static const Color unSelected = Color(0xff787A91);
   static const Color customCardColor = Color(0xffF8FAFC);
   static const Color orangeColor = Color(0xffFE4F2D);
+  static const Color foodCardColor = Color(0xfffcf7ff);
 }

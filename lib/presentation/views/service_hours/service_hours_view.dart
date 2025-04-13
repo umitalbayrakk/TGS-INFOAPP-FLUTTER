@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
-import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/day&date/day_and_day_card_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/drawer/custom_drawer_view.dart';
 
@@ -39,7 +38,27 @@ class _ServiceHoursViewState extends State<ServiceHoursView> {
     return Scaffold(
       drawer: const CustomDrawer(),
       backgroundColor: AppColors.scaffoldBackgroundColor,
-      appBar: const AppBarWidgets(),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppColors.borderColor),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        iconTheme: IconThemeData(color: AppColors.borderColor, size: 35),
+        backgroundColor: AppColors.scaffoldBackgroundColor,
+        elevation: 2,
+        shadowColor: AppColors.borderColor,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 5, bottom: 10),
+              child: Image.asset("assets/tgs.png", height: 150, width: 150),
+            ),
+          ],
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(

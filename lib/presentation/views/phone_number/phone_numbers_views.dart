@@ -19,43 +19,81 @@ class PhoneNumbersViews extends StatelessWidget {
             drawer: const CustomDrawer(),
             backgroundColor: AppColors.scaffoldBackgroundColor,
             appBar: AppBar(
+              automaticallyImplyLeading: false,
               backgroundColor: AppColors.scaffoldBackgroundColor,
-              centerTitle: true,
-              iconTheme: IconThemeData(color: AppColors.borderColor, size: 30),
-              title: Image.asset("assets/tgs.png", height: 150, width: 150),
-              actions: [
-                Padding(padding: const EdgeInsets.only(right: 20, bottom: 5), child: _addButton(context, viewModel)),
-              ],
               elevation: 2,
+              shadowColor: AppColors.borderColor,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back, color: AppColors.borderColor, size: 40),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                  Image.asset("assets/tgs.png", height: 40),
+                  Padding(padding: const EdgeInsets.only(right: 10), child: _addButton(context, viewModel)),
+                ],
+              ),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(60),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                  child: PhoneSearchBar(controller: viewModel.searchController),
+                ),
+              ),
             ),
             body: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(12.0),
               child: Column(
                 children: [
-                  PhoneSearchBar(controller: viewModel.searchController),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 12),
                   Expanded(
                     child: ListView.builder(
                       itemCount: viewModel.filteredContacts.length,
                       itemBuilder: (context, index) {
                         final contact = viewModel.filteredContacts[index];
-                        return ListTile(
-                          minVerticalPadding: 0,
-                          minLeadingWidth: 0,
-                          dense: false,
-                          contentPadding: const EdgeInsets.all(5), //
-                          tileColor: AppColors.customCardColor,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                          leading: const CircleAvatar(
-                            radius: 30,
-                            backgroundColor: AppColors.customCardColor,
-                            child: Icon(FeatherIcons.user, color: AppColors.borderColor, size: 30),
-                          ),
-                          title: Text('${contact.name} ${contact.surname}'),
-                          subtitle: Text('Doğum Tarihi: ${contact.birthDate}\nTelefon: ${contact.phone}'),
-                          trailing: IconButton(
-                            icon: const Icon(FeatherIcons.phoneCall, color: AppColors.snackBarGreen, size: 30),
-                            onPressed: () => viewModel.makePhoneCall(contact.phone),
+                        return Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CircleAvatar(
+                                radius: 28,
+                                backgroundColor: AppColors.borderColor.withOpacity(0.1),
+                                child: const Icon(FeatherIcons.user, size: 28, color: AppColors.borderColor),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${contact.name} ${contact.surname}',
+                                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                    ),
+                                    const SizedBox(height: 6),
+                                    Row(
+                                      children: [
+                                        Icon(Icons.calendar_month, size: 15),
+                                        SizedBox(width: 5),
+                                        Text(contact.birthDate, style: const TextStyle(color: Colors.grey)),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(Icons.phone, size: 15),
+                                        SizedBox(width: 5),
+                                        Text(contact.phone, style: const TextStyle(color: Colors.grey)),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              IconButton(
+                                icon: const Icon(FeatherIcons.phoneCall, color: AppColors.snackBarGreen),
+                                onPressed: () => viewModel.makePhoneCall(contact.phone),
+                              ),
+                            ],
                           ),
                         );
                       },
@@ -71,10 +109,13 @@ class PhoneNumbersViews extends StatelessWidget {
   }
 
   FloatingActionButton _addButton(BuildContext context, PhoneNumbersViewModel viewModel) {
-    return FloatingActionButton(
+    return FloatingActionButton.extended(
       onPressed: () => _showAddContactDialog(context, viewModel),
       backgroundColor: AppColors.borderColor,
-      child: const Icon(Bootstrap.person_add, color: AppColors.scaffoldBackgroundColor),
+      icon: const Icon(Bootstrap.person_add, color: AppColors.whiteSpot),
+      label: const Text("Ekle", style: TextStyle(color: AppColors.whiteSpot)),
+      heroTag: "add_fab",
+      elevation: 0,
     );
   }
 
@@ -101,7 +142,7 @@ class PhoneNumbersViews extends StatelessWidget {
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextField(
                   controller: surnameController,
                   decoration: InputDecoration(
@@ -110,7 +151,7 @@ class PhoneNumbersViews extends StatelessWidget {
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextField(
                   controller: birthDateController,
                   decoration: InputDecoration(
@@ -119,7 +160,7 @@ class PhoneNumbersViews extends StatelessWidget {
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextField(
                   controller: phoneController,
                   decoration: InputDecoration(
@@ -169,20 +210,23 @@ class PhoneSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.borderColor),
-        color: AppColors.searcColor.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          prefixIcon: const Icon(FeatherIcons.search, color: AppColors.borderColor),
-          suffixIcon: Icon(Bootstrap.filter_right, color: AppColors.borderColor),
-          hintText: 'Telefon Ara...',
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+    return TextField(
+      controller: controller,
+      style: const TextStyle(fontSize: 16),
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: AppColors.searcColor.withOpacity(0.08),
+        prefixIcon: const Icon(FeatherIcons.search, color: AppColors.borderColor),
+        hintText: 'Telefon Ara...',
+        hintStyle: const TextStyle(color: Colors.grey),
+        contentPadding: const EdgeInsets.symmetric(vertical: 12),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(color: AppColors.borderColor.withOpacity(0.3)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: const BorderSide(color: AppColors.borderColor),
         ),
       ),
     );

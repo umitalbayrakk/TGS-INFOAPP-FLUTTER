@@ -12,7 +12,6 @@ class SettingsPageView extends StatefulWidget {
 
 class _SettingsPageViewState extends State<SettingsPageView> {
   ThemeMode _themeMode = ThemeMode.system;
-  String _selectedLanguage = 'Türkçe';
   bool _notificationsEnabled = true;
 
   @override
@@ -21,134 +20,92 @@ class _SettingsPageViewState extends State<SettingsPageView> {
       backgroundColor: AppColors.scaffoldBackgroundColor,
       appBar: AppBarWidgets(),
       body: ListView(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         children: [
-          _buildSectionTitle('Ayarlar'),
-          _buildDropdownTile(
-            icon: FeatherIcons.airplay,
-            title: 'Tema Seçimi',
-            value: _themeMode,
-            items: const [
-              DropdownMenuItem(value: ThemeMode.system, child: Text('Sistem')),
-              DropdownMenuItem(value: ThemeMode.light, child: Text('Açık')),
-              DropdownMenuItem(value: ThemeMode.dark, child: Text('Koyu')),
-            ],
-            onChanged: (value) => setState(() => _themeMode = value!),
-          ),
-          _buildDropdownTile(
-            icon: FeatherIcons.globe,
-            title: 'Dil',
-            value: _selectedLanguage,
-            items: const [
-              DropdownMenuItem(value: 'Türkçe', child: Text('Türkçe')),
-              DropdownMenuItem(value: 'English', child: Text('English')),
-              DropdownMenuItem(value: 'Deutsch', child: Text('Deutsch')),
-            ],
-            onChanged: (value) => setState(() => _selectedLanguage = value!),
-          ),
-          _buildSwitchTile(
+          _sectionTitle("Kullanıcı"),
+          _tile(icon: FeatherIcons.user, title: "Profil Bilgileri", onTap: () {}),
+          _tile(icon: FeatherIcons.lock, title: "Şifre Değiştir", onTap: () {}),
+
+          const SizedBox(height: 24),
+          _sectionTitle("Görünüm"),
+          _themeSelectorTile(),
+          _switchTile(
             icon: FeatherIcons.bell,
-            title: 'Bildirimler',
+            title: "Bildirimler",
             value: _notificationsEnabled,
-            onChanged: (value) => setState(() => _notificationsEnabled = value),
+            onChanged: (val) {
+              setState(() => _notificationsEnabled = val);
+            },
           ),
-          _buildNavigationTile(icon: FeatherIcons.lock, title: 'Gizlilik Politikası', onTap: () {}),
-          _buildNavigationTile(icon: FeatherIcons.helpCircle, title: 'Yardım Merkezi', onTap: () {}),
-          _buildStaticTile(icon: FeatherIcons.downloadCloud, title: 'Uygulama Güncellemeleri', trailingText: 'v1.0.0'),
-          const SizedBox(height: 30),
+
+          const SizedBox(height: 24),
+          _sectionTitle("Dil"),
+          _tile(icon: FeatherIcons.globe, title: "Dil Seçimi", trailing: "Türkçe", onTap: () {}),
+
+          const SizedBox(height: 24),
+          _sectionTitle("Destek"),
+          _tile(icon: FeatherIcons.helpCircle, title: "Yardım Merkezi", onTap: () {}),
+          _tile(icon: FeatherIcons.mail, title: "Bize Ulaşın", onTap: () {}),
+
+          const SizedBox(height: 24),
+          _tile(icon: FeatherIcons.info, title: "Sürüm", trailing: "v1.0.0"),
+          const SizedBox(height: 16),
         ],
       ),
     );
   }
 
-  Widget _buildSectionTitle(String title) {
+  Widget _sectionTitle(String title) {
     return Padding(
-      padding: const EdgeInsets.only(top: 16.0, bottom: 12.0),
+      padding: const EdgeInsets.only(bottom: 12),
       child: Text(
         title,
-        style: TextStyle(
-          color: AppColors.borderColor.withOpacity(0.9),
-          fontSize: 24,
-          fontWeight: FontWeight.w600,
-          letterSpacing: 1.2,
+        style: const TextStyle(fontSize: 18, color: AppColors.borderColor, fontWeight: FontWeight.w600),
+      ),
+    );
+  }
+
+  Widget _tile({required IconData icon, required String title, String? trailing, VoidCallback? onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          color: AppColors.customCardColor.withOpacity(0.9),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: AppColors.borderColor, size: 20),
+            const SizedBox(width: 16),
+            Expanded(child: Text(title, style: const TextStyle(fontSize: 15.5, color: AppColors.borderColor))),
+            if (trailing != null) Text(trailing, style: const TextStyle(fontSize: 14, color: AppColors.borderColor)),
+            if (onTap != null) const Icon(FeatherIcons.chevronRight, color: AppColors.borderColor, size: 18),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildDropdownTile<T>({
-    required IconData icon,
-    required String title,
-    required T value,
-    required List<DropdownMenuItem<T>> items,
-    required ValueChanged<T?> onChanged,
-  }) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      margin: const EdgeInsets.symmetric(vertical: 6.0),
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [AppColors.customCardColor.withOpacity(0.9), AppColors.customCardColor.withOpacity(0.7)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))],
-      ),
-      child: Row(
-        children: [
-          Icon(icon, color: AppColors.borderColor, size: 26),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              title,
-              style: const TextStyle(color: AppColors.borderColor, fontSize: 16, fontWeight: FontWeight.w500),
-            ),
-          ),
-          DropdownButton<T>(
-            value: value,
-            items: items,
-            onChanged: onChanged,
-            underline: const SizedBox(),
-            icon: const Icon(FeatherIcons.chevronDown, color: AppColors.borderColor),
-            dropdownColor: AppColors.customCardColor.withOpacity(0.95),
-            style: const TextStyle(color: AppColors.borderColor),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSwitchTile({
+  Widget _switchTile({
     required IconData icon,
     required String title,
     required bool value,
     required ValueChanged<bool> onChanged,
   }) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      margin: const EdgeInsets.symmetric(vertical: 6.0),
-      padding: const EdgeInsets.all(16.0),
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [AppColors.customCardColor.withOpacity(0.9), AppColors.customCardColor.withOpacity(0.7)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))],
+        color: AppColors.customCardColor.withOpacity(0.9),
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
         children: [
-          Icon(icon, color: AppColors.borderColor, size: 26),
+          Icon(icon, color: AppColors.borderColor, size: 20),
           const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              title,
-              style: const TextStyle(color: AppColors.borderColor, fontSize: 16, fontWeight: FontWeight.w500),
-            ),
-          ),
+          Expanded(child: Text(title, style: const TextStyle(fontSize: 15.5, color: AppColors.borderColor))),
           Switch(
             value: value,
             onChanged: onChanged,
@@ -160,69 +117,46 @@ class _SettingsPageViewState extends State<SettingsPageView> {
     );
   }
 
-  Widget _buildNavigationTile({required IconData icon, required String title, required VoidCallback onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        margin: const EdgeInsets.symmetric(vertical: 6.0),
-        padding: const EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [AppColors.customCardColor.withOpacity(0.9), AppColors.customCardColor.withOpacity(0.7)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))],
-        ),
-        child: Row(
-          children: [
-            Icon(icon, color: AppColors.borderColor, size: 26),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Text(
-                title,
-                style: const TextStyle(color: AppColors.borderColor, fontSize: 16, fontWeight: FontWeight.w500),
+  Widget _themeSelectorTile() {
+    return _tile(
+      icon: FeatherIcons.moon,
+      title: "Tema",
+      trailing:
+          _themeMode == ThemeMode.light
+              ? "Açık"
+              : _themeMode == ThemeMode.dark
+              ? "Koyu"
+              : "Sistem",
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          backgroundColor: AppColors.customCardColor,
+          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+          builder:
+              (context) => Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
+                    title: const Text("Sistem", style: TextStyle(color: AppColors.borderColor)),
+                    onTap: () => _setTheme(ThemeMode.system),
+                  ),
+                  ListTile(
+                    title: const Text("Açık", style: TextStyle(color: AppColors.borderColor)),
+                    onTap: () => _setTheme(ThemeMode.light),
+                  ),
+                  ListTile(
+                    title: const Text("Koyu", style: TextStyle(color: AppColors.borderColor)),
+                    onTap: () => _setTheme(ThemeMode.dark),
+                  ),
+                ],
               ),
-            ),
-            const Icon(FeatherIcons.chevronRight, color: AppColors.borderColor, size: 18),
-          ],
-        ),
-      ),
+        );
+      },
     );
   }
 
-  Widget _buildStaticTile({required IconData icon, required String title, required String trailingText}) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      margin: const EdgeInsets.symmetric(vertical: 6.0),
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [AppColors.customCardColor.withOpacity(0.9), AppColors.customCardColor.withOpacity(0.7)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))],
-      ),
-      child: Row(
-        children: [
-          Icon(icon, color: AppColors.borderColor, size: 26),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              title,
-              style: const TextStyle(color: AppColors.borderColor, fontSize: 16, fontWeight: FontWeight.w500),
-            ),
-          ),
-          Text(
-            trailingText,
-            style: const TextStyle(color: AppColors.borderColor, fontSize: 14, fontWeight: FontWeight.w400),
-          ),
-        ],
-      ),
-    );
+  void _setTheme(ThemeMode mode) {
+    setState(() => _themeMode = mode);
+    Navigator.pop(context);
   }
 }

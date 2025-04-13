@@ -1,4 +1,4 @@
-import 'package:feather_icons/feather_icons.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/tgs_news/news_details_page.dart';
@@ -13,8 +13,9 @@ class NewsSection extends StatelessWidget {
       {"title": "TGS Personel Eğitimi Programı", "date": "20 Ekim 2023"},
       {"title": "Havalimanı Güvenlik Güncellemeleri", "date": "8 Nisan 2025"},
     ];
+
     return Container(
-      padding: EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(16.0), // Dış container padding'i koruyoruz
       color: Colors.grey[200],
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -24,7 +25,17 @@ class NewsSection extends StatelessWidget {
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: AppColors.borderColor),
           ),
           SizedBox(height: 10),
-          ...newsItems.map((news) => NewsCard(title: news["title"]!, date: news["date"]!)).toList(),
+          CarouselSlider(
+            options: CarouselOptions(
+              height: 120,
+              autoPlay: true,
+              autoPlayInterval: Duration(seconds: 3),
+              autoPlayAnimationDuration: Duration(milliseconds: 800),
+              viewportFraction: 0.9,
+              enlargeCenterPage: false,
+            ),
+            items: newsItems.map((news) => NewsCard(title: news["title"]!, date: news["date"]!)).toList(),
+          ),
         ],
       ),
     );
@@ -41,12 +52,12 @@ class NewsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: AppColors.customCardColor,
-      margin: EdgeInsets.only(bottom: 10),
+      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       child: ListTile(
         contentPadding: EdgeInsets.all(16.0),
         dense: false,
-        leading: Icon(FeatherIcons.bell, size: 30, color: AppColors.borderColor),
-        title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
+        leading: Icon(Icons.notifications, size: 30, color: AppColors.borderColor),
+        title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.borderColor)),
         subtitle: Text(
           "Yayımlanma Tarihi: $date",
           style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.borderColor),
