@@ -16,7 +16,7 @@ class PhoneNumbersViews extends StatelessWidget {
       child: Consumer<PhoneNumbersViewModel>(
         builder: (context, viewModel, child) {
           return Scaffold(
-            drawer: const CustomDrawer(),
+            drawer: const CustomDrawer(user: {}),
             backgroundColor: AppColors.scaffoldBackgroundColor,
             appBar: AppBar(
               automaticallyImplyLeading: false,
@@ -26,12 +26,15 @@ class PhoneNumbersViews extends StatelessWidget {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  // Back button
                   IconButton(
                     icon: const Icon(Icons.arrow_back, color: AppColors.borderColor, size: 40),
                     onPressed: () => Navigator.pop(context),
                   ),
-                  Image.asset("assets/tgs.png", height: 40),
-                  Padding(padding: const EdgeInsets.only(right: 10), child: _addButton(context, viewModel)),
+                  // AppBar title
+                  _appBarTitle(),
+                  // Phone number add button
+                  _addButton(context, viewModel),
                 ],
               ),
               bottom: PreferredSize(
@@ -108,14 +111,15 @@ class PhoneNumbersViews extends StatelessWidget {
     );
   }
 
-  FloatingActionButton _addButton(BuildContext context, PhoneNumbersViewModel viewModel) {
-    return FloatingActionButton.extended(
-      onPressed: () => _showAddContactDialog(context, viewModel),
-      backgroundColor: AppColors.borderColor,
-      icon: const Icon(Bootstrap.person_add, color: AppColors.whiteSpot),
-      label: const Text("Ekle", style: TextStyle(color: AppColors.whiteSpot)),
-      heroTag: "add_fab",
-      elevation: 0,
+  Container _addButton(BuildContext context, PhoneNumbersViewModel viewModel) {
+    return Container(
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: AppColors.cardColor),
+      height: 50,
+      width: 70,
+      child: MaterialButton(
+        onPressed: () => _showAddContactDialog(context, viewModel),
+        child: const Icon(Icons.person_2, color: AppColors.whiteSpot, size: 30),
+      ),
     );
   }
 
@@ -199,6 +203,21 @@ class PhoneNumbersViews extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+// ignore: camel_case_types
+class _appBarTitle extends StatelessWidget {
+  const _appBarTitle({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      "Telefon",
+      style: TextStyle(fontSize: 40, fontWeight: FontWeight.w500, color: AppColors.borderColor),
     );
   }
 }

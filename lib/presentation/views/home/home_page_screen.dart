@@ -8,7 +8,9 @@ import 'package:tgs_info_app_flutter/widgets/tgs_news/news_section_widgets.dart'
 import 'package:tgs_info_app_flutter/widgets/carousel_slider/coursel_slider.dart';
 
 class HomePageScreen extends StatefulWidget {
-  const HomePageScreen({super.key});
+  final Map<String, String> user;
+
+  const HomePageScreen({super.key, required this.user});
 
   @override
   State<HomePageScreen> createState() => _HomePageScreenState();
@@ -16,21 +18,30 @@ class HomePageScreen extends StatefulWidget {
 
 class _HomePageScreenState extends State<HomePageScreen> {
   @override
+  void initState() {
+    super.initState();
+    print("HomePageScreen'e gelen kullanıcı: ${widget.user['name']}, Konum: ${widget.user['location']}");
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: CustomDrawer(),
+      drawer: CustomDrawer(user: widget.user),
       backgroundColor: AppColors.scaffoldBackgroundColor,
       appBar: AppBarWidgets(),
       body: SingleChildScrollView(
         child: Column(
           children: [
+            // Anasayfa İçeriği
             SizedBox(height: 20),
+            //Slider
             CourselSlider(),
+            //Haberler& Duyuruklar
             NewsSection(),
+            //Bu Gün doğanlar kartı
             BirthdayCard(),
+            //Yemek Kartı
             TurkishFoodCard(),
-            //SizedBox(height: 20),
-            // SizedBox(height: 20),
           ],
         ),
       ),

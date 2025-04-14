@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
 
 class FlightTimeView extends StatefulWidget {
@@ -9,74 +10,98 @@ class FlightTimeView extends StatefulWidget {
 }
 
 class _FlightTimeViewState extends State<FlightTimeView> {
-  List<Map<String, String>> airports = [
-    {'code': 'IST', 'name': 'İstanbul'},
-    {'code': 'SAW', 'name': 'Sabiha Gökçen'},
-    {'code': 'ADB', 'name': 'İzmir'},
-    {'code': 'AYT', 'name': 'Antalya'},
-    {'code': 'BJV', 'name': 'Bodrum'},
-    {'code': 'DLM', 'name': 'Dalaman'},
+  List<Map<String, String>> havalimanlari = [
+    {'kod': 'IST', 'adi': 'İstanbul'},
+    {'kod': 'SAW', 'adi': 'Sabiha Gökçen'},
+    {'kod': 'ADB', 'adi': 'İzmir'},
+    {'kod': 'AYT', 'adi': 'Antalya'},
+    {'kod': 'BJV', 'adi': 'Bodrum'},
+    {'kod': 'DLM', 'adi': 'Dalaman'},
   ];
 
-  List<Map<String, String>> airlines = [
-    {'code': 'TK', 'name': 'Türk Hava Yolları'},
-    {'code': 'VF', 'name': 'Ajet'},
-    {'code': 'XC', 'name': 'Corendon'},
-    {'code': 'FH', 'name': 'Freebird'},
-    {'code': 'PC', 'name': 'Pegasus'},
+  List<Map<String, String>> havayollari = [
+    {'kod': 'TK', 'adi': 'Türk Hava Yolları'},
+    {'kod': 'PC', 'adi': 'Pegasus'},
+    {'kod': 'VF', 'adi': 'Ajet'},
+    {'kod': 'XC', 'adi': 'Corendon'},
+    {'kod': 'FH', 'adi': 'Freebird'},
+    {'kod': 'KK', 'adi': 'Atlasglobal'},
+    {'kod': 'YF', 'adi': 'SunExpress'},
+    {'kod': '6Y', 'adi': 'Smartwings'},
+    {'kod': 'X3', 'adi': 'TUI fly'},
   ];
 
-  String selectedAirport = 'IST';
-  String selectedAirline = 'TK';
+  String seciliHavalimani = 'IST';
+  String seciliHavayolu = 'TK';
 
-  List<Map<String, dynamic>> allFlights = [];
-  List<Map<String, dynamic>> filteredFlights = [];
+  List<Map<String, dynamic>> tumUcusler = [];
+  List<Map<String, dynamic>> filtrelenmisUcusler = [];
 
   @override
   void initState() {
     super.initState();
-    generateFlightData();
-    filterFlights();
+    ucusVerileriniOlustur();
+    ucuslariFiltrele();
   }
 
-  void generateFlightData() {
-    List<String> arrivals = ['LHR', 'JFK', 'CDG', 'DXB', 'BER', 'VIE', 'AMS', 'FRA', 'MUC', 'ZRH', 'DUS', 'CPH', 'BRU'];
+  void ucusVerileriniOlustur() {
+    final bugun = DateTime.now().toString().split(' ')[0];
 
-    for (var airport in airports) {
-      for (var airline in airlines) {
-        for (int i = 0; i < 20; i++) {
-          String departure = airport['code']!;
-          String airlineCode = airline['code']!;
-          String arrival = arrivals[(i + departure.codeUnitAt(0)) % arrivals.length];
-          String time = '${(i + 4).toString().padLeft(2, '0')}:${(i * 3 % 60).toString().padLeft(2, '0')}';
-          String date = '2025-01-${(10 + i % 20).toString().padLeft(2, '0')}';
+    for (var havayolu in havayollari) {
+      for (var kalkis in havalimanlari) {
+        for (var varis in havalimanlari) {
+          if (kalkis['kod'] != varis['kod'] &&
+              !((kalkis['kod'] == 'SAW' && varis['kod'] == 'IST') ||
+                  (kalkis['kod'] == 'IST' && varis['kod'] == 'SAW'))) {
+            String kalkisKodu = kalkis['kod']!;
+            String varisKodu = varis['kod']!;
+            String havayoluKodu = havayolu['kod']!;
 
-          allFlights.add({
-            'code': '$airlineCode${1000 + i}',
-            'departure': departure,
-            'arrival': arrival,
-            'time': time,
-            'airline': airlineCode,
-            'icon': Icons.flight_takeoff,
-            'date': date,
-          });
+            // Gidiş uçuşu
+            tumUcusler.add({
+              'kod': '$havayoluKodu-$kalkisKodu$varisKodu-G',
+              'kalkis': kalkisKodu,
+              'varis': varisKodu,
+              'saat': '08:30',
+              'tarih': bugun,
+              'havayolu': havayoluKodu,
+              'yon': 'Gidiş',
+              'ikon': Icons.flight_takeoff,
+            });
+
+            // Geliş uçuşu
+            tumUcusler.add({
+              'kod': '$havayoluKodu-$varisKodu$kalkisKodu-D',
+              'kalkis': varisKodu,
+              'varis': kalkisKodu,
+              'saat': '10:00',
+              'tarih': bugun,
+              'havayolu': havayoluKodu,
+              'yon': 'Geliş',
+              'ikon': Icons.flight_land,
+            });
+          }
         }
       }
     }
   }
 
-  void filterFlights() {
+  void ucuslariFiltrele() {
+    final bugun = DateTime.now().toString().split(' ')[0];
     setState(() {
-      filteredFlights =
-          allFlights
-              .where((flight) => flight['departure'] == selectedAirport && flight['airline'] == selectedAirline)
-              .toList();
+      filtrelenmisUcusler =
+          tumUcusler.where((ucus) {
+            return (ucus['kalkis'] == seciliHavalimani || ucus['varis'] == seciliHavalimani) &&
+                ucus['havayolu'] == seciliHavayolu &&
+                ucus['tarih'] == bugun;
+          }).toList();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.scaffoldBackgroundColor,
       appBar: AppBarWidgets(),
       body: SafeArea(
         child: Padding(
@@ -97,40 +122,29 @@ class _FlightTimeViewState extends State<FlightTimeView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Kalkış Havalimanı'),
+                        Text('Havalimanı Seçin'),
                         const SizedBox(height: 8),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.grey[300]!),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<String>(
-                              value: selectedAirport,
-                              items:
-                                  airports
-                                      .map(
-                                        (airport) => DropdownMenuItem<String>(
-                                          value: airport['code'],
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                                            child: Text('${airport['code']} - ${airport['name']}'),
-                                          ),
-                                        ),
-                                      )
-                                      .toList(),
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedAirport = value!;
-                                  filterFlights();
-                                });
-                              },
-                              icon: Icon(Icons.arrow_drop_down, color: Colors.blue[700]),
-                              style: const TextStyle(color: Colors.black87),
-                              dropdownColor: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
+                        DropdownButton<String>(
+                          value: seciliHavalimani,
+                          isExpanded: true,
+                          items:
+                              havalimanlari
+                                  .map(
+                                    (havalimani) => DropdownMenuItem<String>(
+                                      value: havalimani['kod'],
+                                      child: Text('${havalimani['kod']} - ${havalimani['adi']}'),
+                                    ),
+                                  )
+                                  .toList(),
+                          onChanged: (deger) {
+                            setState(() {
+                              seciliHavalimani = deger!;
+                              ucuslariFiltrele();
+                            });
+                          },
+                          style: const TextStyle(color: Colors.black87),
+                          dropdownColor: Colors.white,
+                          icon: Icon(Icons.arrow_drop_down, color: Colors.blue[700]),
                         ),
                       ],
                     ),
@@ -140,40 +154,29 @@ class _FlightTimeViewState extends State<FlightTimeView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Havayolu Şirketi'),
+                        Text('Havayolu Şirketi Seçin'),
                         const SizedBox(height: 8),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.grey[300]!),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<String>(
-                              value: selectedAirline,
-                              items:
-                                  airlines
-                                      .map(
-                                        (airline) => DropdownMenuItem<String>(
-                                          value: airline['code'],
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                                            child: Text('${airline['code']} - ${airline['name']}'),
-                                          ),
-                                        ),
-                                      )
-                                      .toList(),
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedAirline = value!;
-                                  filterFlights();
-                                });
-                              },
-                              icon: Icon(Icons.arrow_drop_down, color: Colors.blue[700]),
-                              style: const TextStyle(color: Colors.black87),
-                              dropdownColor: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
+                        DropdownButton<String>(
+                          value: seciliHavayolu,
+                          isExpanded: true,
+                          items:
+                              havayollari
+                                  .map(
+                                    (havayolu) => DropdownMenuItem<String>(
+                                      value: havayolu['kod'],
+                                      child: Text('${havayolu['kod']} - ${havayolu['adi']}'),
+                                    ),
+                                  )
+                                  .toList(),
+                          onChanged: (deger) {
+                            setState(() {
+                              seciliHavayolu = deger!;
+                              ucuslariFiltrele();
+                            });
+                          },
+                          style: const TextStyle(color: Colors.black87),
+                          dropdownColor: Colors.white,
+                          icon: Icon(Icons.arrow_drop_down, color: Colors.blue[700]),
                         ),
                       ],
                     ),
@@ -182,74 +185,30 @@ class _FlightTimeViewState extends State<FlightTimeView> {
               ),
               const SizedBox(height: 20),
               Expanded(
-                child: Card(
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child:
-                        filteredFlights.isEmpty
-                            ? Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(Icons.flight_takeoff, size: 60, color: Colors.grey),
-                                  const SizedBox(height: 16),
-                                  Text(
-                                    'Bu kriterlere uygun uçuş bulunamadı.',
-                                    style: TextStyle(fontSize: 18, color: Colors.grey[600]),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      filterFlights();
-                                    },
-                                    child: const Text('Yeniden Ara'),
-                                  ),
-                                ],
-                              ),
-                            )
-                            : Scrollbar(
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.vertical,
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: DataTable(
-                                    columnSpacing: 16,
-                                    dataRowHeight: 60,
-                                    headingRowColor: MaterialStateProperty.all(Colors.blue[50]),
-                                    columns: const [
-                                      DataColumn(label: Text('Uçuş Kodu')),
-                                      DataColumn(label: Text('Rota')),
-                                      DataColumn(label: Text('Saat')),
-                                      DataColumn(label: Text('Tarih')),
-                                      DataColumn(label: Text('İkon')),
-                                    ],
-                                    rows:
-                                        filteredFlights
-                                            .map(
-                                              (flight) => DataRow(
-                                                cells: [
-                                                  DataCell(
-                                                    Text(
-                                                      flight['code']!,
-                                                      style: const TextStyle(fontWeight: FontWeight.w500),
-                                                    ),
-                                                  ),
-                                                  DataCell(Text('${flight['departure']} -> ${flight['arrival']}')),
-                                                  DataCell(Text(flight['time']!)),
-                                                  DataCell(Text(flight['date']!)),
-                                                  DataCell(Icon(flight['icon'], color: Colors.blue[700])),
-                                                ],
-                                              ),
-                                            )
-                                            .toList(),
-                                  ),
-                                ),
-                              ),
-                            ),
-                  ),
-                ),
+                child:
+                    filtrelenmisUcusler.isEmpty
+                        ? Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.flight_takeoff, size: 60, color: Colors.grey),
+                              const SizedBox(height: 16),
+                              Text('Uçuş bulunamadı.', style: TextStyle(fontSize: 16, color: Colors.grey[600])),
+                            ],
+                          ),
+                        )
+                        : ListView.builder(
+                          itemCount: filtrelenmisUcusler.length,
+                          itemBuilder: (context, index) {
+                            final ucus = filtrelenmisUcusler[index];
+                            return ListTile(
+                              leading: Icon(ucus['ikon'], color: Colors.blue[700]),
+                              title: Text('${ucus['kalkis']} -> ${ucus['varis']}'),
+                              subtitle: Text('Saat: ${ucus['saat']} | Yön: ${ucus['yon']} \nTarih: ${ucus['tarih']}'),
+                              trailing: Text('${ucus['havayolu']} - ${ucus['kod']}'),
+                            );
+                          },
+                        ),
               ),
             ],
           ),

@@ -29,7 +29,7 @@ class _CustomNavbarWidgetsState extends State<CustomNavbarWidgets> {
           Expanded(
             child: IndexedStack(
               index: _selectedIndex,
-              children: const [HomePageScreen(), ServiceHoursView(), PhoneNumbersViews()],
+              // children: const [HomePageScreen(), ServiceHoursView(), PhoneNumbersViews()],
             ),
           ),
           Container(

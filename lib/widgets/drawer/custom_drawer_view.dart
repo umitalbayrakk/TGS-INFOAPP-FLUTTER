@@ -13,7 +13,7 @@ import 'package:tgs_info_app_flutter/presentation/views/useful_document/useful_d
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 
 class CustomDrawer extends StatefulWidget {
-  const CustomDrawer({super.key});
+  const CustomDrawer({super.key, required Map<String, String> user});
 
   @override
   State<CustomDrawer> createState() => _CustomDrawerState();
@@ -105,7 +105,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
         ),
         CustomNavigationButton(title: 'Telefon', navigateTo: const PhoneNumbersViews(), icon: Icons.phone),
         CustomNavigationButton(title: 'Uçuş Saatleri', navigateTo: const FlightTimeView(), icon: Icons.flight),
-        CustomNavigationButton(title: 'Servis Saatleri', navigateTo: const ServiceHoursView(), icon: Icons.car_crash),
+        CustomNavigationButton(
+          title: 'Servis Saatleri',
+          navigateTo: const ServiceHoursView(user: {}),
+          icon: Icons.car_crash,
+        ),
         CustomNavigationButton(
           title: 'Kurumsal Anlaşmalar',
           navigateTo: const CorporateAgreementsView(),

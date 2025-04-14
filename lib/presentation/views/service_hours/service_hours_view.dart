@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
-import 'package:tgs_info_app_flutter/widgets/day&date/day_and_day_card_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/drawer/custom_drawer_view.dart';
 
 class ServiceHoursView extends StatefulWidget {
-  const ServiceHoursView({super.key});
+  final Map<String, String> user;
+
+  const ServiceHoursView({super.key, required this.user});
 
   @override
   State<ServiceHoursView> createState() => _ServiceHoursViewState();
@@ -15,7 +18,16 @@ class _ServiceHoursViewState extends State<ServiceHoursView> {
   final Map<String, List<Map<String, String>>> serviceHours = {
     'Arnavutköy': [
       {'time': '05:15'},
+      {'time': '05:40'},
+      {'time': '06:00'},
       {'time': '07:45'},
+      {'time': '09:00'},
+      {'time': '11:00'},
+      {'time': '11:00'},
+      {'time': '13:00'},
+      {'time': '13:00'},
+      {'time': '15:00'},
+      {'time': '17:00'},
     ],
     'Ataşehir': [
       {'time': '06:20'},
@@ -31,12 +43,39 @@ class _ServiceHoursViewState extends State<ServiceHoursView> {
     ],
   };
 
-  String? selectedDistrict;
+  final Map<String, LatLng> districtCoordinates = {
+    'Arnavutköy': LatLng(41.1956, 28.7402),
+    'Ataşehir': LatLng(40.9922, 29.1244),
+    'Avcılar': LatLng(40.9790, 28.7210),
+    'Beşiktaş': LatLng(41.0438, 29.0094),
+  };
+
+  late String selectedDistrict;
+
+  @override
+  void initState() {
+    super.initState();
+    String? userLocation = widget.user['location']?.trim();
+    String? userName = widget.user['name']?.trim();
+    print("ServiceHoursView: Kullanıcı: $userName, Konum: $userLocation");
+
+    if (userLocation == null || userLocation.isEmpty) {
+      print("Uyarı: Kullanıcının konumu null veya boş! Varsayılan atanıyor.");
+      selectedDistrict = 'Arnavutköy';
+    } else {
+      String normalizedLocation = userLocation.toLowerCase().trim();
+      selectedDistrict = serviceHours.keys.firstWhere(
+        (key) => key.toLowerCase() == normalizedLocation,
+        orElse: () => 'Arnavutköy',
+      );
+    }
+    print("ServiceHoursView: Seçilen İlçe: $selectedDistrict");
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const CustomDrawer(),
+      drawer: CustomDrawer(user: widget.user),
       backgroundColor: AppColors.scaffoldBackgroundColor,
       appBar: AppBar(
         leading: IconButton(
@@ -45,7 +84,7 @@ class _ServiceHoursViewState extends State<ServiceHoursView> {
             Navigator.pop(context);
           },
         ),
-        iconTheme: IconThemeData(color: AppColors.borderColor, size: 35),
+        iconTheme: const IconThemeData(color: AppColors.borderColor, size: 35),
         backgroundColor: AppColors.scaffoldBackgroundColor,
         elevation: 2,
         shadowColor: AppColors.borderColor,
@@ -63,81 +102,39 @@ class _ServiceHoursViewState extends State<ServiceHoursView> {
         padding: const EdgeInsets.all(12),
         child: Column(
           children: [
-            TimeCard(),
-            if (selectedDistrict == null)
-              Expanded(
-                child: ListView(
-                  children:
-                      serviceHours.keys.map((district) {
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(selectedDistrict, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    height: 200,
+                    width: double.infinity,
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+                    child: Image.asset("assets/images/maps.png", height: 300, width: 400),
+                  ),
+                  const SizedBox(height: 20),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: serviceHours[selectedDistrict]!.length,
+                      itemBuilder: (context, index) {
+                        final item = serviceHours[selectedDistrict]![index];
                         return ListTile(
-                          title: Text(district, style: const TextStyle(fontSize: 18)),
-                          trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 18),
-                          onTap: () {
-                            setState(() {
-                              selectedDistrict = district;
-                            });
-                          },
+                          leading: const Icon(Bootstrap.alarm),
+                          title: Text('Saat: ${item['time']}'),
+                          subtitle: const Text('Konum: Dünya Ticaret Merkezi'),
                         );
-                      }).toList(),
-                ),
-              )
-            else
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Geri tuşu ve başlık
-                    Row(
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.arrow_back),
-                          onPressed: () {
-                            setState(() {
-                              selectedDistrict = null;
-                            });
-                          },
-                        ),
-                        Text(selectedDistrict!, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                      ],
+                      },
                     ),
-                    const SizedBox(height: 10),
-
-                    // Yer tutucu harita
-                    Container(
-                      height: 200,
-                      width: double.infinity,
-                      decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: BorderRadius.circular(12)),
-                      child: const Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.map, size: 40, color: Colors.grey),
-                            SizedBox(height: 8),
-                            Text("Harita burada görüntülenecek", style: TextStyle(color: Colors.grey)),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    // Servis saatleri listesi
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: serviceHours[selectedDistrict]!.length,
-                        itemBuilder: (context, index) {
-                          final item = serviceHours[selectedDistrict]![index];
-                          return ListTile(
-                            leading: const Icon(Bootstrap.alarm),
-                            title: Text('Saat: ${item['time']}'),
-                            subtitle: const Text('Konum: Dünya Ticaret Merkezi'),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
+            ),
           ],
         ),
       ),
