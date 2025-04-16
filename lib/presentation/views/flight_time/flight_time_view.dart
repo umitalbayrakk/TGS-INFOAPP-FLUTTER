@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
 
@@ -46,8 +47,23 @@ class _FlightTimeViewState extends State<FlightTimeView> {
 
   void ucusVerileriniOlustur() {
     final bugun = DateTime.now().toString().split(' ')[0];
+    tumUcusler.clear();
+
+    List<String> saatler = List.generate(
+      38, // Up to 23:30
+      (index) {
+        int hour = 5 + (index * 30) ~/ 60;
+        int minute = (index * 30) % 60;
+        return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
+      },
+    );
+
+    Map<String, Set<String>> kullanilanSaatler = {};
 
     for (var havayolu in havayollari) {
+      String havayoluKodu = havayolu['kod']!;
+      kullanilanSaatler[havayoluKodu] = {};
+
       for (var kalkis in havalimanlari) {
         for (var varis in havalimanlari) {
           if (kalkis['kod'] != varis['kod'] &&
@@ -55,35 +71,61 @@ class _FlightTimeViewState extends State<FlightTimeView> {
                   (kalkis['kod'] == 'IST' && varis['kod'] == 'SAW'))) {
             String kalkisKodu = kalkis['kod']!;
             String varisKodu = varis['kod']!;
-            String havayoluKodu = havayolu['kod']!;
 
-            // Gidiş uçuşu
-            tumUcusler.add({
-              'kod': '$havayoluKodu-$kalkisKodu$varisKodu-G',
-              'kalkis': kalkisKodu,
-              'varis': varisKodu,
-              'saat': '08:30',
-              'tarih': bugun,
-              'havayolu': havayoluKodu,
-              'yon': 'Gidiş',
-              'ikon': Icons.flight_takeoff,
-            });
+            // Outbound (Gidiş)
+            String? kalkisSaati;
+            for (var saat in saatler) {
+              String key = '$havayoluKodu-$kalkisKodu-$varisKodu-G';
+              if (!kullanilanSaatler[havayoluKodu]!.contains(saat)) {
+                kalkisSaati = saat;
+                kullanilanSaatler[havayoluKodu]!.add(saat);
+                break;
+              }
+            }
 
-            // Geliş uçuşu
-            tumUcusler.add({
-              'kod': '$havayoluKodu-$varisKodu$kalkisKodu-D',
-              'kalkis': varisKodu,
-              'varis': kalkisKodu,
-              'saat': '10:00',
-              'tarih': bugun,
-              'havayolu': havayoluKodu,
-              'yon': 'Geliş',
-              'ikon': Icons.flight_land,
-            });
+            if (kalkisSaati != null) {
+              tumUcusler.add({
+                'kod': '$havayoluKodu-$kalkisKodu$varisKodu-G',
+                'kalkis': kalkisKodu,
+                'varis': varisKodu,
+                'saat': kalkisSaati,
+                'tarih': bugun,
+                'havayolu': havayoluKodu,
+                'yon': 'Gidiş',
+                'ikon': Icons.flight_takeoff,
+              });
+            }
+
+            // Inbound (Geliş)
+            String? varisSaati;
+            for (var saat in saatler) {
+              String key = '$havayoluKodu-$varisKodu-$kalkisKodu-D';
+              if (!kullanilanSaatler[havayoluKodu]!.contains(saat)) {
+                varisSaati = saat;
+                kullanilanSaatler[havayoluKodu]!.add(saat);
+                break;
+              }
+            }
+
+            if (varisSaati != null) {
+              tumUcusler.add({
+                'kod': '$havayoluKodu-$varisKodu$kalkisKodu-D',
+                'kalkis': varisKodu,
+                'varis': kalkisKodu,
+                'saat': varisSaati,
+                'tarih': bugun,
+                'havayolu': havayoluKodu,
+                'yon': 'Geliş',
+                'ikon': Icons.flight_land,
+              });
+            }
           }
         }
       }
     }
+
+    // Sort by departure time
+    tumUcusler.sort((a, b) => a['saat'].compareTo(b['saat']));
   }
 
   void ucuslariFiltrele() {
@@ -95,6 +137,9 @@ class _FlightTimeViewState extends State<FlightTimeView> {
                 ucus['havayolu'] == seciliHavayolu &&
                 ucus['tarih'] == bugun;
           }).toList();
+
+      // Sort filtered flights by departure time
+      filtrelenmisUcusler.sort((a, b) => a['saat'].compareTo(b['saat']));
     });
   }
 
@@ -122,7 +167,7 @@ class _FlightTimeViewState extends State<FlightTimeView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Havalimanı Seçin'),
+                        const Text('Havalimanı Seçin'),
                         const SizedBox(height: 8),
                         DropdownButton<String>(
                           value: seciliHavalimani,
@@ -137,10 +182,12 @@ class _FlightTimeViewState extends State<FlightTimeView> {
                                   )
                                   .toList(),
                           onChanged: (deger) {
-                            setState(() {
-                              seciliHavalimani = deger!;
-                              ucuslariFiltrele();
-                            });
+                            if (deger != null) {
+                              setState(() {
+                                seciliHavalimani = deger;
+                                ucuslariFiltrele();
+                              });
+                            }
                           },
                           style: const TextStyle(color: Colors.black87),
                           dropdownColor: Colors.white,
@@ -154,7 +201,7 @@ class _FlightTimeViewState extends State<FlightTimeView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Havayolu Şirketi Seçin'),
+                        const Text('Havayolu Şirketi Seçin'),
                         const SizedBox(height: 8),
                         DropdownButton<String>(
                           value: seciliHavayolu,
@@ -169,10 +216,12 @@ class _FlightTimeViewState extends State<FlightTimeView> {
                                   )
                                   .toList(),
                           onChanged: (deger) {
-                            setState(() {
-                              seciliHavayolu = deger!;
-                              ucuslariFiltrele();
-                            });
+                            if (deger != null) {
+                              setState(() {
+                                seciliHavayolu = deger;
+                                ucuslariFiltrele();
+                              });
+                            }
                           },
                           style: const TextStyle(color: Colors.black87),
                           dropdownColor: Colors.white,
@@ -191,7 +240,7 @@ class _FlightTimeViewState extends State<FlightTimeView> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.flight_takeoff, size: 60, color: Colors.grey),
+                              Icon(Icons.flight_takeoff, size: 60, color: Colors.grey[600]),
                               const SizedBox(height: 16),
                               Text('Uçuş bulunamadı.', style: TextStyle(fontSize: 16, color: Colors.grey[600])),
                             ],
@@ -202,10 +251,17 @@ class _FlightTimeViewState extends State<FlightTimeView> {
                           itemBuilder: (context, index) {
                             final ucus = filtrelenmisUcusler[index];
                             return ListTile(
-                              leading: Icon(ucus['ikon'], color: Colors.blue[700]),
-                              title: Text('${ucus['kalkis']} -> ${ucus['varis']}'),
-                              subtitle: Text('Saat: ${ucus['saat']} | Yön: ${ucus['yon']} \nTarih: ${ucus['tarih']}'),
-                              trailing: Text('${ucus['havayolu']} - ${ucus['kod']}'),
+                              leading: Icon(ucus['ikon'], color: Colors.blue[700], size: 30),
+                              title: Text(
+                                '${ucus['kalkis']} -> ${ucus['varis']} (${ucus['yon']})',
+                                style: const TextStyle(fontWeight: FontWeight.w600),
+                              ),
+                              subtitle: Text('Saat: ${ucus['saat']}\nTarih: ${ucus['tarih']}'),
+                              trailing: Text(
+                                '${ucus['havayolu']} - ${ucus['kod']}',
+                                style: TextStyle(color: Colors.grey[700]),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                             );
                           },
                         ),

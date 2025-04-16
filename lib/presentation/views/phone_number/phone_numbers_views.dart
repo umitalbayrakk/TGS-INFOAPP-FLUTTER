@@ -113,12 +113,16 @@ class PhoneNumbersViews extends StatelessWidget {
 
   Container _addButton(BuildContext context, PhoneNumbersViewModel viewModel) {
     return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: AppColors.cardColor),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: AppColors.customCardColor,
+        border: Border.all(color: AppColors.borderColor),
+      ),
       height: 50,
       width: 70,
       child: MaterialButton(
         onPressed: () => _showAddContactDialog(context, viewModel),
-        child: const Icon(Icons.person_2, color: AppColors.whiteSpot, size: 30),
+        child: const Icon(Icons.person_2, color: AppColors.borderColor, size: 30),
       ),
     );
   }
@@ -209,16 +213,11 @@ class PhoneNumbersViews extends StatelessWidget {
 
 // ignore: camel_case_types
 class _appBarTitle extends StatelessWidget {
-  const _appBarTitle({
-    super.key,
-  });
+  const _appBarTitle({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      "Telefon",
-      style: TextStyle(fontSize: 40, fontWeight: FontWeight.w500, color: AppColors.borderColor),
-    );
+    return Text("Telefon", style: TextStyle(fontSize: 40, fontWeight: FontWeight.w500, color: AppColors.borderColor));
   }
 }
 

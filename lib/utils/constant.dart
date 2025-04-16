@@ -23,3 +23,15 @@ class bornText extends StatelessWidget {
     );
   }
 }
+
+class LastNewsText extends StatelessWidget {
+  const LastNewsText({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 20),
+      child: Row(children: [Text("TGS Son Haberler", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))]),
+    );
+  }
+}

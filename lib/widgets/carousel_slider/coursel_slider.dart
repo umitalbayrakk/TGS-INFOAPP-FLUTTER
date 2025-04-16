@@ -3,7 +3,14 @@ import 'package:flutter/material.dart';
 
 class CourselSlider extends StatelessWidget {
   CourselSlider({super.key});
-  final List<String> imageList = ['assets/images/apron.png', 'assets/images/apron2.png', 'assets/images/new.png'];
+  final List<String> imageList = [
+    'assets/images/apron.png',
+    'assets/images/apron2.png',
+    'assets/images/new.png',
+    'assets/images/tgsımg.jpeg',
+    'assets/images/tgssss.jpeg',
+    'assets/images/cccccc.jpeg',
+  ];
 
   @override
   Widget build(BuildContext context) {

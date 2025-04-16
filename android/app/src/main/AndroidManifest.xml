@@ -1,9 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 <uses-permission android:name="android.permission.CALL_PHONE" />
-
 <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:label="tgs_info_app_flutter"
+        android:label="TGS-INFOAPP"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

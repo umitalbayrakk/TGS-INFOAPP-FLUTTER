@@ -18,13 +18,6 @@ class PermissionModel with ChangeNotifier {
     {'date': '2024-05-21', 'type': 'Yıllık İzin', 'status': 'Approved'},
     {'date': '2024-07-01', 'type': 'Mazeret İzni', 'status': 'Approved'},
     {'date': '2024-09-10', 'type': 'Yıllık İzin', 'status': 'Approved'},
-    {'date': '2024-09-11', 'type': 'Yıllık İzin', 'status': 'Approved'},
-    {'date': '2024-11-05', 'type': 'Yıllık İzin', 'status': 'Approved'},
-    {'date': '2024-12-01', 'type': 'Mazeret İzni', 'status': 'Rejected'},
-    {'date': '2025-01-15', 'type': 'Yıllık İzin', 'status': 'Pending'},
-    {'date': '2025-01-16', 'type': 'Yıllık İzin', 'status': 'Pending'},
-    {'date': '2025-02-10', 'type': 'Mazeret İzni', 'status': 'Pending'},
-    {'date': '2025-03-01', 'type': 'Yıllık İzin', 'status': 'Pending'},
   ];
 
   PermissionModel() {
@@ -121,11 +114,16 @@ class _PermissionStatusCard extends StatelessWidget {
         const SizedBox(height: 12),
         Row(
           children: [
-            _buildStatCard('Kullanılan Yıllık', '${model.usedAnnualDays} Gün', Colors.red, Icons.work_history),
+            _buildStatCard('Kullanılan Yıllık', '${model.usedAnnualDays} Gün', AppColors.cardColor, Icons.work_history),
             const SizedBox(width: 8),
-            _buildStatCard('Kalan Yıllık', '${model.remainingAnnualDays} Gün', Colors.green, Icons.beach_access),
+            _buildStatCard(
+              'Kalan Yıllık',
+              '${model.remainingAnnualDays} Gün',
+              AppColors.snackBarGreen,
+              Icons.beach_access,
+            ),
             const SizedBox(width: 8),
-            _buildStatCard('Mazeret İzni', '${model.usedExcuseDays} Gün', Colors.orange, Icons.warning_amber),
+            _buildStatCard('Mazeret İzni', '${model.usedExcuseDays} Gün', AppColors.orangeColor, Icons.warning_amber),
           ],
         ),
         if (model.pendingDays > 0)
@@ -178,19 +176,14 @@ class _PermissionHistoryList extends StatelessWidget {
         final permission = model.permissions[index];
         final date = DateFormat('dd MMMM yyyy', 'tr').format(DateTime.parse(permission['date']));
 
-        return Card(
-          margin: const EdgeInsets.symmetric(vertical: 8),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          elevation: 2,
-          child: ListTile(
-            leading: Icon(
-              permission['type'] == 'Yıllık İzin' ? Icons.beach_access : Icons.warning_amber,
-              color: permission['type'] == 'Yıllık İzin' ? Colors.blue : Colors.orange,
-            ),
-            title: Text(permission['type'], style: const TextStyle(fontWeight: FontWeight.bold)),
-            subtitle: Text(date, style: TextStyle(color: Colors.grey[600])),
-            trailing: _buildStatusChip(permission['status']),
+        return ListTile(
+          leading: Icon(
+            permission['type'] == 'Yıllık İzin' ? Icons.beach_access : Icons.warning_amber,
+            color: permission['type'] == 'Yıllık İzin' ? Colors.blue : Colors.orange,
           ),
+          title: Text(permission['type'], style: const TextStyle(fontWeight: FontWeight.bold)),
+          subtitle: Text(date, style: TextStyle(color: Colors.grey[600])),
+          trailing: _buildStatusChip(permission['status']),
         );
       },
     );

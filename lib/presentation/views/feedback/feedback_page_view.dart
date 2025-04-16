@@ -59,7 +59,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     children: [
                       const SizedBox(height: 40),
                       const Text(
-                        "Geri Bildirim",
+                        "Fikir Öneri İstek",
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600, color: AppColors.borderColor),
                       ),
@@ -82,24 +82,39 @@ class _FeedbackPageState extends State<FeedbackPage> {
                       const SizedBox(height: 16),
                       _buildInputField(
                         _feedbackController,
-                        "Geri bildiriminiz...",
+                        "Lütfen fikirlerinizi yazınız...",
                         (val) => val!.isEmpty ? "Geri bildirim giriniz" : null,
                         maxLines: 6,
                       ),
                       const SizedBox(height: 24),
-                      ElevatedButton.icon(
-                        onPressed: _submitFeedback,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.greenSpot,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                          elevation: 3,
+
+                      Container(
+                        height: 50,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: AppColors.customCardColor,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: AppColors.borderColor),
                         ),
-                        icon: const Icon(FeatherIcons.send, color: AppColors.whiteSpot),
-                        label: const Text("Gönder", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                        child: MaterialButton(
+                          onPressed: _submitFeedback,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(FeatherIcons.send, color: AppColors.borderColor),
+                              SizedBox(width: 5),
+                              Text(
+                                "Gönder",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.borderColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                      const SizedBox(height: 40),
                     ],
                   ),
                 ),

@@ -144,24 +144,24 @@ class _CustomDrawerState extends State<CustomDrawer> {
           height: 50,
           decoration: BoxDecoration(
             gradient: const LinearGradient(
-              colors: [AppColors.cardColor, AppColors.cardColor],
+              colors: [AppColors.customCardColor, AppColors.customCardColor],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             borderRadius: BorderRadius.circular(16),
-            boxShadow: [],
+            border: Border.all(color: AppColors.borderColor),
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(16),
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(FeatherIcons.logOut, color: AppColors.generalBackground, size: 20),
+                Icon(FeatherIcons.logOut, color: AppColors.borderColor, size: 20),
                 SizedBox(width: 8),
                 Text(
                   "Çıkış Yap",
                   style: TextStyle(
-                    color: AppColors.generalBackground,
+                    color: AppColors.borderColor,
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
                     letterSpacing: 0.5,
@@ -204,14 +204,18 @@ class CustomNavigationButton extends StatelessWidget {
         Container(
           height: 60,
           width: 60,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: AppColors.cardColor),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            color: AppColors.customCardColor,
+            border: Border.all(color: AppColors.borderColor),
+          ),
           child: MaterialButton(
             padding: EdgeInsets.zero,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => navigateTo));
             },
-            child: Icon(icon, color: Colors.white, size: 30),
+            child: Icon(icon, color: AppColors.borderColor, size: 30),
           ),
         ),
         const SizedBox(height: 5),

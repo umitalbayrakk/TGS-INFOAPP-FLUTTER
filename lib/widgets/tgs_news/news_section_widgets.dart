@@ -14,30 +14,22 @@ class NewsSection extends StatelessWidget {
       {"title": "Havalimanı Güvenlik Güncellemeleri", "date": "8 Nisan 2025"},
     ];
 
-    return Container(
-      padding: EdgeInsets.all(16.0), // Dış container padding'i koruyoruz
-      color: Colors.grey[200],
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "TGS Son Haberler",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: AppColors.borderColor),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 10),
+        CarouselSlider(
+          options: CarouselOptions(
+            height: 120,
+            autoPlay: true,
+            autoPlayInterval: Duration(seconds: 3),
+            autoPlayAnimationDuration: Duration(milliseconds: 800),
+            viewportFraction: 0.9,
+            enlargeCenterPage: false,
           ),
-          SizedBox(height: 10),
-          CarouselSlider(
-            options: CarouselOptions(
-              height: 120,
-              autoPlay: true,
-              autoPlayInterval: Duration(seconds: 3),
-              autoPlayAnimationDuration: Duration(milliseconds: 800),
-              viewportFraction: 0.9,
-              enlargeCenterPage: false,
-            ),
-            items: newsItems.map((news) => NewsCard(title: news["title"]!, date: news["date"]!)).toList(),
-          ),
-        ],
-      ),
+          items: newsItems.map((news) => NewsCard(title: news["title"]!, date: news["date"]!)).toList(),
+        ),
+      ],
     );
   }
 }
@@ -50,8 +42,16 @@ class NewsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: AppColors.customCardColor,
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: AppColors.customCardColor,
+        border: Border.all(color: AppColors.borderColor),
+        boxShadow: [
+          BoxShadow(color: AppColors.borderColor.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 4)),
+        ],
+      ),
+
       margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       child: ListTile(
         contentPadding: EdgeInsets.all(16.0),
