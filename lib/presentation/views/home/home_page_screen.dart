@@ -11,8 +11,6 @@ import 'package:tgs_info_app_flutter/widgets/tgs_news/news_section_widgets.dart'
 import 'package:tgs_info_app_flutter/widgets/carousel_slider/coursel_slider.dart';
 
 class HomePageScreen extends StatefulWidget {
-
-  
   final Map<String, String> user;
 
   const HomePageScreen({super.key, required this.user});
@@ -48,8 +46,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
               NewsSection(),
               SizedBox(height: 5),
               ShiftCardWidgets(viewModel: ShiftViewModel()),
-              //Bu Gün doğanlar kartı
               BirthdayCard(),
+              //Bu Gün doğanlar kartı
               //Yemek Kartı
               TurkishFoodCard(),
             ],

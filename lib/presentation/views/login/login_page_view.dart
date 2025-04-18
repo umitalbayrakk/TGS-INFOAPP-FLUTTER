@@ -639,20 +639,17 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [AppColors.customCardColor, AppColors.customCardColor],
-          ),
-        ),
+        decoration: BoxDecoration(color: AppColors.scaffoldBackgroundColor),
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Card(
-              color: AppColors.scaffoldBackgroundColor,
-              elevation: 8,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            child: Container(
+              decoration: BoxDecoration(
+                color: AppColors.customCardColor,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: AppColors.borderColor, width: 1.5),
+              ),
+
               child: Padding(
                 padding: const EdgeInsets.all(24.0),
                 child: Column(
@@ -690,15 +687,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       obscureText: true,
                     ),
                     SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: _login,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.snackBarGreen,
-                        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    Container(
+                      height: 60,
+                      width: 200,
+                      decoration: BoxDecoration(
+                        color: AppColors.customCardColor,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: AppColors.borderColor),
                       ),
-                      child: Text("Giriş Yap", style: TextStyle(fontSize: 16, color: AppColors.whiteSpot)),
+                      child: MaterialButton(
+                        onPressed: _login,
+                        child: Text("Giriş Yap", style: TextStyle(color: AppColors.borderColor, fontSize: 25)),
+                      ),
                     ),
+
                     SizedBox(height: 10),
                   ],
                 ),

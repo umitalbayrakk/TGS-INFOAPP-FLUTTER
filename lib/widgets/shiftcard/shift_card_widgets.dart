@@ -4,7 +4,6 @@ import 'package:tgs_info_app_flutter/utils/colors.dart';
 
 class ShiftCardWidgets extends StatelessWidget {
   final ShiftViewModel viewModel;
-
   const ShiftCardWidgets({super.key, required this.viewModel});
 
   void _showShiftDetails(BuildContext context, String team, String shift, DateTime date) {
@@ -111,39 +110,43 @@ class ShiftCardWidgets extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: GestureDetector(
-        onTap: () => _showShiftDetails(context, activeTeam, currentShift, now),
-        child: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            border: Border.all(color: AppColors.borderColor),
-            color: AppColors.customCardColor,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 4))],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: GestureDetector(
+            onTap: () => _showShiftDetails(context, activeTeam, currentShift, now),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColors.borderColor),
+                color: AppColors.customCardColor,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(width: 8),
-                  Text(
-                    'EKİP: $activeTeam',
-                    style: TextStyle(color: AppColors.borderColor, fontSize: 18, fontWeight: FontWeight.bold),
+                  Row(
+                    children: [
+                      const SizedBox(width: 8),
+                      Text(
+                        'EKİP: $activeTeam',
+                        style: TextStyle(color: AppColors.borderColor, fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
+                  const SizedBox(height: 12),
+                  _buildInfoRow(Icons.work_history, 'Vardiya:', currentShift),
+                  _buildInfoRow(Icons.timelapse, 'Saat:', viewModel.getShiftTime(currentShift)),
+                  _buildInfoRow(Icons.calendar_month, 'Tarih:', viewModel.getFormattedDate(now)),
                 ],
               ),
-              const SizedBox(height: 12),
-              _buildInfoRow(Icons.work_history, 'Vardiya:', currentShift),
-              _buildInfoRow(Icons.timelapse, 'Saat:', viewModel.getShiftTime(currentShift)),
-              _buildInfoRow(Icons.calendar_month, 'Tarih:', viewModel.getFormattedDate(now)),
-            ],
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

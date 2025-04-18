@@ -44,14 +44,10 @@ class NewsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(10),
         color: AppColors.customCardColor,
         border: Border.all(color: AppColors.borderColor),
-        boxShadow: [
-          BoxShadow(color: AppColors.borderColor.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 4)),
-        ],
       ),
-
       margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       child: ListTile(
         contentPadding: EdgeInsets.all(16.0),
