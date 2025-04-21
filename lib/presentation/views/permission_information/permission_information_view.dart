@@ -1,37 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:tgs_info_app_flutter/presentation/viewmodel/permission_information_viewmodel.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
-
-class PermissionModel with ChangeNotifier {
-  int annualEntitlement = 15;
-  int usedAnnualDays = 0;
-  int usedExcuseDays = 0;
-
-  final List<Map<String, dynamic>> permissions = [
-    {'date': '2024-01-10', 'type': 'Yıllık İzin', 'status': 'Approved'},
-    {'date': '2024-01-11', 'type': 'Yıllık İzin', 'status': 'Approved'},
-    {'date': '2024-01-12', 'type': 'Yıllık İzin', 'status': 'Approved'},
-    {'date': '2024-03-15', 'type': 'Mazeret İzni', 'status': 'Approved'},
-    {'date': '2024-05-20', 'type': 'Yıllık İzin', 'status': 'Approved'},
-    {'date': '2024-05-21', 'type': 'Yıllık İzin', 'status': 'Approved'},
-    {'date': '2024-07-01', 'type': 'Mazeret İzni', 'status': 'Approved'},
-    {'date': '2024-09-10', 'type': 'Yıllık İzin', 'status': 'Approved'},
-  ];
-
-  PermissionModel() {
-    _calculateUsedDays();
-  }
-
-  void _calculateUsedDays() {
-    usedAnnualDays = permissions.where((p) => p['type'] == 'Yıllık İzin' && p['status'] == 'Approved').length;
-    usedExcuseDays = permissions.where((p) => p['type'] == 'Mazeret İzni' && p['status'] == 'Approved').length;
-  }
-
-  int get remainingAnnualDays => annualEntitlement - usedAnnualDays;
-  int get pendingDays => permissions.where((p) => p['status'] == 'Pending').length;
-}
 
 class PermissionInformationView extends StatelessWidget {
   const PermissionInformationView({super.key});
@@ -171,9 +143,9 @@ class _PermissionHistoryList extends StatelessWidget {
 
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
-      itemCount: model.permissions.length,
+      itemCount: model.permissionHistory.length,
       itemBuilder: (context, index) {
-        final permission = model.permissions[index];
+        final permission = model.permissionHistory[index];
         final date = DateFormat('dd MMMM yyyy', 'tr').format(DateTime.parse(permission['date']));
 
         return ListTile(
@@ -195,7 +167,6 @@ class _PermissionHistoryList extends StatelessWidget {
       'Pending': Colors.orange,
       'Rejected': Colors.red,
     };
-
     return Chip(
       label: Text(
         status == 'Approved'
