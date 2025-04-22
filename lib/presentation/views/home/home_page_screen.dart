@@ -6,6 +6,7 @@ import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/borncard/born_card_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/drawer/custom_drawer_view.dart';
 import 'package:tgs_info_app_flutter/widgets/foodcart/food_card_widgets.dart';
+import 'package:tgs_info_app_flutter/widgets/gameCard/game_card_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/shiftcard/shift_card_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/tgs_news/news_section_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/carousel_slider/coursel_slider.dart';
@@ -36,19 +37,16 @@ class _HomePageScreenState extends State<HomePageScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // Anasayfa İçeriği
               SizedBox(height: 20),
-              //Slider
               CourselSlider(),
               SizedBox(height: 10),
-              //Haberler& Duyuruklar
               LastNewsText(),
               NewsSection(),
               SizedBox(height: 5),
               ShiftCardWidgets(viewModel: ShiftViewModel()),
+              SizedBox(width: 7),
+              GameCard(),
               BirthdayCard(),
-              //Bu Gün doğanlar kartı
-              //Yemek Kartı
               TurkishFoodCard(),
             ],
           ),

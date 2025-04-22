@@ -1,14 +1,16 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+
 class CourselSlider extends StatelessWidget {
   CourselSlider({super.key});
   final List<String> imageList = [
-    'assets/images/apron.png',
-    'assets/images/apron2.png',
-    'assets/images/new.png',
-    'assets/images/tgsımg.jpeg',
-    'assets/images/tgssss.jpeg',
-    'assets/images/cccccc.jpeg',
+    'assets/images/uygulama-next_00013_.png',
+    'assets/images/uygulama-next_00015_.png',
+    'assets/images/uygulama-next_00016_.png',
+    'assets/images/uygulama-next_00043_.png',
+    'assets/images/uygulama-next_00044_.png',
+    'assets/images/uygulama-next_00075_.png',
+    'assets/images/uygulama-next_00035_.png',
   ];
 
   @override

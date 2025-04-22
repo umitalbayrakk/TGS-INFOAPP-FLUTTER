@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tgs_info_app_flutter/presentation/viewmodel/flight_game_viewmodel.dart';
+import 'package:tgs_info_app_flutter/presentation/views/home/home_page_screen.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
 
 class FlightGameView extends StatefulWidget {
-  const FlightGameView({super.key});
+  final Map<String, String> user;
+  const FlightGameView({super.key, required this.user});
 
   @override
   State<FlightGameView> createState() => _FlightGameViewState();
@@ -30,6 +32,7 @@ class _FlightGameViewState extends State<FlightGameView> {
             onSubmit: (name) {
               viewModel.setUsername(name);
             },
+            user: {},
           ),
     );
   }
@@ -40,10 +43,7 @@ class _FlightGameViewState extends State<FlightGameView> {
       listenable: viewModel,
       builder: (context, _) {
         if (viewModel.username == null) {
-          return Scaffold(
-            backgroundColor: AppColors.scaffoldBackgroundColor,
-            body: const Center(child: CircularProgressIndicator()),
-          );
+          return Scaffold(appBar: AppBar(title: Text("data")), backgroundColor: AppColors.scaffoldBackgroundColor);
         }
 
         return Scaffold(
@@ -96,7 +96,7 @@ class _FlightGameViewState extends State<FlightGameView> {
                         Column(
                           children: [
                             Text(
-                              "Soru ${viewModel.questionCount} / ${viewModel.maxQuestions}",
+                              "Soru ${viewModel.questionCount}",
                               style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                             ),
                             Text(
@@ -143,7 +143,7 @@ class _FlightGameViewState extends State<FlightGameView> {
                           _customBorderButton("Sonraki Soru", viewModel.nextQuestion),
                         ],
                         const SizedBox(height: 20),
-                        _customBorderButton("Çıkış", viewModel.exitGame),
+                        // _customBorderButton("Çıkış", viewModel.exitGame), // Şimdilik Çıkardık
                       ],
                     ),
                   ),
@@ -255,27 +255,86 @@ class _FlightGameViewState extends State<FlightGameView> {
 }
 
 class UsernameDialog extends StatelessWidget {
+  final Map<String, String> user;
   final Function(String) onSubmit;
-  UsernameDialog({required this.onSubmit});
+  UsernameDialog({required this.onSubmit, required this.user});
 
   final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text("Kullanıcı Adınızı Girin"),
-      content: TextField(controller: _controller, decoration: const InputDecoration(hintText: "Adınızı yazın")),
-      actions: [
-        TextButton(
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBackgroundColor,
+      appBar: AppBar(
+        backgroundColor: AppColors.scaffoldBackgroundColor,
+        leading: IconButton(
           onPressed: () {
-            if (_controller.text.trim().isNotEmpty) {
-              onSubmit(_controller.text.trim());
-              Navigator.pop(context);
-            }
+            Navigator.push(context, MaterialPageRoute(builder: (context) => HomePageScreen(user: user)));
           },
-          child: const Text("Başla"),
+          icon: Icon(Icons.arrow_back, size: 30),
         ),
-      ],
+        title: Text(
+          "Oyuna Giriş",
+          style: TextStyle(color: AppColors.borderColor, fontSize: 30, fontWeight: FontWeight.w500),
+        ),
+        centerTitle: true,
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Container(
+              height: 300,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColors.borderColor),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    textAlign: TextAlign.center,
+                    "Lütfen Oyuna Başlamadan Önce Kullanıcı Adınızı Girin",
+                    style: TextStyle(color: AppColors.borderColor, fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 50, right: 50, bottom: 20),
+                    child: TextField(
+                      controller: _controller,
+                      decoration: InputDecoration(
+                        hintText: "Adınızı yazın",
+                        border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.borderColor)),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 50,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColors.borderColor),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: MaterialButton(
+                      onPressed: () {
+                        if (_controller.text.trim().isNotEmpty) {
+                          onSubmit(_controller.text.trim());
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: Text(
+                        "Oyuna Başla",
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.borderColor),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -285,7 +344,14 @@ class LeaderboardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackgroundColor,
-      appBar: AppBar(title: const Text("Günlük Lider Tablosu"), backgroundColor: AppColors.scaffoldBackgroundColor),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          "Günlük Lider Tablosu",
+          style: TextStyle(color: AppColors.borderColor, fontSize: 25, fontWeight: FontWeight.w500),
+        ),
+        backgroundColor: AppColors.scaffoldBackgroundColor,
+      ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: FlightGameViewModel().getLeaderboard(),
         builder: (context, snapshot) {
@@ -295,23 +361,24 @@ class LeaderboardView extends StatelessWidget {
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(child: Text("Henüz puan yok."));
           }
-
           final scores = snapshot.data!;
           scores.sort((a, b) => (b['score'] as int).compareTo(a['score'] as int));
-
           return ListView.builder(
             padding: const EdgeInsets.all(16),
             itemCount: scores.length,
             itemBuilder: (context, index) {
               final score = scores[index];
-              return Card(
-                color: AppColors.customCardColor,
-                child: ListTile(
-                  leading: Text("${index + 1}.", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  title: Text(score['username'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                  trailing: Text(
-                    "${score['score']} puan",
-                    style: const TextStyle(fontSize: 16, color: AppColors.snackBarGreen),
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Container(
+                  color: AppColors.customCardColor,
+                  child: ListTile(
+                    leading: Text("${index + 1}.", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    title: Text(score['username'], style: const TextStyle(fontWeight: FontWeight.bold)),
+                    trailing: Text(
+                      "${score['score']} puan",
+                      style: const TextStyle(fontSize: 16, color: AppColors.snackBarGreen),
+                    ),
                   ),
                 ),
               );
@@ -322,3 +389,6 @@ class LeaderboardView extends StatelessWidget {
     );
   }
 }
+
+// 3 HAK OLSUN   HAKLARIN ANSAYFFADA GÖSTERİLSİN  GİRİŞ YAPAN KULLANICYA GÖRE OYNA 
+// türk hava yollarının uçtuğu hava limanları

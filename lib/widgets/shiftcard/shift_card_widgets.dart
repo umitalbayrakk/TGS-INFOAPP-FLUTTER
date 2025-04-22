@@ -118,6 +118,7 @@ class ShiftCardWidgets extends StatelessWidget {
           child: GestureDetector(
             onTap: () => _showShiftDetails(context, activeTeam, currentShift, now),
             child: Container(
+              height: 160,
               width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(

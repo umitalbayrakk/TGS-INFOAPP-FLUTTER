@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/date_symbol_data_local.dart'; // Türkçe yerel ayarlar için gerekli
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:tgs_info_app_flutter/presentation/views/oboardind/onboarding_view.dart';
 
 void main() async {
-  // Cihazın sadece dikey olarak açılmasını sağlayan kod...
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-
-  // Türkçe yerel ayarları başlat
   await initializeDateFormatting('tr_TR');
 
   runApp(const MyApp());
@@ -22,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(useMaterial3: true),
       debugShowCheckedModeBanner: false,
-      title: 'TGS Info App',
+      title: 'TGSInfoApp',
       home: OnboardingView(),
     );
   }

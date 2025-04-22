@@ -4,10 +4,10 @@ import 'package:tgs_info_app_flutter/utils/colors.dart';
 
 class BirthdayCard extends StatelessWidget {
   final List<User> users = [
-    User("Ahmet", "Yılmaz", DateTime(1990, 4, 14)),
-    User("Mehmet", "Kara", DateTime(1985, 4, 11)),
-    User("Ayşe", "Demir", DateTime(1993, 4, 12)),
-    User("Fatma", "Çelik", DateTime(1991, 4, 13)),
+    User("Ahmet", "Yılmaz", DateTime(1990, 4, 22)),
+    User("Mehmet", "Kara", DateTime(1985, 4, 22)),
+    User("Ayşe", "Demir", DateTime(1993, 4, 24)),
+    User("Fatma", "Çelik", DateTime(1991, 4, 24)),
     User("Ayşe", "Çalık", DateTime(1991, 4, 13)),
     User("Ali", "Şahin", DateTime(1987, 4, 17)),
     User("Burak", "Kaya", DateTime(1990, 4, 18)),
@@ -66,6 +66,7 @@ class BirthdayCard extends StatelessWidget {
     );
 
     return Container(
+      width: double.infinity,
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.borderColor),
         color: AppColors.customCardColor,

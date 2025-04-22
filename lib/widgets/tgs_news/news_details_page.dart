@@ -16,7 +16,6 @@ class NewsDetailsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Haber 1
             Text(
               "Yeni Uçuş Prosedürleri Duyuruldu!",
               style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: AppColors.borderColor),
@@ -36,7 +35,6 @@ class NewsDetailsPage extends StatelessWidget {
 TGS, 2025 yılı itibarıyla yeni uçuş prosedürlerini duyurdu. Bu prosedürler, havalimanı operasyonlarını daha verimli ve güvenli hale getirmeyi amaçlıyor. Uçuş güvenliği ve yolcu memnuniyeti ön planda tutuldu.
 ''', style: TextStyle(fontSize: 16, color: AppColors.borderColor, height: 1.5)),
             const SizedBox(height: 40),
-            // Haber 2
             Text(
               "TGS Personel Eğitimi Programı",
               style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: AppColors.borderColor),
@@ -56,8 +54,6 @@ TGS, 2025 yılı itibarıyla yeni uçuş prosedürlerini duyurdu. Bu prosedürle
 TGS, 2025 yılı için yeni personel eğitim programını başlattı. Bu program, tüm personelin iş güvenliği ve uçuş prosedürleri konularında eğitim almasını hedefliyor.
 ''', style: TextStyle(fontSize: 16, color: AppColors.borderColor, height: 1.5)),
             const SizedBox(height: 40),
-
-            // Haber 3
             Text(
               "Havalimanı Güvenlik Güncellemeleri",
               style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: AppColors.borderColor),

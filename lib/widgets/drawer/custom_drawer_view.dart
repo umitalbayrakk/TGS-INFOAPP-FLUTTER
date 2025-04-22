@@ -121,7 +121,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           navigateTo: const UsefulDocumentView(),
           icon: Icons.document_scanner_outlined,
         ),
-        CustomNavigationButton(title: 'Oyun Oyna', navigateTo: const FlightGameView(), icon: Icons.gamepad),
+        CustomNavigationButton(title: 'Oyun Oyna', navigateTo: const FlightGameView(user: {}), icon: Icons.gamepad),
       ],
     );
   }
