@@ -1,394 +1,466 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:tgs_info_app_flutter/presentation/viewmodel/flight_game_viewmodel.dart';
-import 'package:tgs_info_app_flutter/presentation/views/home/home_page_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
 
-class FlightGameView extends StatefulWidget {
-  final Map<String, String> user;
-  const FlightGameView({super.key, required this.user});
+// Havalimanı verileri
+final List<Map<String, String>> airports = [
+  // Türkiye Havalimanları
+  {"city": "Adana", "airport": "Şakirpaşa Havalimanı", "iata": "ADA"},
+  {"city": "Ankara", "airport": "Esenboğa Havalimanı", "iata": "ESB"},
+  {"city": "Antalya", "airport": "Antalya Havalimanı", "iata": "AYT"},
+  {"city": "Balıkesir", "airport": "Koca Seyit Havalimanı", "iata": "EDO"},
+  {"city": "Batman", "airport": "Batman Havalimanı", "iata": "BAL"},
+  {"city": "Bodrum", "airport": "Milas-Bodrum Havalimanı", "iata": "BJV"},
+  {"city": "Bursa", "airport": "Yenişehir Havalimanı", "iata": "YEI"},
+  {"city": "Denizli", "airport": "Çardak Havalimanı", "iata": "DNZ"},
+  {"city": "Diyarbakır", "airport": "Diyarbakır Havalimanı", "iata": "DIY"},
+  {"city": "Elazığ", "airport": "Elazığ Havalimanı", "iata": "EZS"},
+  {"city": "Erzincan", "airport": "Erzincan Havalimanı", "iata": "ERC"},
+  {"city": "Erzurum", "airport": "Erzurum Havalimanı", "iata": "ERZ"},
+  {"city": "Eskişehir", "airport": "Hasan Polatkan Havalimanı", "iata": "AOE"},
+  {"city": "Gaziantep", "airport": "Oğuzeli Havalimanı", "iata": "GZT"},
+  {"city": "Hatay", "airport": "Hatay Havalimanı", "iata": "HTY"},
+  {"city": "Isparta", "airport": "Süleyman Demirel Havalimanı", "iata": "ISE"},
+  {"city": "İstanbul", "airport": "İstanbul (Yeni)", "iata": "IST"},
+  {"city": "İstanbul", "airport": "Sabiha Gökçen Havalimanı", "iata": "SAW"},
+  {"city": "İzmir", "airport": "Adnan Menderes Havalimanı", "iata": "ADB"},
+  {"city": "Kahramanmaraş", "airport": "Kahramanmaraş Havalimanı", "iata": "KCM"},
+  {"city": "Kars", "airport": "Harakani Havalimanı", "iata": "KSY"},
+  {"city": "Kastamonu", "airport": "Kastamonu Havalimanı", "iata": "KFS"},
+  {"city": "Kayseri", "airport": "Erkilet Havalimanı", "iata": "ASR"},
+  {"city": "Kocaeli", "airport": "Cengiz Topel Havalimanı", "iata": "KCO"},
+  {"city": "Konya", "airport": "Konya Havalimanı", "iata": "KYA"},
+  {"city": "Malatya", "airport": "Erhaç Havalimanı", "iata": "MLX"},
+  {"city": "Mardin", "airport": "Mardin Havalimanı", "iata": "MQM"},
+  {"city": "Muğla", "airport": "Dalaman Havalimanı", "iata": "DLM"},
+  {"city": "Muş", "airport": "Muş Havalimanı", "iata": "MSR"},
+  {"city": "Nevşehir", "airport": "Kapadokya Havalimanı", "iata": "NAV"},
+  {"city": "Ordu-Giresun", "airport": "Ordu-Giresun Havalimanı", "iata": "OGU"},
+  {"city": "Rize", "airport": "Rize-Artvin Havalimanı", "iata": "RZV"},
+  {"city": "Samsun", "airport": "Çarşamba Havalimanı", "iata": "SZF"},
+  {"city": "Siirt", "airport": "Siirt Havalimanı", "iata": "SXZ"},
+  {"city": "Sinop", "airport": "Sinop Havalimanı", "iata": "NOP"},
+  {"city": "Şanlıurfa", "airport": "Şanlıurfa Havalimanı", "iata": "GNY"},
+  {"city": "Tekirdağ", "airport": "Çorlu Havalimanı", "iata": "TEQ"},
+  {"city": "Tokat", "airport": "Tokat Havalimanı", "iata": "TJK"},
+  {"city": "Trabzon", "airport": "Trabzon Havalimanı", "iata": "TZX"},
+  {"city": "Uşak", "airport": "Uşak Havalimanı", "iata": "USQ"},
+  {"city": "Van", "airport": "Ferit Melen Havalimanı", "iata": "VAN"},
+  {"city": "Zonguldak", "airport": "Zonguldak Havalimanı", "iata": "ONQ"},
 
-  @override
-  State<FlightGameView> createState() => _FlightGameViewState();
+  // Uluslararası Havalimanları
+  {"city": "Berlin", "airport": "Berlin Brandenburg Havalimanı", "iata": "BER"},
+  {"city": "Düsseldorf", "airport": "Düsseldorf Havalimanı", "iata": "DUS"},
+  {"city": "Frankfurt", "airport": "Frankfurt Havalimanı", "iata": "FRA"},
+  {"city": "Hamburg", "airport": "Hamburg Havalimanı", "iata": "HAM"},
+  {"city": "Hannover", "airport": "Hannover Havalimanı", "iata": "HAJ"},
+  {"city": "Köln/Bonn", "airport": "Köln Bonn Havalimanı", "iata": "CGN"},
+  {"city": "Münih", "airport": "Münih Havalimanı", "iata": "MUC"},
+  {"city": "Nürnberg", "airport": "Nürnberg Havalimanı", "iata": "NUE"},
+  {"city": "Stuttgart", "airport": "Stuttgart Havalimanı", "iata": "STR"},
+  {"city": "Graz", "airport": "Graz Havalimanı", "iata": "GRZ"},
+  {"city": "Innsbruck", "airport": "Innsbruck Havalimanı", "iata": "INN"},
+  {"city": "Linz", "airport": "Linz Havalimanı", "iata": "LNZ"},
+  {"city": "Salzburg", "airport": "Salzburg Havalimanı", "iata": "SZG"},
+  {"city": "Viyana", "airport": "Viyana Havalimanı", "iata": "VIE"},
+  {"city": "Bakü", "airport": "Haydar Aliyev Havalimanı", "iata": "GYD"},
+  {"city": "Minsk", "airport": "Minsk Ulusal", "iata": "MSQ"},
+  {"city": "Brüksel", "airport": "Brüksel Havalimanı", "iata": "BRU"},
+  {"city": "Saraybosna", "airport": "Saraybosna Havalimanı", "iata": "SJJ"},
+  {"city": "Sofya", "airport": "Sofya Havalimanı", "iata": "SOF"},
+  {"city": "Prag", "airport": "Vaclav Havel Havalimanı", "iata": "PRG"},
+  {"city": "Kopenhag", "airport": "Kastrup Havalimanı", "iata": "CPH"},
+  {"city": "Tallinn", "airport": "Tallinn Havalimanı", "iata": "TLL"},
+  {"city": "Helsinki", "airport": "Helsinki Havalimanı", "iata": "HEL"},
+  {"city": "Bordeaux", "airport": "Bordeaux Havalimanı", "iata": "BOD"},
+  {"city": "Lyon", "airport": "Lyon-Saint Exupéry Havalimanı", "iata": "LYS"},
+  {"city": "Marsilya", "airport": "Marsilya Provence Havalimanı", "iata": "MRS"},
+  {"city": "Nice", "airport": "Nice Côte d'Azur Havalimanı", "iata": "NCE"},
+  {"city": "Paris", "airport": "Charles de Gaulle Havalimanı", "iata": "CDG"},
+  {"city": "Paris", "airport": "Orly Havalimanı", "iata": "ORY"},
+  {"city": "Toulouse", "airport": "Toulouse-Blagnac Havalimanı", "iata": "TLS"},
+  {"city": "Batum", "airport": "Batum Havalimanı", "iata": "BUS"},
+  {"city": "Tiflis", "airport": "Tiflis Havalimanı", "iata": "TBS"},
+  {"city": "Dubrovnik", "airport": "Dubrovnik Havalimanı", "iata": "DBV"},
+  {"city": "Zagreb", "airport": "Zagreb Havalimanı", "iata": "ZAG"},
+  {"city": "Amsterdam", "airport": "Schiphol Havalimanı", "iata": "AMS"},
+  {"city": "Eindhoven", "airport": "Eindhoven Havalimanı", "iata": "EIN"},
+  {"city": "Rotterdam", "airport": "Rotterdam Havalimanı", "iata": "RTM"},
+  {"city": "Birmingham", "airport": "Birmingham Havalimanı", "iata": "BHX"},
+  {"city": "Edinburgh", "airport": "Edinburgh Havalimanı", "iata": "EDI"},
+  {"city": "Londra", "airport": "Gatwick Havalimanı", "iata": "LGW"},
+  {"city": "Londra", "airport": "Heathrow Havalimanı", "iata": "LHR"},
+  {"city": "Manchester", "airport": "Manchester Havalimanı", "iata": "MAN"},
+  {"city": "Dublin", "airport": "Dublin Havalimanı", "iata": "DUB"},
+  {"city": "Barselona", "airport": "El Prat Havalimanı", "iata": "BCN"},
+  {"city": "Madrid", "airport": "Barajas Havalimanı", "iata": "MAD"},
+  {"city": "Malaga", "airport": "Malaga Havalimanı", "iata": "AGP"},
+  {"city": "Valensiya", "airport": "Valensiya Havalimanı", "iata": "VLC"},
+  {"city": "Göteborg", "airport": "Göteborg Landvetter Havalimanı", "iata": "GOT"},
+  {"city": "Stockholm", "airport": "Arlanda Havalimanı", "iata": "ARN"},
+  {"city": "Cenevre", "airport": "Cenevre Havalimanı", "iata": "GVA"},
+  {"city": "Zürih", "airport": "Zürih Havalimanı", "iata": "ZRH"},
+  {"city": "Bari", "airport": "Bari Havalimanı", "iata": "BRI"},
+  {"city": "Bologna", "airport": "Bologna Havalimanı", "iata": "BLQ"},
+  {"city": "Catania", "airport": "Catania Havalimanı", "iata": "CTA"},
+  {"city": "Milano", "airport": "Malpensa Havalimanı", "iata": "MXP"},
+  {"city": "Napoli", "airport": "Napoli Havalimanı", "iata": "NAP"},
+  {"city": "Palermo", "airport": "Palermo Havalimanı", "iata": "PMO"},
+  {"city": "Roma", "airport": "Fiumicino Havalimanı", "iata": "FCO"},
+  {"city": "Venedik", "airport": "Marco Polo Havalimanı", "iata": "VCE"},
+  {"city": "Reykjavik", "airport": "Keflavik Havalimanı", "iata": "KEF"},
+  {"city": "Podgorica", "airport": "Podgorica Havalimanı", "iata": "TGD"},
+  {"city": "Pristina", "airport": "Priştine Havalimanı", "iata": "PRN"},
+  {"city": "Lefkoşa", "airport": "Ercan Havalimanı", "iata": "ECN"},
+  {"city": "Riga", "airport": "Riga Havalimanı", "iata": "RIX"},
+  {"city": "Vilnius", "airport": "Vilnius Havalimanı", "iata": "VNO"},
+  {"city": "Lüksemburg", "airport": "Lüksemburg Havalimanı", "iata": "LUX"},
+  {"city": "Budapeşte", "airport": "Budapeşte Havalimanı", "iata": "BUD"},
+  {"city": "Malta", "airport": "Malta Havalimanı", "iata": "MLA"},
+  {"city": "Oslo", "airport": "Oslo Gardermoen Havalimanı", "iata": "OSL"},
+  {"city": "Krakow", "airport": "Krakow Havalimanı", "iata": "KRK"},
+  {"city": "Varşova", "airport": "Chopin Havalimanı", "iata": "WAW"},
+  {"city": "Lizbon", "airport": "Lizbon Havalimanı", "iata": "LIS"},
+];
+
+// Soruları karıştırmak için fonksiyon
+List<Map<String, String>> getShuffledAirports() {
+  List<Map<String, String>> shuffledAirports = List.from(airports);
+  shuffledAirports.shuffle();
+  return shuffledAirports;
 }
 
-class _FlightGameViewState extends State<FlightGameView> {
-  final FlightGameViewModel viewModel = FlightGameViewModel();
+class GameScreen extends StatefulWidget {
+  final Map<String, String>? user;
+
+  const GameScreen({Key? key, this.user}) : super(key: key);
+
+  @override
+  _GameScreenState createState() => _GameScreenState();
+}
+
+class _GameScreenState extends State<GameScreen> {
+  List<Map<String, String>> shuffledAirports = getShuffledAirports();
+  int currentQuestionIndex = 0;
+  int remainingLives = 3;
+  int score = 0;
+  List<String> options = [];
+  String? selectedOption;
+  String? errorMessage;
+  bool showLeaderboard = false;
+  bool showNextButton = false;
+
+  // Lider tablosu için liste
+  List<Map<String, dynamic>> leaderboard = [];
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _showUsernameDialog();
+    print("GameScreen'e gelen user: ${widget.user}"); // Debug
+    _loadLeaderboard();
+    _generateOptions();
+  }
+
+  // Lider tablosunu SharedPreferences'tan yükle
+  Future<void> _loadLeaderboard() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? leaderboardData = prefs.getString('leaderboard');
+    if (leaderboardData != null) {
+      setState(() {
+        leaderboard = List<Map<String, dynamic>>.from(
+          json.decode(leaderboardData).map((item) => Map<String, dynamic>.from(item)),
+        );
+      });
+    }
+  }
+
+  // Lider tablosunu SharedPreferences'a kaydet
+  Future<void> _saveLeaderboard() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('leaderboard', json.encode(leaderboard));
+  }
+
+  void _generateOptions() {
+    options.clear();
+    // Doğru cevabı ekle
+    options.add(shuffledAirports[currentQuestionIndex]["city"]!);
+    // Yanlış cevaplar için rastgele şehirler seç
+    List<String> allCities = shuffledAirports.map((airport) => airport["city"]!).toList();
+    allCities.remove(shuffledAirports[currentQuestionIndex]["city"]);
+    allCities.shuffle();
+    options.addAll(allCities.take(3));
+    options.shuffle();
+  }
+
+  void _checkAnswer(String selected) {
+    setState(() {
+      selectedOption = selected;
+      showNextButton = true;
+      if (selected == shuffledAirports[currentQuestionIndex]["city"]) {
+        score += 5; // Her doğru cevap 5 puan kazandırır
+        errorMessage = null;
+      } else {
+        remainingLives--;
+        errorMessage = "Yanlış cevap! Kalan hak: $remainingLives";
+      }
     });
   }
 
-  void _showUsernameDialog() async {
-    await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder:
-          (context) => UsernameDialog(
-            onSubmit: (name) {
-              viewModel.setUsername(name);
-            },
-            user: {},
-          ),
-    );
+  void _nextQuestion() {
+    setState(() {
+      if (remainingLives == 0 || currentQuestionIndex == shuffledAirports.length - 1) {
+        _endGame();
+      } else {
+        currentQuestionIndex++;
+        _generateOptions();
+        selectedOption = null;
+        errorMessage = null;
+        showNextButton = false;
+      }
+    });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return ListenableBuilder(
-      listenable: viewModel,
-      builder: (context, _) {
-        if (viewModel.username == null) {
-          return Scaffold(appBar: AppBar(title: Text("data")), backgroundColor: AppColors.scaffoldBackgroundColor);
-        }
+  void _endGame() {
+    // Kullanıcının puanını lider tablosuna ekle
+    String userName =
+        widget.user != null && widget.user!.containsKey("name") && widget.user!["name"] != null
+            ? widget.user!["name"]!.trim()
+            : "Bilinmeyen Kullanıcı";
 
-        return Scaffold(
-          backgroundColor: AppColors.scaffoldBackgroundColor,
-          appBar: AppBarWidgets(),
-          body:
-              viewModel.gameEnded
-                  ? SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text("Oyun Bitti!", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-                          const SizedBox(height: 20),
-                          Text(
-                            "Puanınız: ${viewModel.score}",
-                            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
-                          ),
-                          const SizedBox(height: 20),
-                          const Text(
-                            "Yanlış Cevaplarınız:",
-                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(height: 10),
-                          if (viewModel.incorrectAnswers.isEmpty)
-                            CurrentAnsverCard()
-                          else
-                            ...viewModel.incorrectAnswers.map((incorrect) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                child: AnsverCheckCard(incorrect),
-                              );
-                            }).toList(),
-                          const SizedBox(height: 20),
-                          _customBorderButton("Yeniden Başla", viewModel.restartGame),
-                          const SizedBox(height: 10),
-                          _customBorderButton("Lider Tablosu", () => viewModel.viewLeaderboard(context)),
-                          const SizedBox(height: 10),
-                          _customBorderButton("Çıkış", viewModel.exitGame),
-                        ],
-                      ),
-                    ),
-                  )
-                  : Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              "Soru ${viewModel.questionCount}",
-                              style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              "Puan: ${viewModel.score}",
-                              style: const TextStyle(
-                                fontSize: 30,
-                                color: AppColors.snackBarGreen,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 150),
-                        Text(
-                          "${viewModel.currentQuestion!['iata']} kodu hangi şehre aittir?",
-                          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 20),
-                        ...viewModel.options.map((option) {
-                          return Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: AnsverCard(
-                              option: option,
-                              isSelected: viewModel.selectedAnswer == option,
-                              isCorrect: option == viewModel.currentQuestion!['city'],
-                              showCorrectAnswer: viewModel.showCorrectAnswer,
-                              onPressed: () => viewModel.checkAnswer(option),
-                            ),
-                          );
-                        }).toList(),
-                        if (viewModel.selectedAnswer != null && !viewModel.gameEnded) ...[
-                          const SizedBox(height: 20),
-                          if (viewModel.showCorrectAnswer)
-                            Text(
-                              "Yanlış! Doğru cevap: ${viewModel.correctCity}",
-                              style: const TextStyle(
-                                fontSize: 18,
-                                color: AppColors.snackBarGreen,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          const SizedBox(height: 10),
-                          _customBorderButton("Sonraki Soru", viewModel.nextQuestion),
-                        ],
-                        const SizedBox(height: 20),
-                        // _customBorderButton("Çıkış", viewModel.exitGame), // Şimdilik Çıkardık
-                      ],
-                    ),
-                  ),
-        );
-      },
-    );
-  }
-
-  Container CurrentAnsverCard() {
-    return Container(
-      height: 50,
-      decoration: BoxDecoration(color: AppColors.snackBarGreen, borderRadius: BorderRadius.circular(10)),
-      alignment: Alignment.center,
-      child: Row(
-        children: [
-          const SizedBox(width: 10),
-          const Icon(Icons.check, color: AppColors.whiteSpot),
-          const SizedBox(width: 10),
-          const Text(
-            "Tebrikler tüm soruları doğru cevapladınız.",
-            style: TextStyle(fontSize: 18, color: AppColors.whiteSpot),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Container AnsverCheckCard(Map<String, String> incorrect) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.customCardColor,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AppColors.borderColor),
-      ),
-      child: ListTile(
-        title: Text(
-          "${incorrect['iata']} kodu hangi şehre aittir?",
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Sizin Cevabınız: ${incorrect['userAnswer']}", style: const TextStyle(color: AppColors.greenSpot)),
-            Text(
-              "Doğru Cevap: ${incorrect['correctCity']}",
-              style: const TextStyle(color: AppColors.snackBarGreen, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget AnsverCard({
-    required String option,
-    required bool isSelected,
-    required bool isCorrect,
-    required bool showCorrectAnswer,
-    required VoidCallback onPressed,
-  }) {
-    Color borderColor = AppColors.borderColor;
-    Color? fillColor;
-    if (showCorrectAnswer) {
-      if (isCorrect) {
-        fillColor = AppColors.snackBarGreen.withOpacity(0.2);
-      } else if (isSelected) {
-        fillColor = Colors.red.withOpacity(0.2);
+    // Kullanıcı zaten lider tablosunda var mı kontrol et
+    bool userExists = false;
+    for (var entry in leaderboard) {
+      if (entry["name"]?.toString().trim() == userName) {
+        // Puanları topla (eski puan + yeni puan)
+        entry["score"] = (entry["score"] as int) + score;
+        userExists = true;
+        break;
       }
     }
 
-    return Container(
-      width: 400,
-      height: 50,
-      decoration: BoxDecoration(
-        border: Border.all(color: borderColor),
-        borderRadius: BorderRadius.circular(10),
-        color: fillColor,
-      ),
-      child: MaterialButton(
-        onPressed: viewModel.selectedAnswer == null ? onPressed : null,
-        child: Text(
-          option,
-          style: const TextStyle(color: AppColors.borderColor, fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
+    // Kullanıcı lider tablosunda yoksa ekle
+    if (!userExists) {
+      leaderboard.add({"name": userName, "score": score});
+    }
+
+    // Puanlara göre sırala (yüksek puan üste)
+    leaderboard.sort((a, b) => (b["score"] as int).compareTo(a["score"] as int));
+
+    // Lider tablosunu kaydet
+    _saveLeaderboard();
+
+    setState(() {
+      showLeaderboard = true;
+    });
   }
 
-  Container _customBorderButton(String title, VoidCallback onPressed) {
-    return Container(
-      width: 200,
-      height: 50,
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.borderColor, width: 2),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: MaterialButton(
-          onPressed: onPressed,
-          child: Text(
-            title,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: AppColors.borderColor),
-          ),
-        ),
-      ),
-    );
+  void _resetGame() {
+    setState(() {
+      shuffledAirports = getShuffledAirports();
+      currentQuestionIndex = 0;
+      remainingLives = 3;
+      score = 0;
+      options = [];
+      selectedOption = null;
+      errorMessage = null;
+      showNextButton = false;
+      showLeaderboard = false;
+      _generateOptions();
+    });
   }
-}
 
-class UsernameDialog extends StatelessWidget {
-  final Map<String, String> user;
-  final Function(String) onSubmit;
-  UsernameDialog({required this.onSubmit, required this.user});
-
-  final TextEditingController _controller = TextEditingController();
+  // Kullanıcıyı lider tablosundan sil
+  void _deleteUser(int index) async {
+    setState(() {
+      leaderboard.removeAt(index);
+    });
+    await _saveLeaderboard();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.scaffoldBackgroundColor,
-      appBar: AppBar(
-        backgroundColor: AppColors.scaffoldBackgroundColor,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => HomePageScreen(user: user)));
-          },
-          icon: Icon(Icons.arrow_back, size: 30),
+    String userName =
+        widget.user != null && widget.user!.containsKey("name") && widget.user!["name"] != null
+            ? widget.user!["name"]!.trim()
+            : "Bilinmeyen Kullanıcı";
+    // Kullanıcı bilgisi kontrolü
+    String debugMessage =
+        widget.user == null
+            ? "Hata: Kullanıcı bilgisi null geldi!"
+            : widget.user!.containsKey("name") && widget.user!["name"] != null
+            ? "Kullanıcı: ${widget.user!["name"]!.trim()}"
+            : "Hata: Kullanıcı adı null veya boş!";
+
+    if (showLeaderboard) {
+      return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Row(
+            children: [
+              SizedBox(width: 10),
+              Text("Lider Tablosu", style: TextStyle(color: AppColors.borderColor, fontWeight: FontWeight.bold)),
+            ],
+          ),
         ),
-        title: Text(
-          "Oyuna Giriş",
-          style: TextStyle(color: AppColors.borderColor, fontSize: 30, fontWeight: FontWeight.w500),
-        ),
-        centerTitle: true,
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Container(
-              height: 300,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.borderColor),
-                borderRadius: BorderRadius.circular(10),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              SizedBox(height: 10),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: leaderboard.length,
+                  itemBuilder: (context, index) {
+                    bool isCurrentUser = leaderboard[index]["name"]?.toString().trim() == userName;
+                    return Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: AppColors.borderColor),
+                      ),
+                      child: ListTile(
+                        leading: Text("${index + 1}.", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                        title: Text(
+                          leaderboard[index]["name"]?.toString() ?? "Bilinmeyen",
+                          style: TextStyle(
+                            fontWeight: isCurrentUser ? FontWeight.bold : FontWeight.normal,
+                            color: isCurrentUser ? AppColors.appBarColor : Colors.black,
+                          ),
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "Puan: ${leaderboard[index]["score"]?.toString() ?? "0"}",
+                              style: TextStyle(
+                                fontWeight: isCurrentUser ? FontWeight.bold : FontWeight.bold,
+                                fontSize: 20,
+                                color: isCurrentUser ? Colors.blue : AppColors.borderColor,
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            IconButton(
+                              icon: Icon(Icons.delete, color: AppColors.cardColor, size: 30),
+                              onPressed: () => _deleteUser(index),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              SizedBox(height: 20),
+              Row(
                 children: [
-                  Text(
-                    textAlign: TextAlign.center,
-                    "Lütfen Oyuna Başlamadan Önce Kullanıcı Adınızı Girin",
-                    style: TextStyle(color: AppColors.borderColor, fontSize: 20, fontWeight: FontWeight.w500),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 50, right: 50, bottom: 20),
-                    child: TextField(
-                      controller: _controller,
-                      decoration: InputDecoration(
-                        hintText: "Adınızı yazın",
-                        border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.borderColor)),
+                  Expanded(
+                    child: Container(
+                      height: 50,
+                      width: 200,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: AppColors.borderColor),
+                      ),
+                      child: MaterialButton(
+                        onPressed: _resetGame,
+                        child: Center(
+                          child: Text("Tekrar Oyna", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                        ),
                       ),
                     ),
                   ),
-                  Container(
-                    height: 50,
-                    width: 200,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: AppColors.borderColor),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: MaterialButton(
-                      onPressed: () {
-                        if (_controller.text.trim().isNotEmpty) {
-                          onSubmit(_controller.text.trim());
-                          Navigator.pop(context);
-                        }
-                      },
-                      child: Text(
-                        "Oyuna Başla",
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.borderColor),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Container(
+                      height: 50,
+                      width: 200,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: AppColors.borderColor),
+                      ),
+                      child: MaterialButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Center(
+                          child: Text("Ana Sayfa", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
-            ),
+            ],
           ),
-        ],
-      ),
-    );
-  }
-}
+        ),
+      );
+    }
 
-class LeaderboardView extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackgroundColor,
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          "Günlük Lider Tablosu",
-          style: TextStyle(color: AppColors.borderColor, fontSize: 25, fontWeight: FontWeight.w500),
-        ),
-        backgroundColor: AppColors.scaffoldBackgroundColor,
-      ),
-      body: FutureBuilder<List<Map<String, dynamic>>>(
-        future: FlightGameViewModel().getLeaderboard(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text("Henüz puan yok."));
-          }
-          final scores = snapshot.data!;
-          scores.sort((a, b) => (b['score'] as int).compareTo(a['score'] as int));
-          return ListView.builder(
-            padding: const EdgeInsets.all(16),
-            itemCount: scores.length,
-            itemBuilder: (context, index) {
-              final score = scores[index];
+      appBar: AppBarWidgets(),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              children: [
+                Text("Soru: ${currentQuestionIndex + 1}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                SizedBox(height: 10),
+                Text(
+                  "Puan: $score",
+                  style: TextStyle(fontSize: 18, color: AppColors.snackBarGreen, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "Kalan Hak: $remainingLives",
+                  style: TextStyle(fontSize: 18, color: AppColors.cardColor, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            Text(
+              "${shuffledAirports[currentQuestionIndex]["iata"]} kodu hangi şehre aittir?",
+              style: TextStyle(fontSize: 18),
+              textAlign: TextAlign.center,
+            ),
+            if (errorMessage != null) ...[
+              SizedBox(height: 10),
+              Text(errorMessage!, style: TextStyle(color: Colors.red)),
+            ],
+            SizedBox(height: 20),
+            ...options.map((option) {
               return Padding(
-                padding: const EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.all(10),
                 child: Container(
-                  color: AppColors.customCardColor,
-                  child: ListTile(
-                    leading: Text("${index + 1}.", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                    title: Text(score['username'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                    trailing: Text(
-                      "${score['score']} puan",
-                      style: const TextStyle(fontSize: 16, color: AppColors.snackBarGreen),
-                    ),
+                  width: double.infinity,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: AppColors.borderColor),
+                  ),
+                  child: MaterialButton(
+                    onPressed: selectedOption == null ? () => _checkAnswer(option) : null,
+                    child: Text(option),
                   ),
                 ),
               );
-            },
-          );
-        },
+            }).toList(),
+            if (showNextButton) ...[
+              SizedBox(height: 20),
+              // Custon NextButton.
+              Container(
+                height: 50,
+                width: 200,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppColors.borderColor),
+                ),
+                child: MaterialButton(onPressed: _nextQuestion, child: Center(child: Text("İleri"))),
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }
 }
-
-// 3 HAK OLSUN   HAKLARIN ANSAYFFADA GÖSTERİLSİN  GİRİŞ YAPAN KULLANICYA GÖRE OYNA 
-// türk hava yollarının uçtuğu hava limanları

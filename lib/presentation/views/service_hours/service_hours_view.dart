@@ -6,6 +6,7 @@ import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/drawer/custom_drawer_view.dart';
 
 class ServiceHoursView extends StatelessWidget {
+  
   final Map<String, String> user;
 
   const ServiceHoursView({super.key, required this.user});

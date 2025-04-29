@@ -14,7 +14,9 @@ import 'package:tgs_info_app_flutter/presentation/views/useful_document/useful_d
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 
 class CustomDrawer extends StatefulWidget {
-  const CustomDrawer({super.key, required Map<String, String> user});
+  final Map<String, String> user;
+
+  const CustomDrawer({super.key, required this.user});
 
   @override
   State<CustomDrawer> createState() => _CustomDrawerState();
@@ -68,11 +70,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
           colors: [AppColors.scaffoldBackgroundColor, AppColors.scaffoldBackgroundColor],
         ),
       ),
-      accountName: const Text(
-        'Kullanıcı Adı',
+      accountName: Text(
+        "${widget.user['name']}",
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.borderColor),
       ),
-      accountEmail: const Text('tgs@aero.com', style: TextStyle(color: AppColors.borderColor)),
+      accountEmail: Text(
+        "${widget.user['email']}",
+        style: TextStyle(color: AppColors.borderColor),
+      ), // Buraya e-posta adresi gelecek.
       currentAccountPicture: GestureDetector(
         onTap: () => _handleImagePick(),
         child: CircleAvatar(
@@ -108,7 +113,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
         CustomNavigationButton(title: 'Uçuş Saatleri', navigateTo: const FlightTimeView(), icon: Icons.flight),
         CustomNavigationButton(
           title: 'Servis Saatleri',
-          navigateTo: const ServiceHoursView(user: {}),
+          navigateTo: ServiceHoursView(user: widget.user),
           icon: Icons.car_crash,
         ),
         CustomNavigationButton(
@@ -121,7 +126,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
           navigateTo: const UsefulDocumentView(),
           icon: Icons.document_scanner_outlined,
         ),
-        CustomNavigationButton(title: 'Oyun Oyna', navigateTo: const FlightGameView(user: {}), icon: Icons.gamepad),
       ],
     );
   }

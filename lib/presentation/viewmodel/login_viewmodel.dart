@@ -5,12 +5,13 @@ class LoginViewModel {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String? errorMessage;
+  String? loggedInUserName;
   TextEditingController get usernameController => _usernameController;
   TextEditingController get passwordController => _passwordController;
-
   final List<Map<String, String>> users = [
     {
       "name": "Ahmet Yılmaz",
+      "email": "ahmet.yılmaz@tgs.aero.com",
       "birthDate": "2 Nisan 1985",
       "bio": "Türk mühendis ve girişimci.",
       "password": "password123",
@@ -18,6 +19,7 @@ class LoginViewModel {
     },
     {
       "name": "Zeynep Demir",
+      "email": "zeynep.demir@tgs.aero.com",
       "birthDate": "23 Nisan 1990",
       "bio": "Ünlü Türk yazar ve akademisyen.",
       "password": "password123",
@@ -25,6 +27,7 @@ class LoginViewModel {
     },
     {
       "name": "Mehmet Kaya",
+      "email": "mehmet.kaya@tgs.aero.com",
       "birthDate": "7 Temmuz 1978",
       "bio": "Başarılı bir iş insanı ve mentor.",
       "password": "password123",
@@ -32,6 +35,7 @@ class LoginViewModel {
     },
     {
       "name": "Elif Çelik",
+      "email": "elif.celik@tgs.aero.com",
       "birthDate": "10 Ocak 1995",
       "bio": "Sanatçı ve moda tasarımcısı.",
       "password": "password123",
@@ -39,6 +43,7 @@ class LoginViewModel {
     },
     {
       "name": "Burak Şahin",
+      "email": "burak.sahin@tgs.aero.com",
       "birthDate": "5 Mayıs 1982",
       "bio": "Film yapımcısı ve yönetmen.",
       "password": "password123",
@@ -46,6 +51,7 @@ class LoginViewModel {
     },
     {
       "name": "Merve Arslan",
+      "email": "merve.arslan@tgs.aero.com",
       "birthDate": "30 Haziran 1988",
       "bio": "Başarılı bir akademisyen ve araştırmacı.",
       "password": "password123",
@@ -53,6 +59,7 @@ class LoginViewModel {
     },
     {
       "name": "Caner Özkan",
+      "email": "caner.ozkan@tgs.aero.com",
       "birthDate": "12 Şubat 1993",
       "bio": "Profesyonel sporcu ve antrenör.",
       "password": "password123",
@@ -60,6 +67,7 @@ class LoginViewModel {
     },
     {
       "name": "Ebru Taş",
+      "email": "ebru.tas@tgs.aero.com",
       "birthDate": "18 Kasım 1980",
       "bio": "Müzik sanatçısı ve besteci.",
       "password": "password123",
@@ -67,6 +75,7 @@ class LoginViewModel {
     },
     {
       "name": "Emre Karaca",
+      "email": "emre.karaca@tgs.aero.com",
       "birthDate": "25 Eylül 1986",
       "bio": "Girişimci ve teknoloji uzmanı.",
       "password": "password123",
@@ -74,6 +83,7 @@ class LoginViewModel {
     },
     {
       "name": "Selin Güneş",
+      "email": "selin.gunes@tgs.aero.com",
       "birthDate": "8 Ağustos 1992",
       "bio": "Gazeteci ve televizyon sunucusu.",
       "password": "password123",
@@ -81,6 +91,7 @@ class LoginViewModel {
     },
     {
       "name": "Ali Çetin",
+      "email": "ali.cetin@tgs.aero.com",
       "birthDate": "15 Mart 1984",
       "bio": "Yazılım geliştiricisi ve inovatör.",
       "password": "password123",
@@ -88,6 +99,7 @@ class LoginViewModel {
     },
     {
       "name": "Fatma Yılmazer",
+      "email": "fatma.yılmaz@tgs.aero.com",
       "birthDate": "20 Mayıs 1991",
       "bio": "Eğitimci ve sosyal girişimci.",
       "password": "password123",
@@ -95,6 +107,7 @@ class LoginViewModel {
     },
     {
       "name": "Hakan Demirci",
+      "email": "hakan.demirci@tgs.aero.com",
       "birthDate": "3 Ekim 1979",
       "bio": "Finans uzmanı ve danışman.",
       "password": "password123",
@@ -102,6 +115,7 @@ class LoginViewModel {
     },
     {
       "name": "Ayşe Koca",
+      "email": "ayse.koca@tgs.aero.com",
       "birthDate": "12 Aralık 1987",
       "bio": "Tasarımcı ve sanat yönetmeni.",
       "password": "password123",
@@ -109,6 +123,7 @@ class LoginViewModel {
     },
     {
       "name": "Mustafa Erdem",
+      "email": "mustafa.erdem@tgs.aero.com",
       "birthDate": "9 Şubat 1994",
       "bio": "Mühendis ve proje yöneticisi.",
       "password": "password123",
@@ -116,13 +131,15 @@ class LoginViewModel {
     },
     {
       "name": "Gülay Şimşek",
+      "email": "gulay.simsek@tgs.aero.com",
       "birthDate": "22 Temmuz 1983",
-      "bio": "Psikolog ve yazar.",
+      "bio": "gulay.simsek@tgs.aero.com",
       "password": "password123",
       "location": "Beşiktaş",
     },
     {
       "name": "Oğuzhan Yılmaz",
+      "email": "oguzan.yılmaz@tgs.aero.com",
       "birthDate": "14 Haziran 1990",
       "bio": "Pazarlama uzmanı ve lider.",
       "password": "password123",
@@ -130,6 +147,7 @@ class LoginViewModel {
     },
     {
       "name": "Nazlı Kaya",
+      "email": "nazlı.kaya@tgs.aero.com",
       "birthDate": "27 Nisan 1981",
       "bio": "Mimar ve çevre aktivisti.",
       "password": "password123",
@@ -137,6 +155,7 @@ class LoginViewModel {
     },
     {
       "name": "Serkan Aydın",
+      "email": "serkan.aydın@tgs.aero.com",
       "birthDate": "11 Ağustos 1989",
       "bio": "Veri analisti ve strateji uzmanı.",
       "password": "password123",
@@ -144,6 +163,7 @@ class LoginViewModel {
     },
     {
       "name": "Derya Öz",
+      "email": "derya.oz@tgs.aero.com",
       "birthDate": "19 Ocak 1996",
       "bio": "Dijital pazarlama uzmanı.",
       "password": "password123",
@@ -151,6 +171,7 @@ class LoginViewModel {
     },
     {
       "name": "Kerem Türker",
+      "email": "kerem.turker@tgs.aero.com",
       "birthDate": "6 Mart 1985",
       "bio": "Yönetim danışmanı ve eğitmen.",
       "password": "password123",
@@ -158,6 +179,7 @@ class LoginViewModel {
     },
     {
       "name": "Buse Yılmaz",
+      "email": "buse.yılmaz@tgs.aero.com",
       "birthDate": "28 Eylül 1993",
       "bio": "Grafik tasarımcı ve illüstratör.",
       "password": "password123",
@@ -165,6 +187,7 @@ class LoginViewModel {
     },
     {
       "name": "İsmail Güler",
+      "email": "ısmail.gur@tgs.aero.com",
       "birthDate": "4 Kasım 1982",
       "bio": "Lojistik uzmanı ve girişimci.",
       "password": "password123",
@@ -172,6 +195,7 @@ class LoginViewModel {
     },
     {
       "name": "Ceren Aksoy",
+      "email": "cem.aksoy@tgs.aero.com",
       "birthDate": "17 Mayıs 1991",
       "bio": "İç mimar ve dekorasyon uzmanı.",
       "password": "password123",
@@ -179,6 +203,7 @@ class LoginViewModel {
     },
     {
       "name": "Tolga Erkan",
+      "email": "tolga.erkan@tgs.aero.com",
       "birthDate": "30 Ekim 1980",
       "bio": "Yazılım mimarı ve teknoloji lideri.",
       "password": "password123",
@@ -186,6 +211,7 @@ class LoginViewModel {
     },
     {
       "name": "Zehra Çelik",
+      "email": "zehra.celik@tgs.aero.com",
       "birthDate": "2 Şubat 1992",
       "bio": "Eğitim teknolojileri uzmanı.",
       "password": "password123",
@@ -193,6 +219,7 @@ class LoginViewModel {
     },
     {
       "name": "Barış Yılmaz",
+      "email": "baris.yılmaz@tgs.aero.com",
       "birthDate": "25 Aralık 1986",
       "bio": "Müzik prodüktörü ve DJ.",
       "password": "password123",
@@ -200,6 +227,7 @@ class LoginViewModel {
     },
     {
       "name": "Sude Kaya",
+      "email": "sude.kaya@tgs.aero.com",
       "birthDate": "13 Mart 1995",
       "bio": "Moda blog yazarı ve influencer.",
       "password": "password123",
@@ -207,6 +235,7 @@ class LoginViewModel {
     },
     {
       "name": "Eren Şahin",
+      "email": "eren.sahin@tgs.aero.com",
       "birthDate": "9 Haziran 1984",
       "bio": "Otomotiv mühendisi ve inovatör.",
       "password": "password123",
@@ -214,6 +243,7 @@ class LoginViewModel {
     },
     {
       "name": "Aylin Demir",
+      "email": "aylin.demir@tgs.aero.com",
       "birthDate": "21 Temmuz 1990",
       "bio": "Hukuk danışmanı ve avukat.",
       "password": "password123",
@@ -221,6 +251,7 @@ class LoginViewModel {
     },
     {
       "name": "Yavuz Öztürk",
+      "email": "yavuz.ozturk@tgs.aero.com",
       "birthDate": "16 Nisan 1983",
       "bio": "Girişimci ve yatırımcı.",
       "password": "password123",
@@ -228,6 +259,7 @@ class LoginViewModel {
     },
     {
       "name": "Esra Yılmaz",
+      "email": "esra.yılmaz@tgs.aero.com",
       "birthDate": "8 Eylül 1994",
       "bio": "Diyetisyen ve sağlık koçu.",
       "password": "password123",
@@ -235,6 +267,7 @@ class LoginViewModel {
     },
     {
       "name": "Onur Kaya",
+      "email": "onur.kaya@tgs.aero.com",
       "birthDate": "14 Şubat 1987",
       "bio": "Reklamcı ve yaratıcı yönetmen.",
       "password": "password123",
@@ -242,6 +275,7 @@ class LoginViewModel {
     },
     {
       "name": "Gamze Çelik",
+      "email": "gamze.celik@tgs.aero.com",
       "birthDate": "3 Ağustos 1991",
       "bio": "Sosyal medya yöneticisi.",
       "password": "password123",
@@ -596,20 +630,18 @@ class LoginViewModel {
     String username = _usernameController.text.trim().toLowerCase();
     String password = _passwordController.text.trim();
     errorMessage = null;
-
     Map<String, String>? currentUser;
     for (var user in users) {
-      if (user["name"]?.trim().toLowerCase() == username && user["password"] == password) {
+      if (user["email"]?.trim().toLowerCase() == username && user["password"] == password) {
         currentUser = Map.from(user);
         break;
       }
     }
-
     if (currentUser != null) {
       if (currentUser["location"] == null || currentUser["location"]!.isEmpty) {
         currentUser["location"] = "Arnavutköy";
       }
-      print("LoginViewModel: Giriş yapan kullanıcı: ${currentUser['name']}, Konum: ${currentUser['location']}");
+      print("LoginViewModel: Giriş yapan kullanıcı: ${currentUser['email']}, Konum: ${currentUser['location']}");
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePageScreen(user: currentUser!)));
     } else {
       errorMessage = "Kullanıcı adı veya şifre yanlış!";

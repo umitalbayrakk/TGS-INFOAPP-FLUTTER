@@ -37,7 +37,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 20),
+              SizedBox(height: 5),
               CourselSlider(),
               SizedBox(height: 10),
               LastNewsText(),
@@ -45,7 +45,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
               SizedBox(height: 5),
               ShiftCardWidgets(viewModel: ShiftViewModel()),
               SizedBox(width: 7),
-              GameCard(),
+              GameCard(user: widget.user),
               BirthdayCard(),
               TurkishFoodCard(),
             ],

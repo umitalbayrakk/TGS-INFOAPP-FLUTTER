@@ -6,6 +6,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 
 class TimeCard extends StatefulWidget {
+  
   const TimeCard({super.key});
 
   @override

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 
 class AppBarWidgets extends StatelessWidget implements PreferredSizeWidget {
@@ -10,6 +11,7 @@ class AppBarWidgets extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.black), // Status bar'ı göster
       iconTheme: IconThemeData(color: AppColors.borderColor, size: 35),
       backgroundColor: AppColors.scaffoldBackgroundColor,
       elevation: 2,

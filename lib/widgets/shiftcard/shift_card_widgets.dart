@@ -1,4 +1,6 @@
+import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:tgs_info_app_flutter/presentation/viewmodel/shift_card_viewmodel.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 
@@ -22,7 +24,7 @@ class ShiftCardWidgets extends StatelessWidget {
                 'Vardiya Detayları - Ekip $team',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.borderColor),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 10),
               _buildDetailRow('Vardiya:', shift),
               _buildDetailRow('Saat:', viewModel.getShiftTime(shift)),
               _buildDetailRow('Tarih:', viewModel.getFormattedDate(date)),
@@ -86,15 +88,20 @@ class ShiftCardWidgets extends StatelessWidget {
     );
   }
 
+  // Row --
   Widget _buildInfoRow(IconData icon, String label, String value) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 2),
       child: Row(
         children: [
-          Icon(icon, size: 20, color: AppColors.borderColor),
-          const SizedBox(width: 8),
-          Text('$label ', style: TextStyle(color: AppColors.borderColor, fontWeight: FontWeight.w500)),
-          Flexible(child: Text(value, style: TextStyle(color: AppColors.borderColor), overflow: TextOverflow.ellipsis)),
+          Icon(icon, size: 12, color: AppColors.borderColor),
+          const SizedBox(width: 2),
+          Text('$label ', style: TextStyle(color: AppColors.borderColor, fontWeight: FontWeight.bold, fontSize: 13)),
+          Text(
+            value,
+            style: TextStyle(color: AppColors.borderColor, fontWeight: FontWeight.bold, fontSize: 12),
+            overflow: TextOverflow.ellipsis,
+          ),
         ],
       ),
     );
@@ -118,7 +125,7 @@ class ShiftCardWidgets extends StatelessWidget {
           child: GestureDetector(
             onTap: () => _showShiftDetails(context, activeTeam, currentShift, now),
             child: Container(
-              height: 160,
+              height: 135,
               width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -130,18 +137,23 @@ class ShiftCardWidgets extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    // mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const SizedBox(width: 8),
+                      Icon(FeatherIcons.users, size: 15),
+                      const SizedBox(width: 5),
                       Text(
-                        'EKİP: $activeTeam',
-                        style: TextStyle(color: AppColors.borderColor, fontSize: 18, fontWeight: FontWeight.bold),
+                        'Ekip: $activeTeam',
+                        style: TextStyle(color: AppColors.borderColor, fontSize: 15, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
-                  _buildInfoRow(Icons.work_history, 'Vardiya:', currentShift),
-                  _buildInfoRow(Icons.timelapse, 'Saat:', viewModel.getShiftTime(currentShift)),
-                  _buildInfoRow(Icons.calendar_month, 'Tarih:', viewModel.getFormattedDate(now)),
+                  const SizedBox(height: 5),
+                  _buildInfoRow(FeatherIcons.clipboard, 'Vardiya:', currentShift),
+                  SizedBox(width: 5),
+                  _buildInfoRow(FeatherIcons.clock, 'Saat:', viewModel.getShiftTime(currentShift)),
+                  SizedBox(width: 5),
+                  _buildInfoRow(FeatherIcons.calendar, 'Tarih:', viewModel.getFormattedDate(now)),
+                  const SizedBox(height: 5),
                 ],
               ),
             ),

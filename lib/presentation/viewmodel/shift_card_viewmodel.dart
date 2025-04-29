@@ -60,10 +60,6 @@ class ShiftViewModel {
       return 'Gece';
     }
   }
-
-  // Verilen tarih ve saate göre vardiya planını döndürür
-  // Saat 00:00-06:30 arasında bir önceki günün Gece vardiyası aktif olduğu için
-  // bir önceki günün vardiya planını kullanır56.55...
   Map<String, String> getTodayShift(DateTime dateTime) {
     int hour = dateTime.hour;
     int minute = dateTime.minute;
@@ -103,7 +99,7 @@ class ShiftViewModel {
   }
 
   String getFormattedDate(DateTime date) {
-    return DateFormat('dd.MM.YYYY').format(date);
+    return DateFormat('dd.MM.yyyy').format(date);
   }
 
   String? getShiftByTeamAndDate(String team, DateTime dateTime) {

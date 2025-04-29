@@ -11,6 +11,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  
   final LoginViewModel _viewModel = LoginViewModel();
 
   @override
@@ -54,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextField(
                       controller: _viewModel.usernameController,
                       decoration: InputDecoration(
-                        labelText: "Kullanıcı Adı",
+                        labelText: "E-Posta",
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                         prefixIcon: Icon(FeatherIcons.user),
                       ),
