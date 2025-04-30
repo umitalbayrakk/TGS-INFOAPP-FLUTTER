@@ -40,7 +40,7 @@ class FlightTimeViewModel extends ChangeNotifier {
     _allFlights.clear();
 
     List<String> times = List.generate(
-      38, // Up to 23:30
+      38, 
       (index) {
         int hour = 5 + (index * 30) ~/ 60;
         int minute = (index * 30) % 60;

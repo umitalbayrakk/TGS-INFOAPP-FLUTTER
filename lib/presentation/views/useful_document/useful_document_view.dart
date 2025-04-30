@@ -6,7 +6,8 @@ import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
 
 class UsefulDocumentView extends StatefulWidget {
-  const UsefulDocumentView({super.key});
+  final Map<String, String>? user;
+  const UsefulDocumentView({super.key, this.user});
 
   @override
   State<UsefulDocumentView> createState() => _UsefulDocumentViewState();
@@ -15,24 +16,25 @@ class UsefulDocumentView extends StatefulWidget {
 class _UsefulDocumentViewState extends State<UsefulDocumentView> {
   final List<Map<String, String>> documents = [
     {
-      "title": "İzin Dilekçesi",
-      "url": "https://example.com/tgs_permission.pdf",
-      "description": "TGS Yer Hizmetleri A.Ş. için izin dilekçesi örneği.",
-      "content": """
-       TGS Yer Hizmetleri A.Ş. İnsan Kaynakları Müdürlüğüne
+        "title": "İzin Dilekçesi",
+        "url": "https://example.com/tgs_permission.pdf",
+        "description": "TGS Yer Hizmetleri A.Ş. için izin dilekçesi örneği.",
+        "content": """
+         TGS Yer Hizmetleri A.Ş. İnsan Kaynakları Müdürlüğüne
 
-        Şirketiniz bünyesinde ... Departmanında ... pozisyonunda çalışmaktayım. 
-        ... tarihleri arasında ... nedeniyle izinli sayılmamı arz ederim.
+          Şirketiniz bünyesinde ... Departmanında ... pozisyonunda çalışmaktayım. 
+          ... tarihleri arasında ... nedeniyle izinli sayılmamı arz ederim.
 
-        Gereğini arz ederim.
+          Gereğini arz ederim.
 
-        .../.../...
-        
-        Ad Soyad
-        İmza
-        Personel No:
-      """,
-    },
+          .../.../...
+          
+          Ad Soyad 
+          İmza
+          Personel No:
+          
+        """,
+      },
     {
       "title": "İzin Talep Formu",
       "url": "https://example.com/tgs_leave_request.pdf",
@@ -40,7 +42,7 @@ class _UsefulDocumentViewState extends State<UsefulDocumentView> {
       "content": """
         TGS YER HİZMETLERİ A.Ş. İZİN TALEP FORMU
         
-        Personel Adı Soyadı:
+        Personel Adı Soyadı: 
         Personel No:
         Departman:
         Pozisyon:

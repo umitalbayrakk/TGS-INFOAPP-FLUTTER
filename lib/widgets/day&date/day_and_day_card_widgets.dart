@@ -92,7 +92,6 @@ class _TimeCardState extends State<TimeCard> {
                       Icon(Bootstrap.alarm, size: 24, color: AppColors.borderColor.withOpacity(0.9)),
                     ],
                   ),
-                  // _currentTime null ise yükleme mesajı göster...
                   _currentTime == null
                       ? Text(
                         "Yükleniyor...",

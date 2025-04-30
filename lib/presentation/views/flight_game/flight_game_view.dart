@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
 
-// Havalimanı verileri
 final List<Map<String, String>> airports = [
-  // Türkiye Havalimanları
   {"city": "Adana", "airport": "Şakirpaşa Havalimanı", "iata": "ADA"},
   {"city": "Ankara", "airport": "Esenboğa Havalimanı", "iata": "ESB"},
   {"city": "Antalya", "airport": "Antalya Havalimanı", "iata": "AYT"},
@@ -49,8 +48,6 @@ final List<Map<String, String>> airports = [
   {"city": "Uşak", "airport": "Uşak Havalimanı", "iata": "USQ"},
   {"city": "Van", "airport": "Ferit Melen Havalimanı", "iata": "VAN"},
   {"city": "Zonguldak", "airport": "Zonguldak Havalimanı", "iata": "ONQ"},
-
-  // Uluslararası Havalimanları
   {"city": "Berlin", "airport": "Berlin Brandenburg Havalimanı", "iata": "BER"},
   {"city": "Düsseldorf", "airport": "Düsseldorf Havalimanı", "iata": "DUS"},
   {"city": "Frankfurt", "airport": "Frankfurt Havalimanı", "iata": "FRA"},
@@ -134,9 +131,7 @@ List<Map<String, String>> getShuffledAirports() {
 
 class GameScreen extends StatefulWidget {
   final Map<String, String>? user;
-
   const GameScreen({Key? key, this.user}) : super(key: key);
-
   @override
   _GameScreenState createState() => _GameScreenState();
 }
@@ -144,26 +139,73 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   List<Map<String, String>> shuffledAirports = getShuffledAirports();
   int currentQuestionIndex = 0;
-  int remainingLives = 3;
+  int remainingLives = 1; // Kullancı oynama hakkı.
   int score = 0;
   List<String> options = [];
   String? selectedOption;
   String? errorMessage;
   bool showLeaderboard = false;
   bool showNextButton = false;
-
-  // Lider tablosu için liste
   List<Map<String, dynamic>> leaderboard = [];
+  bool canPlay = true;
 
   @override
   void initState() {
     super.initState();
-    print("GameScreen'e gelen user: ${widget.user}"); // Debug
+    _checkDailyLimit();
     _loadLeaderboard();
-    _generateOptions();
+    if (canPlay) {
+      _generateOptions();
+    }
   }
 
-  // Lider tablosunu SharedPreferences'tan yükle
+  // Günlük oyun limitini kontrol et
+  Future<void> _checkDailyLimit() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? lastPlayedDate = prefs.getString('lastPlayedDate');
+    final int gamesPlayed = prefs.getInt('gamesPlayed') ?? 0;
+    final currentDate = DateTime.now().toString().split(' ')[0];
+
+    if (lastPlayedDate != currentDate) {
+      // Yeni gün, sayacı sıfırla
+      await prefs.setString('lastPlayedDate', currentDate);
+      await prefs.setInt('gamesPlayed', 0);
+      setState(() {
+        canPlay = true;
+      });
+    } else if (gamesPlayed >= 3) {
+      // Günlük limit aşılmış
+      setState(() {
+        canPlay = false;
+      });
+      _showLimitExceededDialog();
+    }
+  }
+
+  // Günlük limit aşıldığında uyarı gösterir
+  void _showLimitExceededDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder:
+          (context) => AlertDialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            backgroundColor: AppColors.customCardColor,
+            title: Text("Günlük Limit Aşıldı"),
+            content: Text("Günde en fazla 3 kez oynayabilirsiniz. Yarın tekrar dene."),
+            actions: [TextButton(onPressed: () => Navigator.pop(context), child: Text("Ana Sayfa"))],
+          ),
+    );
+  }
+
+  // Oyun sayısını artır
+  Future<void> _incrementGameCount() async {
+    final prefs = await SharedPreferences.getInstance();
+    final int gamesPlayed = prefs.getInt('gamesPlayed') ?? 0;
+    await prefs.setInt('gamesPlayed', gamesPlayed + 1);
+  }
+
+  // Lider tablosunu SharedPreferences'tan yükle.
   Future<void> _loadLeaderboard() async {
     final prefs = await SharedPreferences.getInstance();
     final String? leaderboardData = prefs.getString('leaderboard');
@@ -199,11 +241,10 @@ class _GameScreenState extends State<GameScreen> {
       selectedOption = selected;
       showNextButton = true;
       if (selected == shuffledAirports[currentQuestionIndex]["city"]) {
-        score += 5; // Her doğru cevap 5 puan kazandırır
+        score += 10;
         errorMessage = null;
       } else {
         remainingLives--;
-        errorMessage = "Yanlış cevap! Kalan hak: $remainingLives";
       }
     });
   }
@@ -222,7 +263,10 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
-  void _endGame() {
+  void _endGame() async {
+    // Oyun sayısını artır
+    await _incrementGameCount();
+
     // Kullanıcının puanını lider tablosuna ekle
     String userName =
         widget.user != null && widget.user!.containsKey("name") && widget.user!["name"] != null
@@ -231,6 +275,7 @@ class _GameScreenState extends State<GameScreen> {
 
     // Kullanıcı zaten lider tablosunda var mı kontrol et
     bool userExists = false;
+
     for (var entry in leaderboard) {
       if (entry["name"]?.toString().trim() == userName) {
         // Puanları topla (eski puan + yeni puan)
@@ -244,19 +289,29 @@ class _GameScreenState extends State<GameScreen> {
     if (!userExists) {
       leaderboard.add({"name": userName, "score": score});
     }
-
+    
     // Puanlara göre sırala (yüksek puan üste)
     leaderboard.sort((a, b) => (b["score"] as int).compareTo(a["score"] as int));
 
     // Lider tablosunu kaydet
-    _saveLeaderboard();
+    await _saveLeaderboard();
 
     setState(() {
       showLeaderboard = true;
     });
   }
 
-  void _resetGame() {
+  void _resetGame() async {
+    final prefs = await SharedPreferences.getInstance();
+    final int gamesPlayed = prefs.getInt('gamesPlayed') ?? 0;
+    if (gamesPlayed >= 3) {
+      setState(() {
+        canPlay = false;
+      });
+      _showLimitExceededDialog();
+      return;
+    }
+
     setState(() {
       shuffledAirports = getShuffledAirports();
       currentQuestionIndex = 0;
@@ -271,7 +326,7 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
-  // Kullanıcıyı lider tablosundan sil
+  // Kullanıcıyı lider tablosundan silmek için
   void _deleteUser(int index) async {
     setState(() {
       leaderboard.removeAt(index);
@@ -285,18 +340,45 @@ class _GameScreenState extends State<GameScreen> {
         widget.user != null && widget.user!.containsKey("name") && widget.user!["name"] != null
             ? widget.user!["name"]!.trim()
             : "Bilinmeyen Kullanıcı";
-    // Kullanıcı bilgisi kontrolü
-    String debugMessage =
-        widget.user == null
-            ? "Hata: Kullanıcı bilgisi null geldi!"
-            : widget.user!.containsKey("name") && widget.user!["name"] != null
-            ? "Kullanıcı: ${widget.user!["name"]!.trim()}"
-            : "Hata: Kullanıcı adı null veya boş!";
+
+    if (!canPlay) {
+      return Scaffold(
+        backgroundColor: AppColors.scaffoldBackgroundColor,
+        appBar: AppBarWidgets(),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Günlük oyun limitiniz doldu!",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppColors.borderColor),
+              ),
+              SizedBox(height: 20),
+              Text("Yarın tekrar oynayabilirsiniz.", style: TextStyle(fontSize: 18, color: AppColors.borderColor)),
+              SizedBox(height: 20),
+              Container(
+                height: 60,
+                width: 200,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppColors.borderColor, width: 3),
+                ),
+                child: MaterialButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Center(child: Text("Ana Sayfa", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 
     if (showLeaderboard) {
       return Scaffold(
+        backgroundColor: AppColors.scaffoldBackgroundColor,
         appBar: AppBar(
-          centerTitle: true,
+          backgroundColor: AppColors.scaffoldBackgroundColor,
           title: Row(
             children: [
               SizedBox(width: 10),
@@ -314,37 +396,40 @@ class _GameScreenState extends State<GameScreen> {
                   itemCount: leaderboard.length,
                   itemBuilder: (context, index) {
                     bool isCurrentUser = leaderboard[index]["name"]?.toString().trim() == userName;
-                    return Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: AppColors.borderColor),
-                      ),
-                      child: ListTile(
-                        leading: Text("${index + 1}.", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-                        title: Text(
-                          leaderboard[index]["name"]?.toString() ?? "Bilinmeyen",
-                          style: TextStyle(
-                            fontWeight: isCurrentUser ? FontWeight.bold : FontWeight.normal,
-                            color: isCurrentUser ? AppColors.appBarColor : Colors.black,
-                          ),
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: AppColors.borderColor, width: 2),
                         ),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              "Puan: ${leaderboard[index]["score"]?.toString() ?? "0"}",
-                              style: TextStyle(
-                                fontWeight: isCurrentUser ? FontWeight.bold : FontWeight.bold,
-                                fontSize: 20,
-                                color: isCurrentUser ? Colors.blue : AppColors.borderColor,
+                        child: ListTile(
+                          leading: Text("${index + 1}.", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                          title: Text(
+                            leaderboard[index]["name"]?.toString() ?? "Bilinmeyen",
+                            style: TextStyle(
+                              fontWeight: isCurrentUser ? FontWeight.bold : FontWeight.bold,
+                              color: isCurrentUser ? AppColors.snackBarGreen : AppColors.borderColor,
+                            ),
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "Puan: ${leaderboard[index]["score"]?.toString() ?? "0"}",
+                                style: TextStyle(
+                                  fontWeight: isCurrentUser ? FontWeight.bold : FontWeight.bold,
+                                  fontSize: 20,
+                                  color: isCurrentUser ? AppColors.snackBarGreen : AppColors.borderColor,
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 10),
-                            IconButton(
-                              icon: Icon(Icons.delete, color: AppColors.cardColor, size: 30),
-                              onPressed: () => _deleteUser(index),
-                            ),
-                          ],
+                              SizedBox(width: 10),
+                              IconButton(
+                                icon: Icon(Bootstrap.trash_fill, color: AppColors.cardColor, size: 30),
+                                onPressed: () => _deleteUser(index),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );
@@ -356,11 +441,11 @@ class _GameScreenState extends State<GameScreen> {
                 children: [
                   Expanded(
                     child: Container(
-                      height: 50,
+                      height: 60,
                       width: 200,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: AppColors.borderColor),
+                        border: Border.all(color: AppColors.borderColor, width: 3),
                       ),
                       child: MaterialButton(
                         onPressed: _resetGame,
@@ -373,11 +458,11 @@ class _GameScreenState extends State<GameScreen> {
                   SizedBox(width: 10),
                   Expanded(
                     child: Container(
-                      height: 50,
+                      height: 60,
                       width: 200,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: AppColors.borderColor),
+                        border: Border.all(color: AppColors.borderColor, width: 3),
                       ),
                       child: MaterialButton(
                         onPressed: () => Navigator.pop(context),
@@ -403,24 +488,39 @@ class _GameScreenState extends State<GameScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Column(
-              children: [
-                Text("Soru: ${currentQuestionIndex + 1}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                SizedBox(height: 10),
-                Text(
-                  "Puan: $score",
-                  style: TextStyle(fontSize: 18, color: AppColors.snackBarGreen, fontWeight: FontWeight.bold),
+            SizedBox(height: 5),
+            Container(
+              height: 60,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: AppColors.borderColor, width: 2),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      textAlign: TextAlign.center,
+                      "Soru: ${currentQuestionIndex + 1}",
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Spacer(),
+                    Text(
+                      textAlign: TextAlign.center,
+                      "Puan: $score",
+                      style: TextStyle(fontSize: 20, color: AppColors.snackBarGreen, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(width: 20),
+                  ],
                 ),
-                Text(
-                  "Kalan Hak: $remainingLives",
-                  style: TextStyle(fontSize: 18, color: AppColors.cardColor, fontWeight: FontWeight.bold),
-                ),
-              ],
+              ),
             ),
-            SizedBox(height: 20),
+            Spacer(),
             Text(
               "${shuffledAirports[currentQuestionIndex]["iata"]} kodu hangi şehre aittir?",
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.borderColor),
               textAlign: TextAlign.center,
             ),
             if (errorMessage != null) ...[
@@ -433,29 +533,40 @@ class _GameScreenState extends State<GameScreen> {
                 padding: const EdgeInsets.all(10),
                 child: Container(
                   width: double.infinity,
-                  height: 50,
+                  height: 60,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: AppColors.borderColor),
+                    border: Border.all(color: AppColors.borderColor, width: 2),
                   ),
                   child: MaterialButton(
                     onPressed: selectedOption == null ? () => _checkAnswer(option) : null,
-                    child: Text(option),
+                    child: Text(
+                      option,
+                      style: TextStyle(color: AppColors.borderColor, fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
                   ),
                 ),
               );
             }).toList(),
             if (showNextButton) ...[
               SizedBox(height: 20),
-              // Custon NextButton.
               Container(
-                height: 50,
-                width: 200,
+                height: 60,
+                width: 300,
                 decoration: BoxDecoration(
+                  color: AppColors.customCardColor,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.borderColor),
+                  border: Border.all(color: AppColors.borderColor, width: 3),
                 ),
-                child: MaterialButton(onPressed: _nextQuestion, child: Center(child: Text("İleri"))),
+                child: MaterialButton(
+                  onPressed: _nextQuestion,
+                  child: Center(
+                    child: Text(
+                      "Sonraki Soru",
+                      style: TextStyle(color: AppColors.borderColor, fontSize: 30, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
               ),
             ],
           ],

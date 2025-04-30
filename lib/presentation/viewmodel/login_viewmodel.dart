@@ -653,3 +653,6 @@ class LoginViewModel {
     _passwordController.dispose();
   }
 }
+
+
+/// Servis kısmı durak sayısı.

@@ -44,7 +44,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
               NewsSection(),
               SizedBox(height: 5),
               ShiftCardWidgets(viewModel: ShiftViewModel()),
-              SizedBox(width: 7),
+              SizedBox(height: 5),
               GameCard(user: widget.user),
               BirthdayCard(),
               TurkishFoodCard(),

@@ -6,7 +6,9 @@ import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
 
 class PermissionInformationView extends StatelessWidget {
-  const PermissionInformationView({super.key});
+  final Map<String, String> user;
+  
+  const PermissionInformationView({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +65,7 @@ class _PermissionStatusCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'İzin Durumu',
+                  'İzin Durumu>',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 16),

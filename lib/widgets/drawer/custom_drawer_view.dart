@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:tgs_info_app_flutter/presentation/viewmodel/drawer_viewmodel.dart';
 import 'package:tgs_info_app_flutter/presentation/views/corporate_agreements/corporate_agreements_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/feedback/feedback_page_view.dart';
-import 'package:tgs_info_app_flutter/presentation/views/flight_game/flight_game_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/flight_time/flight_time_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/login/login_page_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/permission_information/permission_information_view.dart';
@@ -106,7 +105,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
         ),
         CustomNavigationButton(
           title: 'İzin Bilgileri',
-          navigateTo: const PermissionInformationView(),
+          navigateTo: PermissionInformationView(user: widget.user),
           icon: Icons.assignment_ind_outlined,
         ),
         CustomNavigationButton(title: 'Telefon', navigateTo: const PhoneNumbersViews(), icon: Icons.phone),
@@ -123,7 +122,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
         ),
         CustomNavigationButton(
           title: 'Faydalı Dökümanlar',
-          navigateTo: const UsefulDocumentView(),
+          navigateTo: UsefulDocumentView(user: widget.user),
           icon: Icons.document_scanner_outlined,
         ),
       ],
