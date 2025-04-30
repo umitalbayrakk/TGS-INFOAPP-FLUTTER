@@ -57,10 +57,11 @@ class _CorporateAgreementsViewState extends State<CorporateAgreementsView> {
   }
 
   Widget _buildAgreementCard({required CorporateAgreement agreement}) {
-    return Card(
-      color: AppColors.customCardColor,
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.borderColor, width: 2),
+      ),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
         onTap: () {

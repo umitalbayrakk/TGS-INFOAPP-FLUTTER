@@ -5,11 +5,15 @@ import 'package:tgs_info_app_flutter/presentation/viewmodel/permission_informati
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
 
-class PermissionInformationView extends StatelessWidget {
+class PermissionInformationView extends StatefulWidget {
   final Map<String, String> user;
-  
   const PermissionInformationView({super.key, required this.user});
 
+  @override
+  State<PermissionInformationView> createState() => _PermissionInformationViewState();
+}
+
+class _PermissionInformationViewState extends State<PermissionInformationView> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -23,8 +27,8 @@ class PermissionInformationView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const _PermissionStatusCard(),
-                const SizedBox(height: 24),
+                PermissionStatusCard(user: widget.user),
+                SizedBox(height: 10),
                 Text(
                   'İzin Geçmişi',
                   style: Theme.of(
@@ -42,22 +46,21 @@ class PermissionInformationView extends StatelessWidget {
   }
 }
 
-class _PermissionStatusCard extends StatelessWidget {
-  const _PermissionStatusCard();
+class PermissionStatusCard extends StatelessWidget {
+  final Map<String, String> user;
+
+  PermissionStatusCard({required this.user});
 
   @override
   Widget build(BuildContext context) {
     final model = Provider.of<PermissionModel>(context);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Card(
-          elevation: 0,
-          color: Colors.white,
-          shape: RoundedRectangleBorder(
+        Container(
+          decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            side: BorderSide(color: Colors.grey[200]!),
+            border: Border.all(color: AppColors.borderColor, width: 2),
           ),
           child: Padding(
             padding: const EdgeInsets.all(20.0),
@@ -65,7 +68,7 @@ class _PermissionStatusCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'İzin Durumu>',
+                  "${user['name']} İzin Bilgisi",
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 16),
@@ -78,7 +81,7 @@ class _PermissionStatusCard extends StatelessWidget {
                   value: model.usedAnnualDays / model.annualEntitlement,
                   backgroundColor: AppColors.cardColor,
                   color: AppColors.appBarColor,
-                  minHeight: 8,
+                  minHeight: 10,
                   borderRadius: BorderRadius.circular(10),
                 ),
               ],
@@ -100,14 +103,6 @@ class _PermissionStatusCard extends StatelessWidget {
             _buildStatCard('Mazeret İzni', '${model.usedExcuseDays} Gün', AppColors.orangeColor, Icons.warning_amber),
           ],
         ),
-        if (model.pendingDays > 0)
-          Padding(
-            padding: const EdgeInsets.only(top: 12),
-            child: Text(
-              'Bekleyen: ${model.pendingDays} Gün',
-              style: const TextStyle(fontSize: 14, color: Colors.orange, fontWeight: FontWeight.w500),
-            ),
-          ),
       ],
     );
   }
@@ -118,7 +113,7 @@ class _PermissionStatusCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.grey[200]!),
+          border: Border.all(color: AppColors.borderColor, width: 2),
           boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.05), blurRadius: 6, offset: const Offset(0, 4))],
         ),
         padding: const EdgeInsets.all(12),
@@ -149,37 +144,25 @@ class _PermissionHistoryList extends StatelessWidget {
       itemBuilder: (context, index) {
         final permission = model.permissionHistory[index];
         final date = DateFormat('dd MMMM yyyy', 'tr').format(DateTime.parse(permission['date']));
-
-        return ListTile(
-          leading: Icon(
-            permission['type'] == 'Yıllık İzin' ? Icons.beach_access : Icons.warning_amber,
-            color: permission['type'] == 'Yıllık İzin' ? Colors.blue : Colors.orange,
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: Container(
+            height: 70,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppColors.borderColor, width: 2),
+            ),
+            child: ListTile(
+              leading: Icon(
+                permission['type'] == 'Yıllık İzin' ? Icons.beach_access : Icons.warning_amber,
+                color: permission['type'] == 'Yıllık İzin' ? Colors.blue : Colors.orange,
+              ),
+              title: Text(permission['type'], style: const TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: Text(date, style: TextStyle(color: Colors.grey[600])),
+            ),
           ),
-          title: Text(permission['type'], style: const TextStyle(fontWeight: FontWeight.bold)),
-          subtitle: Text(date, style: TextStyle(color: Colors.grey[600])),
-          trailing: _buildStatusChip(permission['status']),
         );
       },
-    );
-  }
-
-  Widget _buildStatusChip(String status) {
-    final Map<String, Color> statusColors = {
-      'Approved': Colors.green,
-      'Pending': Colors.orange,
-      'Rejected': Colors.red,
-    };
-    return Chip(
-      label: Text(
-        status == 'Approved'
-            ? 'Onaylandı'
-            : status == 'Pending'
-            ? 'Beklemede'
-            : 'Reddedildi',
-        style: const TextStyle(color: Colors.white, fontSize: 12),
-      ),
-      backgroundColor: statusColors[status]!,
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
     );
   }
 }

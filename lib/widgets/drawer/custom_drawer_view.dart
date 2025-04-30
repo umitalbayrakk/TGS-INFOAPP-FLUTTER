@@ -76,7 +76,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
       accountEmail: Text(
         "${widget.user['email']}",
         style: TextStyle(color: AppColors.borderColor),
-      ), // Buraya e-posta adresi gelecek.
+      ), 
       currentAccountPicture: GestureDetector(
         onTap: () => _handleImagePick(),
         child: CircleAvatar(

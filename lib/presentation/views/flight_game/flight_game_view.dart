@@ -289,7 +289,7 @@ class _GameScreenState extends State<GameScreen> {
     if (!userExists) {
       leaderboard.add({"name": userName, "score": score});
     }
-    
+
     // Puanlara göre sırala (yüksek puan üste)
     leaderboard.sort((a, b) => (b["score"] as int).compareTo(a["score"] as int));
 
@@ -489,32 +489,36 @@ class _GameScreenState extends State<GameScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: 5),
-            Container(
-              height: 60,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppColors.borderColor, width: 2),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      textAlign: TextAlign.center,
-                      "Soru: ${currentQuestionIndex + 1}",
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    Spacer(),
-                    Text(
-                      textAlign: TextAlign.center,
-                      "Puan: $score",
-                      style: TextStyle(fontSize: 20, color: AppColors.snackBarGreen, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(width: 20),
-                  ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.person, size: 30),
+                SizedBox(width: 5),
+                Text(
+                  "${widget.user!['name']}",
+                  style: TextStyle(color: AppColors.borderColor, fontSize: 20, fontWeight: FontWeight.w500),
                 ),
+              ],
+            ),
+            SizedBox(height: 5),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    textAlign: TextAlign.center,
+                    "Soru: ${currentQuestionIndex + 1}",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  Spacer(),
+                  Text(
+                    textAlign: TextAlign.center,
+                    "Puan: $score",
+                    style: TextStyle(fontSize: 20, color: AppColors.snackBarGreen, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(width: 20),
+                ],
               ),
             ),
             Spacer(),
