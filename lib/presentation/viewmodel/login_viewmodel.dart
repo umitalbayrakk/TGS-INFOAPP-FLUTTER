@@ -4,6 +4,7 @@ import 'package:tgs_info_app_flutter/presentation/views/home/home_page_screen.da
 class LoginViewModel {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  
   String? errorMessage;
   String? loggedInUserName;
   TextEditingController get usernameController => _usernameController;
@@ -11,7 +12,7 @@ class LoginViewModel {
   final List<Map<String, String>> users = [
     {
       "name": "Ahmet Yılmaz",
-      "email": "ahmet.yılmaz@tgs.aero.com",
+      "email": "ahmet.yilmaz@tgs.aero.com",
       "birthDate": "2 Nisan 1985",
       "bio": "Türk mühendis ve girişimci.",
       "password": "password123",
@@ -99,7 +100,7 @@ class LoginViewModel {
     },
     {
       "name": "Fatma Yılmazer",
-      "email": "fatma.yılmaz@tgs.aero.com",
+      "email": "fatma.yilmaz@tgs.aero.com",
       "birthDate": "20 Mayıs 1991",
       "bio": "Eğitimci ve sosyal girişimci.",
       "password": "password123",
@@ -139,7 +140,7 @@ class LoginViewModel {
     },
     {
       "name": "Oğuzhan Yılmaz",
-      "email": "oguzan.yılmaz@tgs.aero.com",
+      "email": "oguzan.yilmaz@tgs.aero.com",
       "birthDate": "14 Haziran 1990",
       "bio": "Pazarlama uzmanı ve lider.",
       "password": "password123",
@@ -147,7 +148,7 @@ class LoginViewModel {
     },
     {
       "name": "Nazlı Kaya",
-      "email": "nazlı.kaya@tgs.aero.com",
+      "email": "nazli.kaya@tgs.aero.com",
       "birthDate": "27 Nisan 1981",
       "bio": "Mimar ve çevre aktivisti.",
       "password": "password123",
@@ -155,7 +156,7 @@ class LoginViewModel {
     },
     {
       "name": "Serkan Aydın",
-      "email": "serkan.aydın@tgs.aero.com",
+      "email": "serkan.aydin@tgs.aero.com",
       "birthDate": "11 Ağustos 1989",
       "bio": "Veri analisti ve strateji uzmanı.",
       "password": "password123",
@@ -179,7 +180,7 @@ class LoginViewModel {
     },
     {
       "name": "Buse Yılmaz",
-      "email": "buse.yılmaz@tgs.aero.com",
+      "email": "buse.yilmaz@tgs.aero.com",
       "birthDate": "28 Eylül 1993",
       "bio": "Grafik tasarımcı ve illüstratör.",
       "password": "password123",
@@ -187,19 +188,11 @@ class LoginViewModel {
     },
     {
       "name": "İsmail Güler",
-      "email": "ısmail.gur@tgs.aero.com",
+      "email": "ismail.guler@tgs.aero.com",
       "birthDate": "4 Kasım 1982",
       "bio": "Lojistik uzmanı ve girişimci.",
       "password": "password123",
       "location": "Avcılar",
-    },
-    {
-      "name": "Ceren Aksoy",
-      "email": "cem.aksoy@tgs.aero.com",
-      "birthDate": "17 Mayıs 1991",
-      "bio": "İç mimar ve dekorasyon uzmanı.",
-      "password": "password123",
-      "location": "Beşiktaş",
     },
     {
       "name": "Tolga Erkan",
@@ -219,7 +212,7 @@ class LoginViewModel {
     },
     {
       "name": "Barış Yılmaz",
-      "email": "baris.yılmaz@tgs.aero.com",
+      "email": "baris.yilmaz@tgs.aero.com",
       "birthDate": "25 Aralık 1986",
       "bio": "Müzik prodüktörü ve DJ.",
       "password": "password123",
@@ -259,7 +252,7 @@ class LoginViewModel {
     },
     {
       "name": "Esra Yılmaz",
-      "email": "esra.yılmaz@tgs.aero.com",
+      "email": "esra.yilmaz@tgs.aero.com",
       "birthDate": "8 Eylül 1994",
       "bio": "Diyetisyen ve sağlık koçu.",
       "password": "password123",
@@ -287,6 +280,7 @@ class LoginViewModel {
       "bio": "Emlak geliştirme uzmanı.",
       "password": "password123",
       "location": "Avcılar",
+      "email": "umut.arslan@tgs.aero.com",
     },
     {
       "name": "Lale Şimşek",
@@ -294,6 +288,7 @@ class LoginViewModel {
       "bio": "İnsan kaynakları uzmanı.",
       "password": "password123",
       "location": "Beşiktaş",
+      "email": "lale.simsek@tgs.aero.com",
     },
     {
       "name": "Kadir Yılmaz",
@@ -301,6 +296,7 @@ class LoginViewModel {
       "bio": "Yazılım test uzmanı.",
       "password": "password123",
       "location": "Arnavutköy",
+      "email": "kadir.yilmaz@tgs.aero.com",
     },
     {
       "name": "İpek Kaya",
@@ -308,6 +304,7 @@ class LoginViewModel {
       "bio": "Çevre mühendisi ve aktivist.",
       "password": "password123",
       "location": "Ataşehir",
+      "email": "ipek.kaya@tgs.aero.com",
     },
     {
       "name": "Taner Demir",
@@ -315,6 +312,7 @@ class LoginViewModel {
       "bio": "Spor koçu ve fitness uzmanı.",
       "password": "password123",
       "location": "Avcılar",
+      "email": "taner.demir@tgs.aero.com",
     },
     {
       "name": "Nihal Öz",
@@ -322,6 +320,7 @@ class LoginViewModel {
       "bio": "Eğitim danışmanı ve yazar.",
       "password": "password123",
       "location": "Beşiktaş",
+      "email": "nihal.oz@tgs.aero.com",
     },
     {
       "name": "Alper Taş",
@@ -329,6 +328,7 @@ class LoginViewModel {
       "bio": "Oyun geliştiricisi ve tasarımcı.",
       "password": "password123",
       "location": "Arnavutköy",
+      "email": "alper.tas@tgs.aero.com",
     },
     {
       "name": "Berrin Yılmaz",
@@ -336,6 +336,7 @@ class LoginViewModel {
       "bio": "Pazarlama analisti.",
       "password": "password123",
       "location": "Ataşehir",
+      "email": "berrin.yilmaz@tgs.aero.com",
     },
     {
       "name": "Cihan Kaya",
@@ -343,6 +344,7 @@ class LoginViewModel {
       "bio": "Finans müdürü ve strateji uzmanı.",
       "password": "password123",
       "location": "Avcılar",
+      "email": "cihan.kaya@tgs.aero.com",
     },
     {
       "name": "Ece Demir",
@@ -350,6 +352,7 @@ class LoginViewModel {
       "bio": "Sosyal girişimci ve lider.",
       "password": "password123",
       "location": "Beşiktaş",
+      "email": "ece.demir@tgs.aero.com",
     },
     {
       "name": "Ferhat Arslan",
@@ -357,6 +360,7 @@ class LoginViewModel {
       "bio": "Mühendislik danışmanı.",
       "password": "password123",
       "location": "Arnavutköy",
+      "email": "ferhat.arslan@tgs.aero.com",
     },
     {
       "name": "Hande Çelik",
@@ -364,6 +368,7 @@ class LoginViewModel {
       "bio": "Dijital içerik üreticisi.",
       "password": "password123",
       "location": "Ataşehir",
+      "email": "hande.celik@tgs.aero.com",
     },
     {
       "name": "İbrahim Yılmaz",
@@ -371,6 +376,7 @@ class LoginViewModel {
       "bio": "Lojistik yöneticisi.",
       "password": "password123",
       "location": "Avcılar",
+      "email": "ibrahim.yilmaz@tgs.aero.com",
     },
     {
       "name": "Jale Kaya",
@@ -378,6 +384,7 @@ class LoginViewModel {
       "bio": "Eğitim teknolojisi uzmanı.",
       "password": "password123",
       "location": "Beşiktaş",
+      "email": "jale.kaya@tgs.aero.com",
     },
     {
       "name": "Kemal Demir",
@@ -385,6 +392,7 @@ class LoginViewModel {
       "bio": "Yazılım mimarı.",
       "password": "password123",
       "location": "Arnavutköy",
+      "email": "kemal.demir@tgs.aero.com",
     },
     {
       "name": "Leyla Öz",
@@ -392,6 +400,7 @@ class LoginViewModel {
       "bio": "Moda tasarımcısı ve stilist.",
       "password": "password123",
       "location": "Ataşehir",
+      "email": "leyla.oz@tgs.aero.com",
     },
     {
       "name": "Murat Şahin",
@@ -399,6 +408,7 @@ class LoginViewModel {
       "bio": "Girişimci ve teknoloji lideri.",
       "password": "password123",
       "location": "Avcılar",
+      "email": "murat.sahin@tgs.aero.com",
     },
     {
       "name": "Nurcan Yılmaz",
@@ -406,6 +416,7 @@ class LoginViewModel {
       "bio": "Psikolojik danışman.",
       "password": "password123",
       "location": "Beşiktaş",
+      "email": "nurcan.yilmaz@tgs.aero.com",
     },
     {
       "name": "Orhan Kaya",
@@ -413,6 +424,7 @@ class LoginViewModel {
       "bio": "İnşaat mühendisi ve proje yöneticisi.",
       "password": "password123",
       "location": "Arnavutköy",
+      "email": "orhan.kaya@tgs.aero.com",
     },
     {
       "name": "Pınar Demir",
@@ -420,6 +432,7 @@ class LoginViewModel {
       "bio": "Diyetisyen ve beslenme uzmanı.",
       "password": "password123",
       "location": "Ataşehir",
+      "email": "pinar.demir@tgs.aero.com",
     },
     {
       "name": "Rıza Arslan",
@@ -427,6 +440,7 @@ class LoginViewModel {
       "bio": "Finans analisti.",
       "password": "password123",
       "location": "Avcılar",
+      "email": "riza.arslan@tgs.aero.com",
     },
     {
       "name": "Sinem Çelik",
@@ -434,6 +448,7 @@ class LoginViewModel {
       "bio": "Dijital pazarlama uzmanı.",
       "password": "password123",
       "location": "Beşiktaş",
+      "email": "sinem.celik@tgs.aero.com",
     },
     {
       "name": "Tayfun Yılmaz",
@@ -441,6 +456,7 @@ class LoginViewModel {
       "bio": "Yazılım geliştiricisi.",
       "password": "password123",
       "location": "Arnavutköy",
+      "email": "tayfun.yilmaz@tgs.aero.com",
     },
     {
       "name": "Ümit Kaya",
@@ -448,6 +464,7 @@ class LoginViewModel {
       "bio": "Emlak yatırımcısı.",
       "password": "password123",
       "location": "Ataşehir",
+      "email": "umit.kaya@tgs.aero.com",
     },
     {
       "name": "Veli Demir",
@@ -455,6 +472,7 @@ class LoginViewModel {
       "bio": "Mühendislik danışmanı.",
       "password": "password123",
       "location": "Avcılar",
+      "email": "veli.demir@tgs.aero.com",
     },
     {
       "name": "Yasemin Öz",
@@ -462,6 +480,7 @@ class LoginViewModel {
       "bio": "Hukuk danışmanı.",
       "password": "password123",
       "location": "Beşiktaş",
+      "email": "yasemin.oz@tgs.aero.com",
     },
     {
       "name": "Zafer Şahin",
@@ -469,6 +488,7 @@ class LoginViewModel {
       "bio": "Spor yöneticisi ve koçu.",
       "password": "password123",
       "location": "Arnavutköy",
+      "email": "zafer.sahin@tgs.aero.com",
     },
     {
       "name": "Aybüke Yılmaz",
@@ -476,6 +496,7 @@ class LoginViewModel {
       "bio": "Eğitimci ve yazar.",
       "password": "password123",
       "location": "Ataşehir",
+      "email": "aybuke.yilmaz@tgs.aero.com",
     },
     {
       "name": "Burcu Kaya",
@@ -483,6 +504,7 @@ class LoginViewModel {
       "bio": "Moda editörü.",
       "password": "password123",
       "location": "Avcılar",
+      "email": "burcu.kaya@tgs.aero.com",
     },
     {
       "name": "Cemil Demir",
@@ -490,6 +512,7 @@ class LoginViewModel {
       "bio": "Yönetim danışmanı.",
       "password": "password123",
       "location": "Beşiktaş",
+      "email": "cemil.demir@tgs.aero.com",
     },
     {
       "name": "Defne Arslan",
@@ -497,6 +520,7 @@ class LoginViewModel {
       "bio": "Dijital içerik üreticisi.",
       "password": "password123",
       "location": "Arnavutköy",
+      "email": "defne.arslan@tgs.aero.com",
     },
     {
       "name": "Engin Çelik",
@@ -504,6 +528,7 @@ class LoginViewModel {
       "bio": "Teknoloji girişimcisi.",
       "password": "password123",
       "location": "Ataşehir",
+      "email": "engin.celik@tgs.aero.com",
     },
     {
       "name": "Figen Yılmaz",
@@ -511,6 +536,7 @@ class LoginViewModel {
       "bio": "Psikolog ve terapist.",
       "password": "password123",
       "location": "Avcılar",
+      "email": "figen.yilmaz@tgs.aero.com",
     },
     {
       "name": "Gökhan Kaya",
@@ -518,6 +544,7 @@ class LoginViewModel {
       "bio": "Finans uzmanı.",
       "password": "password123",
       "location": "Beşiktaş",
+      "email": "gokhan.kaya@tgs.aero.com",
     },
     {
       "name": "Hale Demir",
@@ -525,6 +552,7 @@ class LoginViewModel {
       "bio": "Eğitim teknoloji uzmanı.",
       "password": "password123",
       "location": "Arnavutköy",
+      "email": "hale.demir@tgs.aero.com",
     },
     {
       "name": "İlker Arslan",
@@ -532,6 +560,7 @@ class LoginViewModel {
       "bio": "Yazılım mühendisi.",
       "password": "password123",
       "location": "Ataşehir",
+      "email": "ilker.arslan@tgs.aero.com",
     },
     {
       "name": "Jülide Çelik",
@@ -539,6 +568,7 @@ class LoginViewModel {
       "bio": "Moda tasarımcısı.",
       "password": "password123",
       "location": "Avcılar",
+      "email": "julide.celik@tgs.aero.com",
     },
     {
       "name": "Kaan Yılmaz",
@@ -546,6 +576,7 @@ class LoginViewModel {
       "bio": "Girişimci ve lider.",
       "password": "password123",
       "location": "Beşiktaş",
+      "email": "kaan.yilmaz@tgs.aero.com",
     },
     {
       "name": "Lütfi Kaya",
@@ -553,6 +584,7 @@ class LoginViewModel {
       "bio": "Lojistik uzmanı.",
       "password": "password123",
       "location": "Arnavutköy",
+      "email": "lutfi.kaya@tgs.aero.com",
     },
     {
       "name": "Melis Demir",
@@ -560,6 +592,7 @@ class LoginViewModel {
       "bio": "Dijital pazarlama uzmanı.",
       "password": "password123",
       "location": "Ataşehir",
+      "email": "melis.demir@tgs.aero.com",
     },
     {
       "name": "Necip Arslan",
@@ -567,6 +600,7 @@ class LoginViewModel {
       "bio": "Mühendislik danışmanı.",
       "password": "password123",
       "location": "Avcılar",
+      "email": "necip.arslan@tgs.aero.com",
     },
     {
       "name": "Özlem Çelik",
@@ -574,6 +608,7 @@ class LoginViewModel {
       "bio": "Eğitim danışmanı.",
       "password": "password123",
       "location": "Beşiktaş",
+      "email": "ozlem.celik@tgs.aero.com",
     },
     {
       "name": "Ramazan Yılmaz",
@@ -581,6 +616,7 @@ class LoginViewModel {
       "bio": "Yazılım geliştiricisi.",
       "password": "password123",
       "location": "Arnavutköy",
+      "email": "ramazan.yilmaz@tgs.aero.com",
     },
     {
       "name": "Sevgi Kaya",
@@ -588,6 +624,7 @@ class LoginViewModel {
       "bio": "Sosyal medya yöneticisi.",
       "password": "password123",
       "location": "Ataşehir",
+      "email": "sevgi.kaya@tgs.aero.com",
     },
     {
       "name": "Tahir Demir",
@@ -595,6 +632,7 @@ class LoginViewModel {
       "bio": "Finans analisti.",
       "password": "password123",
       "location": "Avcılar",
+      "email": "tahir.demir@tgs.aero.com",
     },
     {
       "name": "Ülkü Arslan",
@@ -602,6 +640,7 @@ class LoginViewModel {
       "bio": "Hukuk danışmanı.",
       "password": "password123",
       "location": "Beşiktaş",
+      "email": "ulku.arslan@tgs.aero.com",
     },
     {
       "name": "Volkan Çelik",
@@ -609,6 +648,7 @@ class LoginViewModel {
       "bio": "Spor koçu.",
       "password": "password123",
       "location": "Arnavutköy",
+      "email": "volkan.celik@tgs.aero.com",
     },
     {
       "name": "Yıldız Yılmaz",
@@ -616,6 +656,7 @@ class LoginViewModel {
       "bio": "Eğitimci ve yazar.",
       "password": "password123",
       "location": "Ataşehir",
+      "email": "yildiz.yilmaz@tgs.aero.com",
     },
     {
       "name": "Zeki Kaya",
@@ -623,6 +664,7 @@ class LoginViewModel {
       "bio": "Teknoloji uzmanı.",
       "password": "password456",
       "location": "Avcılar",
+      "email": "zeki.kaya@tgs.aero.com",
     },
   ];
 
@@ -653,6 +695,3 @@ class LoginViewModel {
     _passwordController.dispose();
   }
 }
-
-
-/// Servis kısmı durak sayısı.

@@ -45,8 +45,11 @@ class NewsCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: AppColors.customCardColor,
-        border: Border.all(color: AppColors.borderColor),
+        color: AppColors.cardColor3,
+        // border: Border.all(color: AppColors.borderColor),
+        boxShadow: [
+          BoxShadow(color: AppColors.borderColor.withOpacity(0.1), blurRadius: 8, offset: const Offset(0, 4)),
+        ],
       ),
       margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       child: ListTile(
@@ -56,7 +59,7 @@ class NewsCard extends StatelessWidget {
         title: Text(title, style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.borderColor)),
         subtitle: Text(
           "Yayımlanma Tarihi: $date",
-          style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.borderColor),
+          style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.timeColor),
         ),
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => const NewsDetailsPage()));

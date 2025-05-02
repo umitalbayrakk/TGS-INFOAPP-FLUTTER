@@ -92,24 +92,20 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         height: 50,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: AppColors.customCardColor,
+                          color: AppColors.cardColor2,
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: AppColors.borderColor),
+                          //  border: Border.all(color: AppColors.borderColor),
                         ),
                         child: MaterialButton(
                           onPressed: _submitFeedback,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(FeatherIcons.send, color: AppColors.borderColor),
+                              Icon(FeatherIcons.send, color: AppColors.whiteSpot),
                               SizedBox(width: 5),
                               Text(
                                 "Gönder",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.borderColor,
-                                ),
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: AppColors.whiteSpot),
                               ),
                             ],
                           ),

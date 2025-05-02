@@ -43,7 +43,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
       backgroundColor: AppColors.darkColor,
       elevation: 0,
       child: Container(
-        color: Colors.grey[50],
+        color: AppColors.customCardColor,
         child: Column(
           children: [
             _buildHeader(context),
@@ -62,26 +62,18 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
   Widget _buildHeader(BuildContext context) {
     return UserAccountsDrawerHeader(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [AppColors.scaffoldBackgroundColor, AppColors.scaffoldBackgroundColor],
-        ),
-      ),
+      decoration: const BoxDecoration(color: AppColors.customCardColor),
       accountName: Text(
         "${widget.user['name']}",
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.borderColor),
       ),
-      accountEmail: Text(
-        "${widget.user['email']}",
-        style: TextStyle(color: AppColors.borderColor),
-      ), 
+      accountEmail: Text("${widget.user['email']}", style: TextStyle(color: AppColors.borderColor)),
       currentAccountPicture: GestureDetector(
-        onTap: () => _handleImagePick(),
+        behavior: HitTestBehavior.translucent,
+        //onTap: () => _handleImagePick(),
         child: CircleAvatar(
           radius: 35,
-          backgroundColor: AppColors.borderColor,
+          backgroundColor: AppColors.cardColor2,
           backgroundImage: _getProfileImage(),
           child: _viewModel.image == null ? const Icon(Icons.person, size: 35, color: Colors.white70) : null,
         ),
@@ -149,25 +141,24 @@ class _CustomDrawerState extends State<CustomDrawer> {
           height: 50,
           decoration: BoxDecoration(
             gradient: const LinearGradient(
-              colors: [AppColors.customCardColor, AppColors.customCardColor],
+              colors: [AppColors.cardColor2, AppColors.cardColor2],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.borderColor),
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(16),
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(FeatherIcons.logOut, color: AppColors.borderColor, size: 20),
+                Icon(FeatherIcons.logOut, color: AppColors.whiteSpot, size: 20),
                 SizedBox(width: 8),
                 Text(
                   "Çıkış Yap",
                   style: TextStyle(
-                    color: AppColors.borderColor,
-                    fontWeight: FontWeight.w600,
+                    color: AppColors.whiteSpot,
+                    fontWeight: FontWeight.bold,
                     fontSize: 16,
                     letterSpacing: 0.5,
                   ),
@@ -209,18 +200,14 @@ class CustomNavigationButton extends StatelessWidget {
         Container(
           height: 60,
           width: 60,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            color: AppColors.customCardColor,
-            border: Border.all(color: AppColors.borderColor),
-          ),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: AppColors.cardColor2),
           child: MaterialButton(
             padding: EdgeInsets.zero,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => navigateTo));
             },
-            child: Icon(icon, color: AppColors.borderColor, size: 30),
+            child: Icon(icon, color: AppColors.whiteSpot, size: 30),
           ),
         ),
         const SizedBox(height: 5),

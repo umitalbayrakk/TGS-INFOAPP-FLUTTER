@@ -15,25 +15,25 @@ class GameCard extends StatelessWidget {
         width: double.infinity,
         height: 50,
         decoration: BoxDecoration(
-          color: AppColors.customCardColor,
-          border: Border.all(color: AppColors.borderColor),
+          color: AppColors.cardColor2,
+          // border: Border.all(color: AppColors.borderColor),
           borderRadius: BorderRadius.circular(16),
         ),
         child: MaterialButton(
           onPressed: () {
-            // Tüm kritik noktalara print ekleyin:
-
-print('GameCard user: $user'); // GameCard'da
+            print('GameCard user: $user');
             Navigator.push(context, MaterialPageRoute(builder: (context) => GameScreen(user: user)));
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.games_sharp, color: AppColors.borderColor, size: 30),
+              Icon(Icons.games_sharp, color: AppColors.whiteSpot, size: 30),
               SizedBox(width: 5),
               Text(
                 "Oyun Oyna",
-                style: TextStyle(color: AppColors.borderColor, fontSize: 20, fontWeight: FontWeight.bold),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, color: AppColors.whiteSpot),
               ),
             ],
           ),

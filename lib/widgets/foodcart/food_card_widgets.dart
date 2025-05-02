@@ -117,9 +117,10 @@ class TurkishFoodCard extends StatelessWidget {
         child: Container(
           width: double.infinity,
           decoration: BoxDecoration(
-            color: AppColors.customCardColor,
+            color: AppColors.cardColor3,
+            // image: DecorationImage(image: AssetImage("assets/images/foodcard.png"), fit: BoxFit.fitWidth),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.borderColor),
+            // border: Border.all(color: AppColors.borderColor),
             boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2))],
           ),
           child: Column(

@@ -1,5 +1,6 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:tgs_info_app_flutter/presentation/views/feedback/feedback_page_view.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
 
@@ -24,19 +25,10 @@ class _SettingsPageViewState extends State<SettingsPageView> {
         children: [
           _sectionTitle("Kullanıcı"),
           _tile(icon: FeatherIcons.user, title: "Profil Bilgileri", onTap: () {}),
-          _tile(icon: FeatherIcons.lock, title: "Şifre Değiştir", onTap: () {}),
 
           const SizedBox(height: 24),
           _sectionTitle("Görünüm"),
           _themeSelectorTile(),
-          _switchTile(
-            icon: FeatherIcons.bell,
-            title: "Bildirimler",
-            value: _notificationsEnabled,
-            onChanged: (val) {
-              setState(() => _notificationsEnabled = val);
-            },
-          ),
 
           const SizedBox(height: 24),
           _sectionTitle("Dil"),
@@ -44,8 +36,13 @@ class _SettingsPageViewState extends State<SettingsPageView> {
 
           const SizedBox(height: 24),
           _sectionTitle("Destek"),
-          _tile(icon: FeatherIcons.helpCircle, title: "Yardım Merkezi", onTap: () {}),
-          _tile(icon: FeatherIcons.mail, title: "Bize Ulaşın", onTap: () {}),
+          _tile(
+            icon: FeatherIcons.mail,
+            title: "Bize Ulaşın",
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => FeedbackPage()));
+            },
+          ),
 
           const SizedBox(height: 24),
           _tile(icon: FeatherIcons.info, title: "Sürüm", trailing: "v1.0.0"),

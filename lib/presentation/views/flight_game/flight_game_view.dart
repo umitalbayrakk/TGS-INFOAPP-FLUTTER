@@ -122,7 +122,6 @@ final List<Map<String, String>> airports = [
   {"city": "Lizbon", "airport": "Lizbon Havalimanı", "iata": "LIS"},
 ];
 
-// Soruları karıştırmak için fonksiyon
 List<Map<String, String>> getShuffledAirports() {
   List<Map<String, String>> shuffledAirports = List.from(airports);
   shuffledAirports.shuffle();
@@ -139,7 +138,7 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   List<Map<String, String>> shuffledAirports = getShuffledAirports();
   int currentQuestionIndex = 0;
-  int remainingLives = 1; // Kullancı oynama hakkı.
+  int remainingLives = 1;
   int score = 0;
   List<String> options = [];
   String? selectedOption;
@@ -159,17 +158,21 @@ class _GameScreenState extends State<GameScreen> {
     }
   }
 
-  // Günlük oyun limitini kontrol et
+  // Günlük oyun limitini kullanıcıya göre kontrol eden fonksiyon
   Future<void> _checkDailyLimit() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? lastPlayedDate = prefs.getString('lastPlayedDate');
-    final int gamesPlayed = prefs.getInt('gamesPlayed') ?? 0;
+    String userName =
+        widget.user != null && widget.user!.containsKey("name") && widget.user!["name"] != null
+            ? widget.user!["name"]!.trim()
+            : "Bilinmeyen Kullanıcı";
+    final String? lastPlayedDate = prefs.getString('${userName}_lastPlayedDate');
+    final int gamesPlayed = prefs.getInt('${userName}_gamesPlayed') ?? 0;
     final currentDate = DateTime.now().toString().split(' ')[0];
 
     if (lastPlayedDate != currentDate) {
       // Yeni gün, sayacı sıfırla
-      await prefs.setString('lastPlayedDate', currentDate);
-      await prefs.setInt('gamesPlayed', 0);
+      await prefs.setString('${userName}_lastPlayedDate', currentDate);
+      await prefs.setInt('${userName}_gamesPlayed', 0);
       setState(() {
         canPlay = true;
       });
@@ -198,11 +201,15 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
-  // Oyun sayısını artır
+  // Oyun sayısını kullanıcıya göre artır
   Future<void> _incrementGameCount() async {
     final prefs = await SharedPreferences.getInstance();
-    final int gamesPlayed = prefs.getInt('gamesPlayed') ?? 0;
-    await prefs.setInt('gamesPlayed', gamesPlayed + 1);
+    String userName =
+        widget.user != null && widget.user!.containsKey("name") && widget.user!["name"] != null
+            ? widget.user!["name"]!.trim()
+            : "Bilinmeyen Kullanıcı";
+    final int gamesPlayed = prefs.getInt('${userName}_gamesPlayed') ?? 0;
+    await prefs.setInt('${userName}_gamesPlayed', gamesPlayed + 1);
   }
 
   // Lider tablosunu SharedPreferences'tan yükle.
@@ -303,7 +310,11 @@ class _GameScreenState extends State<GameScreen> {
 
   void _resetGame() async {
     final prefs = await SharedPreferences.getInstance();
-    final int gamesPlayed = prefs.getInt('gamesPlayed') ?? 0;
+    String userName =
+        widget.user != null && widget.user!.containsKey("name") && widget.user!["name"] != null
+            ? widget.user!["name"]!.trim()
+            : "Bilinmeyen Kullanıcı";
+    final int gamesPlayed = prefs.getInt('${userName}_gamesPlayed') ?? 0;
     if (gamesPlayed >= 3) {
       setState(() {
         canPlay = false;
@@ -315,7 +326,7 @@ class _GameScreenState extends State<GameScreen> {
     setState(() {
       shuffledAirports = getShuffledAirports();
       currentQuestionIndex = 0;
-      remainingLives = 3;
+      remainingLives = 1;
       score = 0;
       options = [];
       selectedOption = null;
@@ -326,7 +337,6 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
-  // Kullanıcıyı lider tablosundan silmek için
   void _deleteUser(int index) async {
     setState(() {
       leaderboard.removeAt(index);
@@ -401,7 +411,8 @@ class _GameScreenState extends State<GameScreen> {
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: AppColors.borderColor, width: 2),
+                          color: AppColors.cardColor3,
+                          //border: Border.all(color: AppColors.borderColor, width: 2),
                         ),
                         child: ListTile(
                           leading: Text("${index + 1}.", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
@@ -444,13 +455,17 @@ class _GameScreenState extends State<GameScreen> {
                       height: 60,
                       width: 200,
                       decoration: BoxDecoration(
+                        color: AppColors.cardColor2,
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: AppColors.borderColor, width: 3),
+                        //border: Border.all(color: AppColors.borderColor, width: 3),
                       ),
                       child: MaterialButton(
                         onPressed: _resetGame,
                         child: Center(
-                          child: Text("Tekrar Oyna", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                          child: Text(
+                            "Tekrar Oyna",
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.whiteSpot),
+                          ),
                         ),
                       ),
                     ),
@@ -462,12 +477,16 @@ class _GameScreenState extends State<GameScreen> {
                       width: 200,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: AppColors.borderColor, width: 3),
+                        color: AppColors.cardColor2,
+                        // border: Border.all(color: AppColors.borderColor, width: 3),
                       ),
                       child: MaterialButton(
                         onPressed: () => Navigator.pop(context),
                         child: Center(
-                          child: Text("Ana Sayfa", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                          child: Text(
+                            "Ana Sayfa",
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.whiteSpot),
+                          ),
                         ),
                       ),
                     ),
@@ -492,7 +511,7 @@ class _GameScreenState extends State<GameScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.person, size: 30),
+                Icon(Icons.person, size: 30, color: AppColors.borderColor),
                 SizedBox(width: 5),
                 Text(
                   "${widget.user!['name']}",
@@ -539,8 +558,9 @@ class _GameScreenState extends State<GameScreen> {
                   width: double.infinity,
                   height: 60,
                   decoration: BoxDecoration(
+                    color: AppColors.cardColor3,
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: AppColors.borderColor, width: 2),
+                    border: Border.all(color: AppColors.borderColor),
                   ),
                   child: MaterialButton(
                     onPressed: selectedOption == null ? () => _checkAnswer(option) : null,
@@ -556,18 +576,18 @@ class _GameScreenState extends State<GameScreen> {
               SizedBox(height: 20),
               Container(
                 height: 60,
-                width: 300,
+                width: 250,
                 decoration: BoxDecoration(
-                  color: AppColors.customCardColor,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.borderColor, width: 3),
+                  color: AppColors.cardColor2,
+                  borderRadius: BorderRadius.circular(15),
+                  //border: Border.all(color: AppColors.borderColor, width: 3),
                 ),
                 child: MaterialButton(
                   onPressed: _nextQuestion,
                   child: Center(
                     child: Text(
                       "Sonraki Soru",
-                      style: TextStyle(color: AppColors.borderColor, fontSize: 30, fontWeight: FontWeight.bold),
+                      style: TextStyle(color: AppColors.whiteSpot, fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),

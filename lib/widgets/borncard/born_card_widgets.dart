@@ -68,8 +68,11 @@ class BirthdayCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.borderColor),
-        color: AppColors.customCardColor,
+        // border: Border.all(color: AppColors.borderColor),
+        color: AppColors.cardColor3,
+        boxShadow: [
+          BoxShadow(color: AppColors.borderColor.withOpacity(0.1), blurRadius: 8, offset: const Offset(0, 4)),
+        ],
         borderRadius: BorderRadius.circular(16),
       ),
       margin: const EdgeInsets.all(16),

@@ -16,10 +16,10 @@ class UsefulDocumentView extends StatefulWidget {
 class _UsefulDocumentViewState extends State<UsefulDocumentView> {
   final List<Map<String, String>> documents = [
     {
-        "title": "İzin Dilekçesi",
-        "url": "https://example.com/tgs_permission.pdf",
-        "description": "TGS Yer Hizmetleri A.Ş. için izin dilekçesi örneği.",
-        "content": """
+      "title": "İzin Dilekçesi",
+      "url": "https://example.com/tgs_permission.pdf",
+      "description": "TGS Yer Hizmetleri A.Ş. için izin dilekçesi örneği.",
+      "content": """
          TGS Yer Hizmetleri A.Ş. İnsan Kaynakları Müdürlüğüne
 
           Şirketiniz bünyesinde ... Departmanında ... pozisyonunda çalışmaktayım. 
@@ -34,7 +34,7 @@ class _UsefulDocumentViewState extends State<UsefulDocumentView> {
           Personel No:
           
         """,
-      },
+    },
     {
       "title": "İzin Talep Formu",
       "url": "https://example.com/tgs_leave_request.pdf",
@@ -197,19 +197,26 @@ class _UsefulDocumentViewState extends State<UsefulDocumentView> {
               itemCount: documents.length,
               itemBuilder: (context, index) {
                 final doc = documents[index];
-                return ListTile(
-                  leading: const Icon(FeatherIcons.fileMinus, color: AppColors.borderColor),
-                  title: Text(doc["title"]!, style: const TextStyle(fontSize: 18)),
-                  subtitle: Text(doc["description"]!, style: const TextStyle(fontSize: 14, color: Colors.grey)),
-                  onTap: () => _navigateToDetailPage(doc),
-                  trailing: Wrap(
-                    spacing: 8,
-                    children: [
-                      IconButton(
-                        icon: const Icon(FeatherIcons.download, color: AppColors.borderColor),
-                        onPressed: () => _downloadDocument(doc["url"]!),
+                return Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
+                  child: Container(
+                    decoration: BoxDecoration(color: AppColors.cardColor3, borderRadius: BorderRadius.circular(16)),
+                    height: 90,
+                    child: ListTile(
+                      leading: const Icon(FeatherIcons.fileMinus, color: AppColors.borderColor),
+                      title: Text(doc["title"]!, style: const TextStyle(fontSize: 18)),
+                      subtitle: Text(doc["description"]!, style: const TextStyle(fontSize: 14, color: Colors.black54)),
+                      onTap: () => _navigateToDetailPage(doc),
+                      trailing: Wrap(
+                        spacing: 8,
+                        children: [
+                          IconButton(
+                            icon: const Icon(FeatherIcons.download, color: AppColors.borderColor),
+                            onPressed: () => _downloadDocument(doc["url"]!),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 );
               },

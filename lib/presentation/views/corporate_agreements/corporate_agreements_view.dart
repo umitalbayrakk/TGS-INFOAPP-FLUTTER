@@ -59,8 +59,9 @@ class _CorporateAgreementsViewState extends State<CorporateAgreementsView> {
   Widget _buildAgreementCard({required CorporateAgreement agreement}) {
     return Container(
       decoration: BoxDecoration(
+        color: AppColors.cardColor3,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.borderColor, width: 2),
+        // border: Border.all(color: AppColors.borderColor, width: 2),
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
@@ -95,7 +96,7 @@ class _CorporateAgreementsViewState extends State<CorporateAgreementsView> {
                         const SizedBox(height: 4),
                         Text(
                           "Geçerlilik: ${viewModel.formatDate(agreement.startDate)} - ${viewModel.formatDate(agreement.endDate)}",
-                          style: TextStyle(fontSize: 12, color: AppColors.greenSpot, fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: 12, color: AppColors.borderColor, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -114,7 +115,7 @@ class _CorporateAgreementsViewState extends State<CorporateAgreementsView> {
                         .map(
                           (benefit) => Chip(
                             label: Text(benefit),
-                            backgroundColor: AppColors.darkColor.withOpacity(0.1),
+                            backgroundColor: AppColors.cardColor2.withOpacity(0.1),
                             labelStyle: TextStyle(color: AppColors.borderColor, fontSize: 12),
                           ),
                         )

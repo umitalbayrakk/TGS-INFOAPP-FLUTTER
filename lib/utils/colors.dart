@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 class AppColors {
-  static const scaffoldBackgroundColor = Color(0xFFF3F3F4);
+  static const scaffoldBackgroundColor = Color(0xFFF6F6F9);
   static const appBarColor = Color(0xff03AED2);
   static const whiteColor = Color(0xffffff);
   static const cardColor = Color(0xffd03b29);
@@ -22,4 +22,8 @@ class AppColors {
   static const Color customCardColor = Color(0xffF8FAFC);
   static const Color orangeColor = Color(0xffFE4F2D);
   static const Color foodCardColor = Color(0xfffcf7ff);
+  static const Color cardColor2 = Color(0xff0064D2);
+  static const Color cardColor3 = Color(0xffFFFFFF);
+  static const Color foodCard = Color(0xffFB5607);
+  static const Color timeColor = Color(0xffD42A2A);
 }
