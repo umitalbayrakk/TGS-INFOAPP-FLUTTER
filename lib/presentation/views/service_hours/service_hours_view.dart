@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tgs_info_app_flutter/presentation/viewmodel/service_hours_viewmodel.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
-import 'package:tgs_info_app_flutter/widgets/drawer/custom_drawer_view.dart';
+import 'package:tgs_info_app_flutter/widgets/custom_drawer/custom_drawer_view.dart';
 
 class ServiceHoursView extends StatelessWidget {
   final Map<String, String> user;
@@ -15,18 +15,18 @@ class ServiceHoursView extends StatelessWidget {
       create: (_) => ServiceHoursViewModel(user: user),
       child: Scaffold(
         drawer: CustomDrawer(user: user),
-        backgroundColor: AppColors.scaffoldBackgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: AppColors.borderColor),
+            icon: Icon(Icons.arrow_back, color: Theme.of(context).iconTheme.color, size: 30),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
           iconTheme: const IconThemeData(color: AppColors.borderColor, size: 35),
-          backgroundColor: AppColors.scaffoldBackgroundColor,
-          elevation: 2,
-          shadowColor: AppColors.borderColor,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+          // elevation: 2,
+          // shadowColor: AppColors.borderColor,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -53,7 +53,7 @@ class ServiceHoursView extends StatelessWidget {
                             SizedBox(width: 5),
                             Text(
                               viewModel.selectedDistrict,
-                              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                              style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
@@ -63,20 +63,22 @@ class ServiceHoursView extends StatelessWidget {
                           width: double.infinity,
                           decoration: new BoxDecoration(
                             borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: AppColors.borderColor, width: 2),
+                            // border: Border.all(color: AppColors.borderColor, width: 2),
                             image: new DecorationImage(
                               image: new AssetImage('assets/images/map.png'),
                               fit: BoxFit.cover,
                             ),
                           ),
                         ),
+                        SizedBox(height: 10),
                         new Container(
                           height: 80,
                           width: double.infinity,
                           decoration: new BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
                             image: new DecorationImage(
-                              image: new AssetImage('assets/images/mapsnew.png'),
-                              fit: BoxFit.fitWidth,
+                              image: new AssetImage('assets/images/newmapss.png'),
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
@@ -85,7 +87,7 @@ class ServiceHoursView extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 20),
                           child: Text(
                             "${viewModel.selectedDistrict} Kalkış",
-                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
                           ),
                         ),
                         Expanded(
@@ -94,8 +96,11 @@ class ServiceHoursView extends StatelessWidget {
                             itemBuilder: (context, index) {
                               final item = viewModel.serviceHoursForDistrict[index];
                               return ListTile(
-                                leading: const Icon(Icons.directions_bus),
-                                title: Text(' ${item['location']}-${item['time']}  '),
+                                leading: Icon(Icons.directions_bus, color: Theme.of(context).iconTheme.color),
+                                title: Text(
+                                  ' ${item['location']}-${item['time']}   ',
+                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
+                                ),
                               );
                             },
                           ),
@@ -105,7 +110,7 @@ class ServiceHoursView extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 20),
                           child: Text(
                             "Dünya Ticaret Merkezi Kalkış",
-                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                            style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
                           ),
                         ),
                         Expanded(
@@ -113,8 +118,11 @@ class ServiceHoursView extends StatelessWidget {
                             itemCount: viewModel.serviceHoursList.length,
                             itemBuilder: (BuildContext context, int index) {
                               return ListTile(
-                                leading: Icon(Icons.directions_bus),
-                                title: Text("Kalkış DTM : ${viewModel.serviceHoursList[index]}"),
+                                leading: Icon(Icons.directions_bus, color: Theme.of(context).iconTheme.color),
+                                title: Text(
+                                  "Kalkış DTM : ${viewModel.serviceHoursList[index]}",
+                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
+                                ),
                               );
                             },
                           ),

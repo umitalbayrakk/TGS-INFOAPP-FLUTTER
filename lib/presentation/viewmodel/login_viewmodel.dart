@@ -4,9 +4,9 @@ import 'package:tgs_info_app_flutter/presentation/views/home/home_page_screen.da
 class LoginViewModel {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  
   String? errorMessage;
   String? loggedInUserName;
+  
   TextEditingController get usernameController => _usernameController;
   TextEditingController get passwordController => _passwordController;
   final List<Map<String, String>> users = [

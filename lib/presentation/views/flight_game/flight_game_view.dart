@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
@@ -138,7 +137,7 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   List<Map<String, String>> shuffledAirports = getShuffledAirports();
   int currentQuestionIndex = 0;
-  int remainingLives = 1;
+  int remainingLives = 3;
   int score = 0;
   List<String> options = [];
   String? selectedOption;
@@ -147,11 +146,10 @@ class _GameScreenState extends State<GameScreen> {
   bool showNextButton = false;
   List<Map<String, dynamic>> leaderboard = [];
   bool canPlay = true;
-
   @override
   void initState() {
     super.initState();
-    _checkDailyLimit();
+    checkDailyLimit();
     _loadLeaderboard();
     if (canPlay) {
       _generateOptions();
@@ -159,7 +157,7 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   // Günlük oyun limitini kullanıcıya göre kontrol eden fonksiyon
-  Future<void> _checkDailyLimit() async {
+  Future<void> checkDailyLimit() async {
     final prefs = await SharedPreferences.getInstance();
     String userName =
         widget.user != null && widget.user!.containsKey("name") && widget.user!["name"] != null
@@ -193,10 +191,26 @@ class _GameScreenState extends State<GameScreen> {
       builder:
           (context) => AlertDialog(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            backgroundColor: AppColors.customCardColor,
-            title: Text("Günlük Limit Aşıldı"),
-            content: Text("Günde en fazla 3 kez oynayabilirsiniz. Yarın tekrar dene."),
-            actions: [TextButton(onPressed: () => Navigator.pop(context), child: Text("Ana Sayfa"))],
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            title: Text(
+              textAlign: TextAlign.center,
+              "Günlük Oyun Limiti Aşıldı",
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            content: Text(
+              textAlign: TextAlign.center,
+              "Günde en fazla 3 kez oynayabilirsiniz. Yarın tekrar dene.",
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(
+                  "Ana Sayfa",
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
           ),
     );
   }
@@ -353,26 +367,20 @@ class _GameScreenState extends State<GameScreen> {
 
     if (!canPlay) {
       return Scaffold(
-        backgroundColor: AppColors.scaffoldBackgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBarWidgets(),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                "Günlük oyun limitiniz doldu!",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppColors.borderColor),
-              ),
+              Text("Günlük oyun limitiniz doldu!", style: Theme.of(context).textTheme.headlineLarge),
               SizedBox(height: 20),
-              Text("Yarın tekrar oynayabilirsiniz.", style: TextStyle(fontSize: 18, color: AppColors.borderColor)),
+              Text("Yarın tekrar oynayabilirsiniz.", style: Theme.of(context).textTheme.headlineSmall),
               SizedBox(height: 20),
               Container(
                 height: 60,
                 width: 200,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.borderColor, width: 3),
-                ),
+                decoration: BoxDecoration(color: AppColors.buttonColor, borderRadius: BorderRadius.circular(16)),
                 child: MaterialButton(
                   onPressed: () => Navigator.pop(context),
                   child: Center(child: Text("Ana Sayfa", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
@@ -386,20 +394,17 @@ class _GameScreenState extends State<GameScreen> {
 
     if (showLeaderboard) {
       return Scaffold(
-        backgroundColor: AppColors.scaffoldBackgroundColor,
-        appBar: AppBar(
-          backgroundColor: AppColors.scaffoldBackgroundColor,
-          title: Row(
-            children: [
-              SizedBox(width: 10),
-              Text("Lider Tablosu", style: TextStyle(color: AppColors.borderColor, fontWeight: FontWeight.bold)),
-            ],
-          ),
-        ),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        appBar: AppBarWidgets(),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
+              SizedBox(height: 10),
+              Text(
+                "Lider Tablosu",
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+              ),
               SizedBox(height: 10),
               Expanded(
                 child: ListView.builder(
@@ -409,11 +414,7 @@ class _GameScreenState extends State<GameScreen> {
                     return Padding(
                       padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                       child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          color: AppColors.cardColor3,
-                          //border: Border.all(color: AppColors.borderColor, width: 2),
-                        ),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: AppColors.cardColor3),
                         child: ListTile(
                           leading: Text("${index + 1}.", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
                           title: Text(
@@ -436,7 +437,7 @@ class _GameScreenState extends State<GameScreen> {
                               ),
                               SizedBox(width: 10),
                               IconButton(
-                                icon: Icon(Bootstrap.trash_fill, color: AppColors.cardColor, size: 30),
+                                icon: Icon(Icons.delete, color: AppColors.buttonColor, size: 25),
                                 onPressed: () => _deleteUser(index),
                               ),
                             ],
@@ -455,7 +456,7 @@ class _GameScreenState extends State<GameScreen> {
                       height: 60,
                       width: 200,
                       decoration: BoxDecoration(
-                        color: AppColors.cardColor2,
+                        color: AppColors.buttonColor,
                         borderRadius: BorderRadius.circular(16),
                         //border: Border.all(color: AppColors.borderColor, width: 3),
                       ),
@@ -477,7 +478,7 @@ class _GameScreenState extends State<GameScreen> {
                       width: 200,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
-                        color: AppColors.cardColor2,
+                        color: AppColors.buttonColor,
                         // border: Border.all(color: AppColors.borderColor, width: 3),
                       ),
                       child: MaterialButton(
@@ -500,7 +501,7 @@ class _GameScreenState extends State<GameScreen> {
     }
 
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidgets(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -511,13 +512,19 @@ class _GameScreenState extends State<GameScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.person, size: 30, color: AppColors.borderColor),
+                Icon(Icons.person, size: 30, color: Theme.of(context).iconTheme.color),
                 SizedBox(width: 5),
                 Text(
                   "${widget.user!['name']}",
-                  style: TextStyle(color: AppColors.borderColor, fontSize: 20, fontWeight: FontWeight.w500),
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold), //
                 ),
               ],
+            ),
+            SizedBox(height: 10),
+            Text(
+              "Günlük Kalan Oyun Hakkı: ${remainingLives}",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20, color: AppColors.foodCard, fontWeight: FontWeight.w500),
             ),
             SizedBox(height: 5),
             Padding(
@@ -543,7 +550,7 @@ class _GameScreenState extends State<GameScreen> {
             Spacer(),
             Text(
               "${shuffledAirports[currentQuestionIndex]["iata"]} kodu hangi şehre aittir?",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.borderColor),
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             if (errorMessage != null) ...[
@@ -578,7 +585,7 @@ class _GameScreenState extends State<GameScreen> {
                 height: 60,
                 width: 250,
                 decoration: BoxDecoration(
-                  color: AppColors.cardColor2,
+                  color: AppColors.buttonColor,
                   borderRadius: BorderRadius.circular(15),
                   //border: Border.all(color: AppColors.borderColor, width: 3),
                 ),

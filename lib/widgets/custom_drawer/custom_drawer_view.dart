@@ -1,6 +1,8 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:tgs_info_app_flutter/presentation/viewmodel/drawer_viewmodel.dart';
+import 'package:tgs_info_app_flutter/presentation/views/Exchange_Rates/exchange_rates_view.dart';
+import 'package:tgs_info_app_flutter/presentation/views/Weather/weather_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/corporate_agreements/corporate_agreements_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/feedback/feedback_page_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/flight_time/flight_time_view.dart';
@@ -11,6 +13,7 @@ import 'package:tgs_info_app_flutter/presentation/views/service_hours/service_ho
 import 'package:tgs_info_app_flutter/presentation/views/settings/settings_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/useful_document/useful_document_view.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
+import 'package:weather_icons/weather_icons.dart';
 
 class CustomDrawer extends StatefulWidget {
   final Map<String, String> user;
@@ -40,19 +43,15 @@ class _CustomDrawerState extends State<CustomDrawer> {
   Widget build(BuildContext context) {
     debugPrint("CustomDrawer build çağrıldı");
     return Drawer(
-      backgroundColor: AppColors.darkColor,
       elevation: 0,
       child: Container(
-        color: AppColors.customCardColor,
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: Column(
           children: [
             _buildHeader(context),
             Expanded(child: _buildMenuItems(context)),
             _buildLogoutButton(context),
-            const Text(
-              "TURKISH GROUNDS SERVICES",
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.borderColor),
-            ),
+            Text("TURKISH GROUNDS SERVICES", style: Theme.of(context).textTheme.bodyLarge),
             const SizedBox(height: 40),
           ],
         ),
@@ -62,18 +61,21 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
   Widget _buildHeader(BuildContext context) {
     return UserAccountsDrawerHeader(
-      decoration: const BoxDecoration(color: AppColors.customCardColor),
+      decoration: BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor),
       accountName: Text(
         "${widget.user['name']}",
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.borderColor),
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
       ),
-      accountEmail: Text("${widget.user['email']}", style: TextStyle(color: AppColors.borderColor)),
+      accountEmail: Text(
+        "${widget.user['email']}",
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+      ),
       currentAccountPicture: GestureDetector(
         behavior: HitTestBehavior.translucent,
         //onTap: () => _handleImagePick(),
         child: CircleAvatar(
           radius: 35,
-          backgroundColor: AppColors.cardColor2,
+          backgroundColor: AppColors.buttonColor,
           backgroundImage: _getProfileImage(),
           child: _viewModel.image == null ? const Icon(Icons.person, size: 35, color: Colors.white70) : null,
         ),
@@ -89,7 +91,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
       crossAxisSpacing: 16,
       childAspectRatio: 0.8,
       children: [
-        CustomNavigationButton(title: 'Ayarlar', navigateTo: const SettingsPageView(), icon: Icons.settings_outlined),
+        CustomNavigationButton(
+          title: 'Ayarlar',
+          navigateTo: SettingsPageView(user: widget.user),
+          icon: Icons.settings_outlined,
+        ),
         CustomNavigationButton(
           title: 'Fikir Öneri İstek',
           navigateTo: const FeedbackPage(),
@@ -117,6 +123,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
           navigateTo: UsefulDocumentView(user: widget.user),
           icon: Icons.document_scanner_outlined,
         ),
+        CustomNavigationButton(title: 'Döviz Kurları', navigateTo: ExchangeRatesView(), icon: Icons.currency_exchange),
+        CustomNavigationButton(title: 'Hava Durumu', navigateTo: WeatherView(), icon: WeatherIcons.day_sunny),
       ],
     );
   }
@@ -141,7 +149,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           height: 50,
           decoration: BoxDecoration(
             gradient: const LinearGradient(
-              colors: [AppColors.cardColor2, AppColors.cardColor2],
+              colors: [AppColors.buttonColor, AppColors.buttonColor],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -200,7 +208,7 @@ class CustomNavigationButton extends StatelessWidget {
         Container(
           height: 60,
           width: 60,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: AppColors.cardColor2),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: AppColors.buttonColor),
           child: MaterialButton(
             padding: EdgeInsets.zero,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -213,7 +221,7 @@ class CustomNavigationButton extends StatelessWidget {
         const SizedBox(height: 5),
         Text(
           title,
-          style: const TextStyle(color: Colors.black, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.0),
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
           maxLines: 3,
           overflow: TextOverflow.ellipsis,

@@ -42,7 +42,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidgets(),
       body: SafeArea(
         child: Center(
@@ -58,10 +58,10 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const SizedBox(height: 40),
-                      const Text(
+                      Text(
                         "Fikir Öneri İstek",
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600, color: AppColors.borderColor),
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 32),
                       _buildInputField(_nameController, "Adınız", (val) => val!.isEmpty ? "Adınızı giriniz" : null),
@@ -92,7 +92,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         height: 50,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: AppColors.cardColor2,
+                          color: AppColors.buttonColor,
                           borderRadius: BorderRadius.circular(10),
                           //  border: Border.all(color: AppColors.borderColor),
                         ),

@@ -14,11 +14,7 @@ class ShiftCardWidgets extends StatelessWidget {
       builder: (BuildContext context) {
         return Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [AppColors.customCardColor, AppColors.customCardColor.withOpacity(0.95)],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
+            color: Theme.of(context).scaffoldBackgroundColor,
             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
           ),
           child: Padding(
@@ -29,9 +25,7 @@ class ShiftCardWidgets extends StatelessWidget {
               children: [
                 Text(
                   'Shift Detayları - Ekip $team',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700, color: AppColors.borderColor),
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w700),
                 ),
                 const SizedBox(height: 16),
                 _buildDetailRow(context, 'Shift:', shift, Icons.punch_clock),
@@ -40,9 +34,7 @@ class ShiftCardWidgets extends StatelessWidget {
                 const SizedBox(height: 24),
                 Text(
                   'Ekip Üyeleri',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600, color: AppColors.borderColor),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 12),
                 ...viewModel
@@ -52,15 +44,12 @@ class ShiftCardWidgets extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 6),
                         child: Row(
                           children: [
-                            Icon(Icons.person_outline, size: 22, color: AppColors.borderColor),
+                            Icon(Icons.person_outline, size: 22, color: Theme.of(context).iconTheme.color),
                             const SizedBox(width: 12),
                             Expanded(
                               child: Text(
                                 member,
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: AppColors.borderColor,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
                               ),
                             ),
                           ],
@@ -73,17 +62,13 @@ class ShiftCardWidgets extends StatelessWidget {
                     onPressed: () => Navigator.pop(context),
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(300, 56),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        side: BorderSide(color: AppColors.borderColor),
-                      ),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                       elevation: 2,
-                      backgroundColor: AppColors.customCardColor,
-                      foregroundColor: AppColors.borderColor,
+                      backgroundColor: AppColors.buttonColor,
                     ),
                     child: Text(
                       'Kapat',
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),
@@ -100,14 +85,9 @@ class ShiftCardWidgets extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
         children: [
-          Icon(icon, size: 22, color: AppColors.borderColor),
+          Icon(icon, size: 22, color: Theme.of(context).iconTheme.color),
           const SizedBox(width: 12),
-          Text(
-            '$label $value',
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: AppColors.borderColor, fontWeight: FontWeight.w500),
-          ),
+          Text('$label $value', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500)),
         ],
       ),
     );
@@ -132,6 +112,7 @@ class ShiftCardWidgets extends StatelessWidget {
           width: double.infinity,
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
+            border: Border.all(color: AppColors.borderColor),
             color: AppColors.cardColor3,
             borderRadius: BorderRadius.circular(16),
             boxShadow: [

@@ -9,7 +9,7 @@ class NewsDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidgets(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -18,13 +18,10 @@ class NewsDetailsPage extends StatelessWidget {
           children: [
             Text(
               "Yeni Uçuş Prosedürleri Duyuruldu!",
-              style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: AppColors.borderColor),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
-            Text(
-              DateFormat.yMMMMd('tr_TR').format(DateTime.now()),
-              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-            ),
+            Text(DateFormat.yMMMMd('tr_TR').format(DateTime.now()), style: Theme.of(context).textTheme.bodyLarge),
             const SizedBox(height: 20),
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
@@ -33,16 +30,16 @@ class NewsDetailsPage extends StatelessWidget {
             const SizedBox(height: 20),
             Text('''
 TGS, 2025 yılı itibarıyla yeni uçuş prosedürlerini duyurdu. Bu prosedürler, havalimanı operasyonlarını daha verimli ve güvenli hale getirmeyi amaçlıyor. Uçuş güvenliği ve yolcu memnuniyeti ön planda tutuldu.
-''', style: TextStyle(fontSize: 16, color: AppColors.borderColor, height: 1.5)),
+''', style: Theme.of(context).textTheme.bodyLarge),
             const SizedBox(height: 40),
             Text(
               "TGS Personel Eğitimi Programı",
-              style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: AppColors.borderColor),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             Text(
               DateFormat.yMMMMd('tr_TR').format(DateTime.now().subtract(Duration(days: 1))),
-              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(height: 20),
             ClipRRect(
@@ -52,16 +49,16 @@ TGS, 2025 yılı itibarıyla yeni uçuş prosedürlerini duyurdu. Bu prosedürle
             const SizedBox(height: 20),
             Text('''
 TGS, 2025 yılı için yeni personel eğitim programını başlattı. Bu program, tüm personelin iş güvenliği ve uçuş prosedürleri konularında eğitim almasını hedefliyor.
-''', style: TextStyle(fontSize: 16, color: AppColors.borderColor, height: 1.5)),
+''', style: Theme.of(context).textTheme.bodyLarge),
             const SizedBox(height: 40),
             Text(
               "Havalimanı Güvenlik Güncellemeleri",
-              style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: AppColors.borderColor),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             Text(
               DateFormat.yMMMMd('tr_TR').format(DateTime.now().subtract(Duration(days: 2))),
-              style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(height: 20),
             ClipRRect(
@@ -71,7 +68,7 @@ TGS, 2025 yılı için yeni personel eğitim programını başlattı. Bu program
             const SizedBox(height: 20),
             Text('''
 Yeni güvenlik önlemleri ile yolcu güvenliğini artırmayı amaçlayan güncellemeler, tüm havalimanı personeline duyuruldu. Bu değişiklikler, daha hızlı ve güvenli bir seyahat deneyimi sağlayacak.
-''', style: TextStyle(fontSize: 16, color: AppColors.borderColor, height: 1.5)),
+''', style: Theme.of(context).textTheme.bodyLarge),
           ],
         ),
       ),

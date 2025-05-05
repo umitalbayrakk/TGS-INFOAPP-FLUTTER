@@ -19,7 +19,7 @@ class _PermissionInformationViewState extends State<PermissionInformationView> {
     return ChangeNotifierProvider(
       create: (_) => PermissionModel(),
       child: Scaffold(
-        backgroundColor: Colors.grey[100],
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBarWidgets(),
         body: SafeArea(
           child: Padding(
@@ -31,9 +31,7 @@ class _PermissionInformationViewState extends State<PermissionInformationView> {
                 SizedBox(height: 10),
                 Text(
                   'İzin Geçmişi',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold, color: Colors.grey[800]),
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 12),
                 const Expanded(child: _PermissionHistoryList()),
@@ -58,10 +56,7 @@ class PermissionStatusCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.borderColor, width: 2),
-          ),
+          decoration: BoxDecoration(color: AppColors.cardColor3, borderRadius: BorderRadius.circular(16)),
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
@@ -91,7 +86,7 @@ class PermissionStatusCard extends StatelessWidget {
         const SizedBox(height: 12),
         Row(
           children: [
-            _buildStatCard('Kullanılan Yıllık', '${model.usedAnnualDays} Gün', AppColors.cardColor, Icons.work_history),
+            _buildStatCard('Kul.Yıl.İzin', '${model.usedAnnualDays} Gün', AppColors.cardColor, Icons.work_history),
             const SizedBox(width: 8),
             _buildStatCard(
               'Kalan Yıllık',
@@ -111,9 +106,9 @@ class PermissionStatusCard extends StatelessWidget {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.cardColor3,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.borderColor, width: 2),
+          //border: Border.all(color: AppColors.borderColor),
           boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.05), blurRadius: 6, offset: const Offset(0, 4))],
         ),
         padding: const EdgeInsets.all(12),
@@ -148,10 +143,7 @@ class _PermissionHistoryList extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 10),
           child: Container(
             height: 70,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.borderColor, width: 2),
-            ),
+            decoration: BoxDecoration(color: AppColors.cardColor3, borderRadius: BorderRadius.circular(16)),
             child: ListTile(
               leading: Icon(
                 permission['type'] == 'Yıllık İzin' ? Icons.beach_access : Icons.warning_amber,

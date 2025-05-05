@@ -4,7 +4,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:tgs_info_app_flutter/presentation/viewmodel/phone_numbers_viewmodel.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
-import 'package:tgs_info_app_flutter/widgets/drawer/custom_drawer_view.dart';
+import 'package:tgs_info_app_flutter/widgets/custom_drawer/custom_drawer_view.dart';
 
 class PhoneNumbersViews extends StatelessWidget {
   const PhoneNumbersViews({super.key});
@@ -17,18 +17,17 @@ class PhoneNumbersViews extends StatelessWidget {
         builder: (context, viewModel, child) {
           return Scaffold(
             drawer: const CustomDrawer(user: {}),
-            backgroundColor: AppColors.scaffoldBackgroundColor,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             appBar: AppBar(
               automaticallyImplyLeading: false,
-              backgroundColor: AppColors.scaffoldBackgroundColor,
-              elevation: 2,
+              backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
               shadowColor: AppColors.borderColor,
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Back button
                   IconButton(
-                    icon: const Icon(Icons.arrow_back, color: AppColors.borderColor, size: 40),
+                    icon: Icon(Icons.arrow_back, color: Theme.of(context).appBarTheme.iconTheme!.color, size: 30),
                     onPressed: () => Navigator.pop(context),
                   ),
                   // AppBar title
@@ -62,8 +61,11 @@ class PhoneNumbersViews extends StatelessWidget {
                             children: [
                               CircleAvatar(
                                 radius: 28,
-                                backgroundColor: AppColors.borderColor.withOpacity(0.1),
-                                child: const Icon(FeatherIcons.user, size: 28, color: AppColors.borderColor),
+                                backgroundColor:
+                                    Theme.of(context).brightness == Brightness.dark
+                                        ? AppColors.whiteSpot
+                                        : AppColors.borderColor,
+                                child: Icon(FeatherIcons.user),
                               ),
                               const SizedBox(width: 12),
                               Expanded(
@@ -113,16 +115,12 @@ class PhoneNumbersViews extends StatelessWidget {
 
   Container _addButton(BuildContext context, PhoneNumbersViewModel viewModel) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: AppColors.customCardColor,
-        border: Border.all(color: AppColors.borderColor),
-      ),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: AppColors.buttonColor),
       height: 50,
       width: 70,
       child: MaterialButton(
         onPressed: () => _showAddContactDialog(context, viewModel),
-        child: const Icon(Icons.person_2, color: AppColors.borderColor, size: 30),
+        child: const Icon(Icons.person_2, color: AppColors.whiteSpot, size: 30),
       ),
     );
   }
@@ -136,8 +134,11 @@ class PhoneNumbersViews extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: AppColors.scaffoldBackgroundColor,
-          title: Text('Yeni Kişi Ekle', style: TextStyle(color: AppColors.borderColor, fontWeight: FontWeight.w500)),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          title: Text(
+            'Yeni Kişi Ekle',
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+          ),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -145,8 +146,9 @@ class PhoneNumbersViews extends StatelessWidget {
                 TextField(
                   controller: nameController,
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(Bootstrap.person, color: AppColors.borderColor),
+                    prefixIcon: Icon(Bootstrap.person, color: Theme.of(context).iconTheme.color),
                     labelText: 'Adı',
+                    labelStyle: Theme.of(context).textTheme.bodyMedium,
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                 ),
@@ -154,8 +156,9 @@ class PhoneNumbersViews extends StatelessWidget {
                 TextField(
                   controller: surnameController,
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(Bootstrap.person, color: AppColors.borderColor),
+                    prefixIcon: Icon(Bootstrap.person, color: Theme.of(context).iconTheme.color),
                     labelText: 'Soyadı',
+                    labelStyle: Theme.of(context).textTheme.bodyMedium,
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                 ),
@@ -163,8 +166,9 @@ class PhoneNumbersViews extends StatelessWidget {
                 TextField(
                   controller: birthDateController,
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(Bootstrap.calendar2_check, color: AppColors.borderColor),
+                    prefixIcon: Icon(Bootstrap.calendar2_check, color: Theme.of(context).iconTheme.color),
                     labelText: 'D.Tarihi (GG/AA/YYYY)',
+                    labelStyle: Theme.of(context).textTheme.bodyMedium,
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                 ),
@@ -172,8 +176,9 @@ class PhoneNumbersViews extends StatelessWidget {
                 TextField(
                   controller: phoneController,
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(Bootstrap.phone, color: AppColors.borderColor),
+                    prefixIcon: Icon(Bootstrap.phone, color: Theme.of(context).iconTheme.color),
                     labelText: 'Cep Telefonu',
+                    labelStyle: Theme.of(context).textTheme.bodyMedium,
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                   keyboardType: TextInputType.phone,
@@ -217,7 +222,7 @@ class _appBarTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text("Telefon", style: TextStyle(fontSize: 40, fontWeight: FontWeight.w500, color: AppColors.borderColor));
+    return Text("Telefon", style: Theme.of(context).textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.bold));
   }
 }
 
@@ -234,7 +239,7 @@ class PhoneSearchBar extends StatelessWidget {
       decoration: InputDecoration(
         filled: true,
         fillColor: AppColors.searcColor.withOpacity(0.08),
-        prefixIcon: const Icon(FeatherIcons.search, color: AppColors.borderColor),
+        prefixIcon: Icon(FeatherIcons.search, color: Theme.of(context).iconTheme.color),
         hintText: 'Telefon Ara...',
         hintStyle: const TextStyle(color: Colors.grey),
         contentPadding: const EdgeInsets.symmetric(vertical: 12),

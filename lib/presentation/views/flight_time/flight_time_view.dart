@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tgs_info_app_flutter/presentation/viewmodel/flight_time_viewmodel.dart';
-import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
 
 class FlightTimeView extends StatelessWidget {
@@ -12,7 +11,7 @@ class FlightTimeView extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => FlightTimeViewModel()..initialize(),
       child: Scaffold(
-        backgroundColor: AppColors.scaffoldBackgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBarWidgets(),
         body: SafeArea(
           child: Padding(
@@ -24,10 +23,9 @@ class FlightTimeView extends StatelessWidget {
                   children: [
                     Text(
                       'Uçuşlar',
-                      style: Theme.of(
-                        context,
-                      ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold, color: Colors.blue[700]),
+                      style: Theme.of(context).textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.bold),
                     ),
+
                     const SizedBox(height: 20),
                     Row(
                       children: [
@@ -45,7 +43,10 @@ class FlightTimeView extends StatelessWidget {
                                         .map(
                                           (airport) => DropdownMenuItem<String>(
                                             value: airport['kod'],
-                                            child: Text('${airport['kod']} - ${airport['adi']}'),
+                                            child: Text(
+                                              '${airport['kod']} - ${airport['adi']}',
+                                              style: Theme.of(context).textTheme.bodyLarge,
+                                            ),
                                           ),
                                         )
                                         .toList(),
@@ -55,8 +56,8 @@ class FlightTimeView extends StatelessWidget {
                                   }
                                 },
                                 style: const TextStyle(color: Colors.black87),
-                                dropdownColor: Colors.white,
-                                icon: Icon(Icons.arrow_drop_down, color: Colors.blue[700]),
+                                dropdownColor: Theme.of(context).scaffoldBackgroundColor,
+                                icon: Icon(Icons.arrow_drop_down, color: Theme.of(context).iconTheme.color, size: 30),
                               ),
                             ],
                           ),
@@ -76,7 +77,10 @@ class FlightTimeView extends StatelessWidget {
                                         .map(
                                           (airline) => DropdownMenuItem<String>(
                                             value: airline['kod'],
-                                            child: Text('${airline['kod']} - ${airline['adi']}'),
+                                            child: Text(
+                                              '${airline['kod']} - ${airline['adi']}',
+                                              style: Theme.of(context).textTheme.bodyLarge,
+                                            ),
                                           ),
                                         )
                                         .toList(),
@@ -86,8 +90,8 @@ class FlightTimeView extends StatelessWidget {
                                   }
                                 },
                                 style: const TextStyle(color: Colors.black87),
-                                dropdownColor: Colors.white,
-                                icon: Icon(Icons.arrow_drop_down, color: Colors.blue[700]),
+                                dropdownColor: Theme.of(context).scaffoldBackgroundColor,
+                                icon: Icon(Icons.arrow_drop_down, color: Theme.of(context).iconTheme.color, size: 30),
                               ),
                             ],
                           ),
@@ -102,9 +106,9 @@ class FlightTimeView extends StatelessWidget {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.flight_takeoff, size: 60, color: Colors.grey[600]),
+                                    Icon(Icons.flight_takeoff, color: Theme.of(context).iconTheme.color, size: 50),
                                     const SizedBox(height: 16),
-                                    Text('Uçuş bulunamadı.', style: TextStyle(fontSize: 16, color: Colors.grey[600])),
+                                    Text('Uçuş bulunamadı.', style: Theme.of(context).textTheme.bodyLarge),
                                   ],
                                 ),
                               )
@@ -113,15 +117,18 @@ class FlightTimeView extends StatelessWidget {
                                 itemBuilder: (context, index) {
                                   final flight = viewModel.filteredFlights[index];
                                   return ListTile(
-                                    leading: Icon(flight['ikon'], color: Colors.blue[700], size: 30),
+                                    leading: Icon(flight['ikon'], color: Theme.of(context).iconTheme.color, size: 30),
                                     title: Text(
                                       '${flight['kalkis']} -> ${flight['varis']} (${flight['yon']})',
-                                      style: const TextStyle(fontWeight: FontWeight.w600),
+                                      style: Theme.of(context).textTheme.bodyLarge,
                                     ),
-                                    subtitle: Text('Saat: ${flight['saat']}\nTarih: ${flight['tarih']}'),
+                                    subtitle: Text(
+                                      'Saat: ${flight['saat']}\nTarih: ${flight['tarih']}',
+                                      style: Theme.of(context).textTheme.bodySmall,
+                                    ),
                                     trailing: Text(
                                       '${flight['havayolu']} - ${flight['kod']}',
-                                      style: TextStyle(color: Colors.grey[700]),
+                                      style: Theme.of(context).textTheme.bodyMedium,
                                     ),
                                     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                   );

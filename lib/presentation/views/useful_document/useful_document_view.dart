@@ -180,16 +180,16 @@ class _UsefulDocumentViewState extends State<UsefulDocumentView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidgets(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(16.0),
             child: Text(
               "TGS Yer Hizmetleri A.Ş. Faydalı Dokümanlar",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppColors.borderColor),
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
             ),
           ),
           Expanded(
@@ -236,8 +236,8 @@ class DocumentDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackgroundColor,
-      appBar: AppBar(title: Text(document["title"]!), backgroundColor: AppColors.customCardColor),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(title: Text(document["title"]!), backgroundColor: Theme.of(context).appBarTheme.backgroundColor),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -247,9 +247,10 @@ class DocumentDetailPage extends StatelessWidget {
             const SizedBox(height: 8),
             Text(document["description"]!, style: const TextStyle(fontSize: 16, color: Colors.grey)),
             const SizedBox(height: 24),
-            Card(
-              color: Colors.white,
-              elevation: 2,
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Theme.of(context).cardColor, width: 2),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text(document["content"]!, style: const TextStyle(fontSize: 16, height: 1.5)),

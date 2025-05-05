@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tgs_info_app_flutter/presentation/viewmodel/shift_card_viewmodel.dart';
-import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/utils/constant.dart';
 import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/borncard/born_card_widgets.dart';
-import 'package:tgs_info_app_flutter/widgets/drawer/custom_drawer_view.dart';
+import 'package:tgs_info_app_flutter/widgets/custom_drawer/custom_drawer_view.dart';
 import 'package:tgs_info_app_flutter/widgets/foodcart/food_card_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/gameCard/game_card_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/shiftcard/shift_card_widgets.dart';
@@ -31,7 +30,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: CustomDrawer(user: widget.user),
-      backgroundColor: AppColors.scaffoldBackgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidgets(),
       body: SingleChildScrollView(
         child: SingleChildScrollView(

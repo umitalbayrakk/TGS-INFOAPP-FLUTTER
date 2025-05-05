@@ -26,4 +26,8 @@ class AppColors {
   static const Color cardColor3 = Color(0xffFFFFFF);
   static const Color foodCard = Color(0xffFB5607);
   static const Color timeColor = Color(0xffD42A2A);
+  static const Color textFiledColor = Color(0xffF8F7FB);
+  static const Color buttonColor = Color(0xffD70404);
+
+  static const Color darkModColor = Color(0xff1F2E35);
 }

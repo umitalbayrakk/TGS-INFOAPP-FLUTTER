@@ -17,7 +17,7 @@ class _CorporateAgreementsViewState extends State<CorporateAgreementsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackgroundColor,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidgets(),
       body: CustomScrollView(
         slivers: [
@@ -50,7 +50,7 @@ class _CorporateAgreementsViewState extends State<CorporateAgreementsView> {
         const SizedBox(height: 16),
         Text(
           "TGS olarak, Türk Hava Yolları ve iş ortaklarımızla yer hizmetleri alanında imzaladığımız modern anlaşmaları keşfedin.",
-          style: TextStyle(fontSize: 16, color: Colors.grey[700], height: 1.5),
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
       ],
     );
@@ -113,11 +113,8 @@ class _CorporateAgreementsViewState extends State<CorporateAgreementsView> {
                     agreement.benefits
                         .take(2)
                         .map(
-                          (benefit) => Chip(
-                            label: Text(benefit),
-                            backgroundColor: AppColors.cardColor2.withOpacity(0.1),
-                            labelStyle: TextStyle(color: AppColors.borderColor, fontSize: 12),
-                          ),
+                          (benefit) =>
+                              Chip(label: Text(benefit), backgroundColor: AppColors.cardColor2.withOpacity(0.1)),
                         )
                         .toList(),
               ),
@@ -167,7 +164,7 @@ class AgreementDetailsSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.scaffoldBackgroundColor,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: SingleChildScrollView(
         controller: scrollController,
         child: Padding(
@@ -185,19 +182,12 @@ class AgreementDetailsSheet extends StatelessWidget {
               const SizedBox(height: 16),
               Row(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: AppColors.borderColor.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Icon(agreement.icon, color: AppColors.borderColor, size: 32),
-                  ),
+                  Icon(agreement.icon, color: Theme.of(context).iconTheme.color),
                   const SizedBox(width: 16),
                   Expanded(
                     child: Text(
                       agreement.title,
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.borderColor),
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],
@@ -205,20 +195,40 @@ class AgreementDetailsSheet extends StatelessWidget {
               const SizedBox(height: 24),
               Text(
                 "Anlaşma Detayları",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.grey[800]),
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              Text(agreement.description, style: TextStyle(fontSize: 16, color: Colors.grey[600], height: 1.5)),
+              Text(agreement.description, style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 15)),
               const SizedBox(height: 24),
-              _buildDetailRow(
-                icon: Icons.calendar_today,
-                label: "Geçerlilik Tarihi",
-                value: "${viewModel.formatDate(agreement.startDate)} - ${viewModel.formatDate(agreement.endDate)}",
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(Icons.calendar_month, color: Theme.of(context).iconTheme.color, size: 30),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Geçerlilik Tarihi",
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodySmall?.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          "${viewModel.formatDate(agreement.startDate)} - ${viewModel.formatDate(agreement.endDate)}",
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 16),
               Text(
                 "Kazanımlar",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: AppColors.borderColor),
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               ...agreement.benefits.map(
@@ -227,9 +237,11 @@ class AgreementDetailsSheet extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(FeatherIcons.checkSquare, color: AppColors.borderColor, size: 20),
+                      Icon(FeatherIcons.checkSquare, color: Theme.of(context).iconTheme.color),
                       const SizedBox(width: 8),
-                      Expanded(child: Text(benefit, style: TextStyle(fontSize: 15, color: Colors.grey[700]))),
+                      Expanded(
+                        child: Text(benefit, style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 15)),
+                      ),
                     ],
                   ),
                 ),
@@ -238,26 +250,6 @@ class AgreementDetailsSheet extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildDetailRow({required IconData icon, required String label, required String value}) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, color: AppColors.borderColor, size: 20),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(label, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: AppColors.borderColor)),
-              const SizedBox(height: 4),
-              Text(value, style: TextStyle(fontSize: 14, color: Colors.grey[600])),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }

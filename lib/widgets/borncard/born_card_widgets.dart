@@ -21,12 +21,12 @@ class BirthdayCard extends StatelessWidget {
     User("Jale", "Turan", DateTime(1990, 4, 30)),
     User("Efe", "Kaya", DateTime(1985, 4, 30)),
     User("Selin", "Erdem", DateTime(1985, 4, 30)),
-    User("Yusuf", "Gök", DateTime(1985, 5, 2)),
-    User("Zeynep", "Aydin", DateTime(1985, 5, 9)),
-    User("Ahmet", "Özden", DateTime(1985, 5, 16)),
-    User("Banu", "Yıldız", DateTime(1985, 5, 23)),
+    User("Yusuf", "Gök", DateTime(1985, 5, 3)),
+    User("Zeynep", "Aydin", DateTime(1985, 5, 3)),
+    User("Ahmet", "Özden", DateTime(1985, 5, 5)),
+    User("Banu", "Yıldız", DateTime(1985, 5, 5)),
     User("Can", "Balkan", DateTime(1985, 5, 30)),
-    User("Dilara", "Sönmez", DateTime(1985, 6, 6)),
+    User("Dilara", "Sönmez", DateTime(1985, 5, 5)),
     User("Emre", "Turan", DateTime(1985, 4, 16)),
     User("Elif", "Kaya", DateTime(1993, 4, 19)),
     User("Kemal", "Erdem", DateTime(1993, 4, 16)),
@@ -44,7 +44,7 @@ class BirthdayCard extends StatelessWidget {
     User("Pınar", "Özden", DateTime(1991, 5, 18)),
     User("Rüya", "Yıldız", DateTime(1991, 5, 25)),
     User("Serkan", "Balkan", DateTime(1991, 6, 1)),
-    User("Tuba", "Sönmez", DateTime(1991, 6, 8)),
+    User("Tuba", "Sönmez", DateTime(1991, 4, 5)),
     User("Ulaş", "Turan", DateTime(1991, 6, 15)),
     User("Barış", "Kaya", DateTime(1987, 4, 24)),
     User("Leyla", "Erdem", DateTime(1987, 5, 1)),
@@ -68,7 +68,7 @@ class BirthdayCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        // border: Border.all(color: AppColors.borderColor),
+        border: Border.all(color: AppColors.borderColor),
         color: AppColors.cardColor3,
         boxShadow: [
           BoxShadow(color: AppColors.borderColor.withOpacity(0.1), blurRadius: 8, offset: const Offset(0, 4)),
@@ -83,10 +83,14 @@ class BirthdayCard extends StatelessWidget {
           children: [
             Text(
               "Bugün Doğanlar ",
-              style: TextStyle(color: AppColors.borderColor, fontSize: 20, fontWeight: FontWeight.w500),
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
-            if (todaysBirthdays.isEmpty) const Text("Bugün doğum günü olan çalışan bulunmamaktadır."),
+            if (todaysBirthdays.isEmpty)
+              Text(
+                "Bugün doğum günü olan çalışan bulunmamaktadır.",
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(fontWeight: FontWeight.bold),
+              ),
             ...todaysBirthdays.map(
               (user) => ListTile(
                 leading: const Icon(Icons.cake, color: AppColors.borderColor, size: 40),
@@ -114,3 +118,6 @@ class User {
 
   User(this.firstName, this.lastName, this.birthDate);
 }
+
+
+//haklar göstreilecek.
