@@ -50,9 +50,9 @@ class BirthdayCard extends StatelessWidget {
     User("Leyla", "Erdem", DateTime(1987, 5, 1)),
     User("Ozan", "Gök", DateTime(1987, 5, 8)),
     User("Pelin", "Aydin", DateTime(1987, 5, 15)),
-    User("Sami", "Özden", DateTime(1987, 5, 22)),
-    User("Tuna", "Yıldız", DateTime(1987, 5, 29)),
-    User("Ümit", "Balkan", DateTime(1987, 6, 5)),
+    User("Sami", "Özden", DateTime(1987, 5, 6)),
+    User("Tuna", "Yıldız", DateTime(1987, 5, 7)),
+    User("Ümit", "Balkan", DateTime(1987, 5, 8)),
     User("Veli", "Sönmez", DateTime(1987, 6, 12)),
   ];
 
@@ -111,6 +111,7 @@ class BirthdayCard extends StatelessWidget {
   }
 }
 
+// Model
 class User {
   final String firstName;
   final String lastName;
@@ -118,6 +119,3 @@ class User {
 
   User(this.firstName, this.lastName, this.birthDate);
 }
-
-
-//haklar göstreilecek.

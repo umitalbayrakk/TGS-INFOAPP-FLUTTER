@@ -4,6 +4,7 @@ import 'package:tgs_info_app_flutter/utils/constant.dart';
 import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/borncard/born_card_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/custom_drawer/custom_drawer_view.dart';
+import 'package:tgs_info_app_flutter/widgets/excangecard/excangecard_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/foodcart/food_card_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/gameCard/game_card_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/shiftcard/shift_card_widgets.dart';
@@ -41,9 +42,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
               SizedBox(height: 10),
               LastNewsText(),
               NewsSection(),
-              SizedBox(height: 5),
+              ExcangecardWidgets(),
+              SizedBox(height: 10),
               ShiftCardWidgets(viewModel: ShiftViewModel()),
-              SizedBox(height: 5),
               GameCard(user: widget.user),
               BirthdayCard(),
               TurkishFoodCard(),

@@ -3,6 +3,7 @@ import 'package:tgs_info_app_flutter/utils/colors.dart';
 
 class AppThemes {
   static final lightTheme = ThemeData(
+    dividerColor: Colors.black,
     brightness: Brightness.light,
     scaffoldBackgroundColor: AppColors.scaffoldBackgroundColor,
     primaryColor: AppColors.borderColor,
@@ -48,7 +49,6 @@ class AppThemes {
       iconTheme: const IconThemeData(color: Colors.white, size: 24),
     ),
     textTheme: const TextTheme(
-      
       headlineLarge: TextStyle(color: AppColors.scaffoldBackgroundColor),
       headlineSmall: TextStyle(color: AppColors.whiteSpot),
       headlineMedium: TextStyle(color: AppColors.whiteSpot),
@@ -69,6 +69,7 @@ class AppThemes {
       labelStyle: TextStyle(color: AppColors.borderColor),
       focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appBarColor)),
     ),
+    dividerColor: Colors.black,
     cardTheme: CardTheme(color: AppColors.whitecolorSpot),
   );
 }

@@ -123,7 +123,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           navigateTo: UsefulDocumentView(user: widget.user),
           icon: Icons.document_scanner_outlined,
         ),
-        CustomNavigationButton(title: 'Döviz Kurları', navigateTo: ExchangeRatesView(), icon: Icons.currency_exchange),
+        CustomNavigationButton(title: 'Döviz Kurları', navigateTo: CurrencyScreen(), icon: Icons.currency_exchange),
         CustomNavigationButton(title: 'Hava Durumu', navigateTo: WeatherView(), icon: WeatherIcons.day_sunny),
       ],
     );

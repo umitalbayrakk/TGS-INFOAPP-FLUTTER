@@ -5,7 +5,7 @@ import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
 class ProfileView extends StatefulWidget {
   final Map<String, String> user;
   const ProfileView({super.key, required this.user});
-
+  
   @override
   State<ProfileView> createState() => _ProfileViewState();
 }
@@ -74,6 +74,3 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 }
-
-
-//"${widget.user["name"]}"
