@@ -18,7 +18,7 @@ class CourselSlider extends StatelessWidget {
     return Container(
       child: CarouselSlider(
         options: CarouselOptions(
-          height: 250,
+          height: 200,
           autoPlay: true,
           autoPlayInterval: Duration(seconds: 3),
           autoPlayAnimationDuration: Duration(milliseconds: 800),

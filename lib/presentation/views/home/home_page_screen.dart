@@ -10,12 +10,12 @@ import 'package:tgs_info_app_flutter/widgets/gameCard/game_card_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/shiftcard/shift_card_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/tgs_news/news_section_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/carousel_slider/coursel_slider.dart';
+import 'package:tgs_info_app_flutter/widgets/weathercard/weather_card_widgets.dart';
 
 class HomePageScreen extends StatefulWidget {
   final Map<String, String> user;
 
   const HomePageScreen({super.key, required this.user});
-
   @override
   State<HomePageScreen> createState() => _HomePageScreenState();
 }
@@ -42,6 +42,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
               SizedBox(height: 10),
               LastNewsText(),
               NewsSection(),
+              SizedBox(height: 10),
+              WeatherCardWidgets(),
+              SizedBox(height: 10),
               ExcangecardWidgets(),
               SizedBox(height: 10),
               ShiftCardWidgets(viewModel: ShiftViewModel()),

@@ -108,7 +108,6 @@ class PermissionStatusCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.cardColor3,
           borderRadius: BorderRadius.circular(16),
-          //border: Border.all(color: AppColors.borderColor),
           boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.05), blurRadius: 6, offset: const Offset(0, 4))],
         ),
         padding: const EdgeInsets.all(12),

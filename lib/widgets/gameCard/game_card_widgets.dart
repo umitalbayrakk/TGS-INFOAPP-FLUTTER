@@ -13,12 +13,8 @@ class GameCard extends StatelessWidget {
       padding: const EdgeInsets.only(right: 20, left: 20, top: 10),
       child: Container(
         width: double.infinity,
-        height: 50,
-        decoration: BoxDecoration(
-          color: AppColors.buttonColor,
-          // border: Border.all(color: AppColors.borderColor),
-          borderRadius: BorderRadius.circular(16),
-        ),
+        height: 45,
+        decoration: BoxDecoration(color: AppColors.buttonColor, borderRadius: BorderRadius.circular(16)),
         child: MaterialButton(
           onPressed: () {
             print('GameCard user: $user');

@@ -61,7 +61,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                       Text(
                         "Fikir Öneri İstek",
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 32),
                       _buildInputField(_nameController, "Adınız", (val) => val!.isEmpty ? "Adınızı giriniz" : null),
@@ -94,7 +94,6 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         decoration: BoxDecoration(
                           color: AppColors.buttonColor,
                           borderRadius: BorderRadius.circular(10),
-                          //  border: Border.all(color: AppColors.borderColor),
                         ),
                         child: MaterialButton(
                           onPressed: _submitFeedback,

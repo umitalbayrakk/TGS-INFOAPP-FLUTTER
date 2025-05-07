@@ -23,12 +23,12 @@ class AppThemes {
     buttonTheme: const ButtonThemeData(buttonColor: AppColors.darkModColor, textTheme: ButtonTextTheme.primary),
     iconTheme: const IconThemeData(color: Colors.black, size: 24),
     colorScheme: ColorScheme.light(
-      primary: AppColors.darkColor, // Ana renk (örneğin, butonlar)
-      secondary: AppColors.buttonColor, // İkincil renk (örneğin, vurgular)
-      surface: Colors.white, // Yüzey rengi (kartlar, paneller)
-      onSurface: Colors.black, // Yüzey üzerindeki metin/ikon rengi
-      background: AppColors.scaffoldBackgroundColor, // Arka plan rengi
-      onBackground: Colors.black, // Arka plan üzerindeki metin/ikon rengi
+      primary: AppColors.darkColor, 
+      secondary: AppColors.buttonColor,
+      surface: Colors.white, 
+      onSurface: Colors.black,
+      background: AppColors.scaffoldBackgroundColor, 
+      onBackground: Colors.black, 
     ),
     inputDecorationTheme: const InputDecorationTheme(
       hintStyle: TextStyle(color: AppColors.borderColor),

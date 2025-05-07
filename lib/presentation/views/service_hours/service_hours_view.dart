@@ -25,8 +25,6 @@ class ServiceHoursView extends StatelessWidget {
           ),
           iconTheme: const IconThemeData(color: AppColors.borderColor, size: 35),
           backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-          // elevation: 2,
-          // shadowColor: AppColors.borderColor,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -63,7 +61,6 @@ class ServiceHoursView extends StatelessWidget {
                           width: double.infinity,
                           decoration: new BoxDecoration(
                             borderRadius: BorderRadius.circular(16),
-                            // border: Border.all(color: AppColors.borderColor, width: 2),
                             image: new DecorationImage(
                               image: new AssetImage('assets/images/map.png'),
                               fit: BoxFit.cover,

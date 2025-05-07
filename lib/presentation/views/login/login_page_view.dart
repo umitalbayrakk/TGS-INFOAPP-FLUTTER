@@ -38,7 +38,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Column(
                     children: [
-                      // SvgPicture.asset("assets/images/Mobile login-pana 1.svg", width: 200, height: 200),
                       Image.asset("assets/images/login.png", width: 200, height: 200),
                       Text(
                         "Giriş Yap",

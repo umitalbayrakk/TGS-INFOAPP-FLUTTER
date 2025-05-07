@@ -39,14 +39,11 @@ class FlightTimeViewModel extends ChangeNotifier {
     final today = DateTime.now().toString().split(' ')[0];
     _allFlights.clear();
 
-    List<String> times = List.generate(
-      38, 
-      (index) {
-        int hour = 5 + (index * 30) ~/ 60;
-        int minute = (index * 30) % 60;
-        return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
-      },
-    );
+    List<String> times = List.generate(38, (index) {
+      int hour = 5 + (index * 30) ~/ 60;
+      int minute = (index * 30) % 60;
+      return '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}';
+    });
 
     Map<String, Set<String>> usedTimes = {};
 
@@ -111,20 +108,24 @@ class FlightTimeViewModel extends ChangeNotifier {
     }
     _allFlights.sort((a, b) => a['saat'].compareTo(b['saat']));
   }
+
   void _filterFlights() {
     final today = DateTime.now().toString().split(' ')[0];
-    _filteredFlights = _allFlights.where((flight) {
-      return (flight['kalkis'] == _selectedAirport || flight['varis'] == _selectedAirport) &&
-          flight['havayolu'] == _selectedAirline &&
-          flight['tarih'] == today;
-    }).toList();
+    _filteredFlights =
+        _allFlights.where((flight) {
+          return (flight['kalkis'] == _selectedAirport || flight['varis'] == _selectedAirport) &&
+              flight['havayolu'] == _selectedAirline &&
+              flight['tarih'] == today;
+        }).toList();
     _filteredFlights.sort((a, b) => a['saat'].compareTo(b['saat']));
     notifyListeners();
   }
+
   void updateSelectedAirport(String airport) {
     _selectedAirport = airport;
     _filterFlights();
   }
+
   void updateSelectedAirline(String airline) {
     _selectedAirline = airline;
     _filterFlights();

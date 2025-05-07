@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tgs_info_app_flutter/presentation/model/born_model/born_model.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 
 class BirthdayCard extends StatelessWidget {
@@ -109,13 +110,4 @@ class BirthdayCard extends StatelessWidget {
       ),
     );
   }
-}
-
-// Model
-class User {
-  final String firstName;
-  final String lastName;
-  final DateTime birthDate;
-
-  User(this.firstName, this.lastName, this.birthDate);
 }

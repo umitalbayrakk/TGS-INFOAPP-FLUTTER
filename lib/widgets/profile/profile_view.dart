@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
+import 'package:tgs_info_app_flutter/widgets/custom_drawer/custom_drawer_view.dart';
 
 class ProfileView extends StatefulWidget {
   final Map<String, String> user;
   const ProfileView({super.key, required this.user});
-  
+
   @override
   State<ProfileView> createState() => _ProfileViewState();
 }
@@ -26,7 +27,7 @@ class _ProfileViewState extends State<ProfileView> {
           CircleAvatar(
             radius: 80,
             backgroundColor: Theme.of(context).iconTheme.color,
-            child: Icon(Icons.person, size: 80),
+            child: Icon(Icons.person, size: 130),
           ),
           SizedBox(height: 30),
           Center(
@@ -36,11 +37,11 @@ class _ProfileViewState extends State<ProfileView> {
                 SizedBox(height: 20),
                 ProfileCard(Icons.email, "${widget.user["email"]}"),
                 SizedBox(height: 20),
-                ProfileCard(Icons.location_city_outlined, "${widget.user["bio"]}"),
+                ProfileCard(Icons.badge, "${widget.user["bio"]}"),
                 SizedBox(height: 20),
                 ProfileCard(Icons.calendar_month, "${widget.user["birthDate"]}"),
                 SizedBox(height: 20),
-                ProfileCard(Icons.location_city_outlined, "${widget.user["location"]}"),
+                ProfileCard(Icons.location_on, "${widget.user["location"]}"),
               ],
             ),
           ),

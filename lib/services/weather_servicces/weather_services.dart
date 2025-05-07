@@ -3,8 +3,9 @@ import 'package:http/http.dart' as http;
 import 'package:tgs_info_app_flutter/presentation/model/weather_model/weather_model.dart';
 
 class WeatherService {
+  
   static const String _baseUrl = 'https://api.open-meteo.com/v1/forecast';
-
+  
   Future<WeatherModel> getWeather(double latitude, double longitude, String cityName) async {
     final response = await http.get(
       Uri.parse(

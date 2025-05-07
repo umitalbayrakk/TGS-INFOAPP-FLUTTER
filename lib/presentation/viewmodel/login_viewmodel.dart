@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tgs_info_app_flutter/presentation/views/home/home_page_screen.dart';
+import 'package:tgs_info_app_flutter/widgets/navbar/navbar_widgets.dart';
 
 class LoginViewModel {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String? errorMessage;
   String? loggedInUserName;
-  
   TextEditingController get usernameController => _usernameController;
   TextEditingController get passwordController => _passwordController;
   final List<Map<String, String>> users = [
@@ -55,6 +55,14 @@ class LoginViewModel {
       "email": "merve.arslan@tgs.aero.com",
       "birthDate": "30 Haziran 1988",
       "bio": "Başarılı bir akademisyen ve araştırmacı.",
+      "password": "password123",
+      "location": "Ataşehir",
+    },
+    {
+      "name": "Test Kullanıcısı",
+      "email": "test.info@tgs.aero.com",
+      "birthDate": "30 Haziran 1988",
+      "bio": "Test Kullaıcısı.",
       "password": "password123",
       "location": "Ataşehir",
     },
@@ -684,7 +692,10 @@ class LoginViewModel {
         currentUser["location"] = "Arnavutköy";
       }
       print("LoginViewModel: Giriş yapan kullanıcı: ${currentUser['email']}, Konum: ${currentUser['location']}");
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePageScreen(user: currentUser!)));
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => ModernGoogleNavBar(user: currentUser!)),
+      );
     } else {
       errorMessage = "Kullanıcı adı veya şifre yanlış!";
     }

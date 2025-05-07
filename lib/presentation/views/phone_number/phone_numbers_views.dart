@@ -4,6 +4,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:tgs_info_app_flutter/presentation/viewmodel/phone_numbers_viewmodel.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
+import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/custom_drawer/custom_drawer_view.dart';
 
 class PhoneNumbersViews extends StatelessWidget {
@@ -18,22 +19,17 @@ class PhoneNumbersViews extends StatelessWidget {
           return Scaffold(
             drawer: const CustomDrawer(user: {}),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            appBar: AppBar(
+            /*  appBar: AppBar(
               automaticallyImplyLeading: false,
               backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
               shadowColor: AppColors.borderColor,
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Back button
                   IconButton(
                     icon: Icon(Icons.arrow_back, color: Theme.of(context).appBarTheme.iconTheme!.color, size: 30),
                     onPressed: () => Navigator.pop(context),
                   ),
-                  // AppBar title
-                  _appBarTitle(),
-                  // Phone number add button
-                  _addButton(context, viewModel),
                 ],
               ),
               bottom: PreferredSize(
@@ -43,12 +39,14 @@ class PhoneNumbersViews extends StatelessWidget {
                   child: PhoneSearchBar(controller: viewModel.searchController),
                 ),
               ),
-            ),
+            ), */
+            appBar: AppBarWidgets(),
             body: Padding(
               padding: const EdgeInsets.all(12.0),
               child: Column(
                 children: [
                   const SizedBox(height: 12),
+                  PhoneSearchBar(controller: viewModel.searchController),
                   Expanded(
                     child: ListView.builder(
                       itemCount: viewModel.filteredContacts.length,
@@ -106,6 +104,11 @@ class PhoneNumbersViews extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+            floatingActionButton: FloatingActionButton(
+              backgroundColor: AppColors.buttonColor,
+              onPressed: () => _showAddContactDialog(context, viewModel),
+              child: const Icon(Icons.person_2, color: AppColors.cardColor3, size: 40),
             ),
           );
         },
@@ -216,7 +219,6 @@ class PhoneNumbersViews extends StatelessWidget {
   }
 }
 
-// ignore: camel_case_types
 class _appBarTitle extends StatelessWidget {
   const _appBarTitle({super.key});
 

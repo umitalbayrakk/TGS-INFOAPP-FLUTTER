@@ -28,6 +28,7 @@ class AppColors {
   static const Color timeColor = Color(0xffD42A2A);
   static const Color textFiledColor = Color(0xffF8F7FB);
   static const Color buttonColor = Color(0xffD70404);
-
+  static const Color darkGreenColor = Color(0xff25C683);
   static const Color darkModColor = Color(0xff1F2E35);
+
 }

@@ -61,7 +61,6 @@ class _CorporateAgreementsViewState extends State<CorporateAgreementsView> {
       decoration: BoxDecoration(
         color: AppColors.cardColor3,
         borderRadius: BorderRadius.circular(16),
-        // border: Border.all(color: AppColors.borderColor, width: 2),
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),

@@ -19,21 +19,16 @@ class _OnboardingViewState extends State<OnboardingView> with SingleTickerProvid
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-
     _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 2));
-
     _fadeAnimation = Tween<double>(
       begin: 0,
       end: 1,
     ).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeInOut));
-
     _scaleAnimation = Tween<double>(
       begin: 0.5,
       end: 1,
     ).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeInOut));
-
     _animationController.forward();
-
     Future.delayed(const Duration(seconds: 5), () {
       Navigator.of(context).pushReplacement(
         PageRouteBuilder(

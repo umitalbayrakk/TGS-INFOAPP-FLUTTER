@@ -30,8 +30,8 @@ class LastNewsText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 20),
-      child: Row(children: [Text("TGS Son Haberler", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))]),
+      padding: EdgeInsets.only(left: 20, top: 20),
+      child: Row(children: [Text("TGS Duyurular", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))]),
     );
   }
 }

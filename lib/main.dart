@@ -6,12 +6,12 @@ import 'package:tgs_info_app_flutter/core/themes/app_themes.dart';
 import 'package:tgs_info_app_flutter/core/themes/theme_provider.dart';
 import 'package:tgs_info_app_flutter/presentation/viewmodel/weather_viewmodel.dart';
 import 'package:tgs_info_app_flutter/presentation/views/oboardind/onboarding_view.dart';
+import 'package:tgs_info_app_flutter/widgets/navbar/navbar_widgets.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await initializeDateFormatting('tr_TR');
-
   runApp(const MyApp());
 }
 
@@ -28,9 +28,9 @@ class MyApp extends StatelessWidget {
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
           return MaterialApp(
-            theme: AppThemes.lightTheme, // Light tema
-            darkTheme: AppThemes.darkTheme, // Dark tema
-            themeMode: themeProvider.themeMode, // Dinamik tema modu
+            theme: AppThemes.lightTheme,
+            darkTheme: AppThemes.darkTheme,
+            themeMode: themeProvider.themeMode,
             debugShowCheckedModeBanner: false,
             title: 'TGSInfoApp',
             home: OnboardingView(),

@@ -10,6 +10,7 @@ class WeatherView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<WeatherViewModel>(context, listen: true);
+
     return Scaffold(
       appBar: AppBarWidgets(),
       body: Container(
@@ -25,33 +26,7 @@ class WeatherView extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.borderColor),
-                  color: Colors.white.withOpacity(0.9),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: DropdownButton<String>(
-                  icon: const Icon(Icons.arrow_drop_down, color: AppColors.borderColor),
-                  hint: Text(
-                    'Şehir Seçin',
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppColors.borderColor),
-                  ),
-                  value: viewModel.selectedCity,
-                  isExpanded: true,
-                  underline: const SizedBox(),
-                  items:
-                      viewModel.cities.keys.map((String city) {
-                        return DropdownMenuItem<String>(value: city, child: Text(city));
-                      }).toList(),
-                  onChanged: (String? newValue) {
-                    if (newValue != null) {
-                      viewModel.fetchWeather(newValue);
-                    }
-                  },
-                ),
-              ),
+              Customdropdown(viewModel: viewModel),
               const SizedBox(height: 20),
               if (viewModel.isLoading)
                 const Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Colors.white))),
@@ -66,10 +41,7 @@ class WeatherView extends StatelessWidget {
                 ),
               if (viewModel.weather != null) ...[
                 Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Theme.of(context).iconTheme.color!, width: 2),
-                  ),
+                  decoration: BoxDecoration(color: AppColors.buttonColor, borderRadius: BorderRadius.circular(16)),
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Row(
@@ -77,7 +49,7 @@ class WeatherView extends StatelessWidget {
                         Icon(
                           viewModel.getWeatherIcon(viewModel.weather!.currentWeatherCode),
                           size: 50,
-                          color: Theme.of(context).iconTheme.color,
+                          color: AppColors.whiteSpot,
                         ),
                         const SizedBox(width: 40),
                         Expanded(
@@ -86,13 +58,20 @@ class WeatherView extends StatelessWidget {
                             children: [
                               Text(
                                 viewModel.weather!.cityName,
-                                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.whiteSpot,
+                                ),
                               ),
                               Text(
                                 '${viewModel.weather!.currentTemperature.toStringAsFixed(1)}°C',
-                                style: const TextStyle(fontSize: 20),
+                                style: const TextStyle(fontSize: 20, color: AppColors.whiteSpot),
                               ),
-                              Text(viewModel.weather!.currentDescription, style: const TextStyle(fontSize: 16)),
+                              Text(
+                                viewModel.weather!.currentDescription,
+                                style: const TextStyle(fontSize: 16, color: AppColors.whiteSpot),
+                              ),
                             ],
                           ),
                         ),
@@ -116,7 +95,8 @@ class WeatherView extends StatelessWidget {
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: Theme.of(context).iconTheme.color!),
+                            //color: AppColors.appBarColor,
+                            //border: Border.all(color: Theme.of(context).iconTheme.color!),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
@@ -157,6 +137,46 @@ class WeatherView extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class Customdropdown extends StatelessWidget {
+  const Customdropdown({
+    super.key,
+    required this.viewModel,
+  });
+
+  final WeatherViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      decoration: BoxDecoration(
+        border: Border.all(color: AppColors.borderColor),
+        color: Colors.white.withOpacity(0.9),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: DropdownButton<String>(
+        icon: const Icon(Icons.arrow_drop_down, color: AppColors.borderColor),
+        hint: Text(
+          'Şehir Seçin',
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppColors.borderColor),
+        ),
+        value: viewModel.selectedCity,
+        isExpanded: true,
+        underline: const SizedBox(),
+        items:
+            viewModel.cities.keys.map((String city) {
+              return DropdownMenuItem<String>(value: city, child: Text(city));
+            }).toList(),
+        onChanged: (String? newValue) {
+          if (newValue != null) {
+            viewModel.fetchWeather(newValue);
+          }
+        },
       ),
     );
   }

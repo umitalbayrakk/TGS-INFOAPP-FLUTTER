@@ -72,7 +72,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
       ),
       currentAccountPicture: GestureDetector(
         behavior: HitTestBehavior.translucent,
-        //onTap: () => _handleImagePick(),
+        onTap: () => _handleImagePick(),
         child: CircleAvatar(
           radius: 35,
           backgroundColor: AppColors.buttonColor,
@@ -91,11 +91,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
       crossAxisSpacing: 16,
       childAspectRatio: 0.8,
       children: [
-        CustomNavigationButton(
+        /* CustomNavigationButton(
           title: 'Ayarlar',
           navigateTo: SettingsPageView(user: widget.user),
           icon: Icons.settings_outlined,
-        ),
+        ), */
         CustomNavigationButton(
           title: 'Fikir Öneri İstek',
           navigateTo: const FeedbackPage(),
@@ -106,7 +106,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           navigateTo: PermissionInformationView(user: widget.user),
           icon: Icons.assignment_ind_outlined,
         ),
-        CustomNavigationButton(title: 'Telefon', navigateTo: const PhoneNumbersViews(), icon: Icons.phone),
+        // CustomNavigationButton(title: 'Telefon', navigateTo: const PhoneNumbersViews(), icon: Icons.phone),
         CustomNavigationButton(title: 'Uçuş Saatleri', navigateTo: const FlightTimeView(), icon: Icons.flight),
         CustomNavigationButton(
           title: 'Servis Saatleri',
@@ -147,14 +147,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
           height: 50,
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [AppColors.buttonColor, AppColors.buttonColor],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(16),
-          ),
+          decoration: BoxDecoration(color: AppColors.buttonColor, borderRadius: BorderRadius.circular(16)),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(16),
             child: const Row(

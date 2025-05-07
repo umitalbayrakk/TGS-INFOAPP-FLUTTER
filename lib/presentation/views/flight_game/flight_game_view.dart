@@ -458,7 +458,6 @@ class _GameScreenState extends State<GameScreen> {
                       decoration: BoxDecoration(
                         color: AppColors.buttonColor,
                         borderRadius: BorderRadius.circular(16),
-                        //border: Border.all(color: AppColors.borderColor, width: 3),
                       ),
                       child: MaterialButton(
                         onPressed: _resetGame,
