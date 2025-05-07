@@ -21,38 +21,36 @@ class WeatherCardWidgets extends StatelessWidget {
           height: 50,
           width: double.infinity,
           decoration: BoxDecoration(color: AppColors.buttonColor, borderRadius: BorderRadius.circular(16)),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(width: 20),
-                    Icon(
-                      viewModel.getWeatherIcon(viewModel.weather!.currentWeatherCode),
-                      size: 30,
-                      color: AppColors.whiteSpot,
+          child: Center(
+            child:
+                viewModel.weather == null
+                    ? CircularProgressIndicator(color: Theme.of(context).iconTheme.color, strokeWidth: 2)
+                    : Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const SizedBox(width: 20),
+                        Icon(
+                          viewModel.getWeatherIcon(viewModel.weather!.currentWeatherCode),
+                          size: 30,
+                          color: AppColors.whiteSpot,
+                        ),
+                        const SizedBox(width: 20),
+                        Text(
+                          viewModel.weather!.cityName,
+                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.whiteSpot),
+                        ),
+                        const SizedBox(width: 20),
+                        Text(
+                          '${viewModel.weather!.currentTemperature.toStringAsFixed(1)}°C',
+                          style: const TextStyle(fontSize: 15, color: AppColors.whiteSpot, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(width: 20),
+                        Text(
+                          viewModel.weather!.currentDescription,
+                          style: const TextStyle(fontSize: 15, color: AppColors.whiteSpot, fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 20),
-                    Text(
-                      viewModel.weather!.cityName,
-                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.whiteSpot),
-                    ),
-                    SizedBox(width: 20),
-                    Text(
-                      '${viewModel.weather!.currentTemperature.toStringAsFixed(1)}°C',
-                      style: const TextStyle(fontSize: 15, color: AppColors.whiteSpot, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(width: 20),
-                    Text(
-                      viewModel.weather!.currentDescription,
-                      style: const TextStyle(fontSize: 15, color: AppColors.whiteSpot, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-            ],
           ),
         ),
       ),

@@ -1,3 +1,4 @@
+// weather_viewmodel.dart
 import 'package:flutter/material.dart';
 import 'package:tgs_info_app_flutter/presentation/model/weather_model/weather_model.dart';
 import 'package:tgs_info_app_flutter/services/weather_servicces/weather_services.dart';
@@ -8,11 +9,12 @@ class WeatherViewModel with ChangeNotifier {
   WeatherModel? _weather;
   bool _isLoading = false;
   String? _errorMessage;
-  String? _selectedCity;
+  String? _selectedCity = 'İstanbul'; // Default city set to İstanbul
   WeatherModel? get weather => _weather;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   String? get selectedCity => _selectedCity;
+
   final Map<String, Map<String, double>> _cities = {
     'Adana': {'lat': 37.0000, 'lon': 35.3213},
     'Adıyaman': {'lat': 37.7648, 'lon': 38.2786},
@@ -99,6 +101,11 @@ class WeatherViewModel with ChangeNotifier {
 
   Map<String, Map<String, double>> get cities => _cities;
 
+  // Constructor to fetch Istanbul's weather on initialization
+  WeatherViewModel() {
+    fetchWeather('İstanbul');
+  }
+
   Future<void> fetchWeather(String city) async {
     _isLoading = true;
     _errorMessage = null;
@@ -164,3 +171,5 @@ class WeatherViewModel with ChangeNotifier {
     }
   }
 }
+
+// weather_view.dart

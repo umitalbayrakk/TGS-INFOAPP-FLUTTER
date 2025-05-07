@@ -9,7 +9,7 @@ class WeatherView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<WeatherViewModel>(context, listen: true);
+    final viewModel = Provider.of<WeatherViewModel>(context);
 
     return Scaffold(
       appBar: AppBarWidgets(),
@@ -85,54 +85,56 @@ class WeatherView extends StatelessWidget {
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: viewModel.weather!.dailyForecasts.length,
-                    itemBuilder: (context, index) {
-                      final forecast = viewModel.weather!.dailyForecasts[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16),
-                            //color: AppColors.appBarColor,
-                            //border: Border.all(color: Theme.of(context).iconTheme.color!),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    '${viewModel.formatDay(forecast.date)}',
-                                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                if (viewModel.weather!.dailyForecasts.isNotEmpty)
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: viewModel.weather?.dailyForecasts.length ?? 0,
+                      itemBuilder: (context, index) {
+                        final forecast = viewModel.weather!.dailyForecasts[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              //color: AppColors.appBarColor,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      viewModel.formatDay(forecast.date),
+                                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                    ),
                                   ),
-                                ),
-                                Icon(
-                                  viewModel.getWeatherIcon(forecast.weatherCode),
-                                  color: Theme.of(context).iconTheme.color,
-                                ),
-                                const SizedBox(width: 10),
-                                Text(
-                                  '${forecast.maxTemp.toStringAsFixed(1)}° / ${forecast.minTemp.toStringAsFixed(1)}°',
-                                  style: const TextStyle(fontSize: 16),
-                                ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: Text(
-                                    forecast.description,
-                                    textAlign: TextAlign.end,
-                                    style: const TextStyle(fontSize: 14),
+                                  Icon(
+                                    viewModel.getWeatherIcon(forecast.weatherCode),
+                                    color: Theme.of(context).iconTheme.color,
                                   ),
-                                ),
-                              ],
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    '${forecast.maxTemp.toStringAsFixed(1)}° / ${forecast.minTemp.toStringAsFixed(1)}°',
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: Text(
+                                      forecast.description,
+                                      textAlign: TextAlign.end,
+                                      style: const TextStyle(fontSize: 14),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
+                        );
+                      },
+                    ),
+                  )
+                else
+                  const Center(child: Text('Günlük tahmin verisi bulunamadı.')),
               ],
             ],
           ),
@@ -143,10 +145,7 @@ class WeatherView extends StatelessWidget {
 }
 
 class Customdropdown extends StatelessWidget {
-  const Customdropdown({
-    super.key,
-    required this.viewModel,
-  });
+  const Customdropdown({super.key, required this.viewModel});
 
   final WeatherViewModel viewModel;
 
@@ -160,23 +159,19 @@ class Customdropdown extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: DropdownButton<String>(
-        icon: const Icon(Icons.arrow_drop_down, color: AppColors.borderColor),
-        hint: Text(
-          'Şehir Seçin',
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppColors.borderColor),
-        ),
-        value: viewModel.selectedCity,
         isExpanded: true,
+        value: viewModel.selectedCity,
+        icon: const Icon(Icons.arrow_drop_down, color: AppColors.borderColor),
         underline: const SizedBox(),
-        items:
-            viewModel.cities.keys.map((String city) {
-              return DropdownMenuItem<String>(value: city, child: Text(city));
-            }).toList(),
-        onChanged: (String? newValue) {
-          if (newValue != null) {
-            viewModel.fetchWeather(newValue);
+        onChanged: (value) {
+          if (value != null) {
+            viewModel.fetchWeather(value);
           }
         },
+        items:
+            viewModel.cities.keys.map((city) {
+              return DropdownMenuItem<String>(value: city, child: Text(city));
+            }).toList(),
       ),
     );
   }

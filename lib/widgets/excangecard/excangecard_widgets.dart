@@ -65,32 +65,6 @@ class _ExcangecardWidgetsState extends State<ExcangecardWidgets> {
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    if (_errorMessage != null) {
-      return Card(
-        elevation: 3,
-        margin: const EdgeInsets.all(8),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                _errorMessage!,
-                style: const TextStyle(color: Colors.red, fontSize: 16),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 10),
-              ElevatedButton(onPressed: _loadUsdAndEuro, child: const Text('Yeniden Dene')),
-            ],
-          ),
-        ),
-      );
-    }
-
     return Padding(
       padding: const EdgeInsets.only(right: 20, left: 20),
       child: GestureDetector(
@@ -101,45 +75,72 @@ class _ExcangecardWidgetsState extends State<ExcangecardWidgets> {
           height: 50,
           width: double.infinity,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: AppColors.buttonColor),
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildCurrencyRow(
-                  context,
-                  currencyRate: _usdEuroRates.firstWhere(
-                    (rate) => rate.currencyCode == 'USD',
-                    orElse:
-                        () => ExcangecardCurrencyRate(
-                          currencyCode: 'USD',
-                          currencyName: 'Dolar',
-                          buyingRate: 0.0,
-                          sellingRate: 0.0,
+          child:
+              _isLoading
+                  ? const Center(child: CircularProgressIndicator(color: AppColors.whiteSpot, strokeWidth: 2))
+                  : _errorMessage != null
+                  ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          _errorMessage!,
+                          style: const TextStyle(color: Colors.red, fontSize: 14),
+                          textAlign: TextAlign.center,
                         ),
-                  ),
-                  icon: Icons.attach_money,
-                  iconColor: Colors.white,
-                ),
-                SizedBox(width: 20),
-                _buildCurrencyRow(
-                  context,
-                  currencyRate: _usdEuroRates.firstWhere(
-                    (rate) => rate.currencyCode == 'EUR',
-                    orElse:
-                        () => ExcangecardCurrencyRate(
-                          currencyCode: 'EUR',
-                          currencyName: 'Euro',
-                          buyingRate: 0.0,
-                          sellingRate: 0.0,
+                        const SizedBox(height: 6),
+                        ElevatedButton(
+                          onPressed: _loadUsdAndEuro,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            foregroundColor: AppColors.buttonColor,
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                            textStyle: const TextStyle(fontSize: 12),
+                          ),
+                          child: const Text('Yeniden Dene'),
                         ),
+                      ],
+                    ),
+                  )
+                  : Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _buildCurrencyRow(
+                          context,
+                          currencyRate: _usdEuroRates.firstWhere(
+                            (rate) => rate.currencyCode == 'USD',
+                            orElse:
+                                () => ExcangecardCurrencyRate(
+                                  currencyCode: 'USD',
+                                  currencyName: 'Dolar',
+                                  buyingRate: 0.0,
+                                  sellingRate: 0.0,
+                                ),
+                          ),
+                          icon: Icons.attach_money,
+                          iconColor: Colors.white,
+                        ),
+                        const SizedBox(width: 20),
+                        _buildCurrencyRow(
+                          context,
+                          currencyRate: _usdEuroRates.firstWhere(
+                            (rate) => rate.currencyCode == 'EUR',
+                            orElse:
+                                () => ExcangecardCurrencyRate(
+                                  currencyCode: 'EUR',
+                                  currencyName: 'Euro',
+                                  buyingRate: 0.0,
+                                  sellingRate: 0.0,
+                                ),
+                          ),
+                          icon: Icons.euro,
+                          iconColor: Colors.white,
+                        ),
+                      ],
+                    ),
                   ),
-                  icon: Icons.euro,
-                  iconColor: Colors.white,
-                ),
-              ],
-            ),
-          ),
         ),
       ),
     );
@@ -158,14 +159,6 @@ class _ExcangecardWidgetsState extends State<ExcangecardWidgets> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Text(
-            // currencyRate.currencyName,
-            // style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-            //  fontWeight: FontWeight.bold,
-            //  fontSize: 20,
-            //   color: AppColors.whiteSpot,
-            // ),
-            // ),
             Text(
               '1${currencyRate.currencyCode} = ${currencyRate.buyingRate.toStringAsFixed(2)}',
               style: Theme.of(

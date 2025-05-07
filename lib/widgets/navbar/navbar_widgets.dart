@@ -4,10 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:tgs_info_app_flutter/presentation/views/home/home_page_screen.dart';
 import 'package:tgs_info_app_flutter/presentation/views/phone_number/phone_numbers_views.dart';
-import 'package:tgs_info_app_flutter/presentation/views/service_hours/service_hours_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/settings/settings_view.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
-import 'package:tgs_info_app_flutter/widgets/profile/profile_view.dart';
 
 class ModernGoogleNavBar extends StatefulWidget {
   final Map<String, String> user;
@@ -64,7 +62,7 @@ class _ModernGoogleNavBarState extends State<ModernGoogleNavBar> {
                 tabs: [
                   GButton(icon: Icons.home_rounded, text: 'Ana Sayfa'),
                   GButton(icon: Icons.call_rounded, text: 'Telefon'),
-                  GButton(icon: Icons.person, text: 'Ayarlar'),
+                  GButton(icon: Icons.settings, text: 'Ayarlar'),
                 ],
               ),
             ),
