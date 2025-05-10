@@ -4,7 +4,8 @@ import 'package:tgs_info_app_flutter/presentation/viewmodel/login_viewmodel.dart
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({super.key,});
+
 
   @override
   _LoginScreenState createState() => _LoginScreenState();

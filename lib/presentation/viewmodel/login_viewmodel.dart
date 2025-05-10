@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tgs_info_app_flutter/presentation/views/home/home_page_screen.dart';
 import 'package:tgs_info_app_flutter/widgets/navbar/navbar_widgets.dart';
 
 class LoginViewModel {

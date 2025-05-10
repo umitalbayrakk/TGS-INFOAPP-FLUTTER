@@ -4,13 +4,9 @@ import 'package:tgs_info_app_flutter/presentation/viewmodel/drawer_viewmodel.dar
 import 'package:tgs_info_app_flutter/presentation/views/Exchange_Rates/exchange_rates_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/Weather/weather_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/corporate_agreements/corporate_agreements_view.dart';
-import 'package:tgs_info_app_flutter/presentation/views/feedback/feedback_page_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/flight_time/flight_time_view.dart';
-import 'package:tgs_info_app_flutter/presentation/views/login/login_page_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/permission_information/permission_information_view.dart';
-import 'package:tgs_info_app_flutter/presentation/views/phone_number/phone_numbers_views.dart';
 import 'package:tgs_info_app_flutter/presentation/views/service_hours/service_hours_view.dart';
-import 'package:tgs_info_app_flutter/presentation/views/settings/settings_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/useful_document/useful_document_view.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:weather_icons/weather_icons.dart';
@@ -48,11 +44,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
         color: Theme.of(context).scaffoldBackgroundColor,
         child: Column(
           children: [
+            //Image.asset("assets/tgs.png"),
             _buildHeader(context),
-            Expanded(child: _buildMenuItems(context)),
-            _buildLogoutButton(context),
+            Expanded(child: buildMenuItems(context)),
+            //  _buildLogoutButton(context),
             Text("TURKISH GROUNDS SERVICES", style: Theme.of(context).textTheme.bodyLarge),
-            const SizedBox(height: 40),
+            const SizedBox(height: 100),
           ],
         ),
       ),
@@ -62,28 +59,106 @@ class _CustomDrawerState extends State<CustomDrawer> {
   Widget _buildHeader(BuildContext context) {
     return UserAccountsDrawerHeader(
       decoration: BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor),
-      accountName: Text(
-        "${widget.user['name']}",
-        style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+      accountName: Row(
+        children: [
+          Icon(FeatherIcons.user, size: 20),
+          SizedBox(width: 5),
+          Text(
+            "${widget.user['name']}",
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+          ),
+        ],
       ),
-      accountEmail: Text(
-        "${widget.user['email']}",
-        style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+      accountEmail: Row(
+        children: [
+          Icon(FeatherIcons.mail, size: 18),
+          SizedBox(width: 5),
+          Text(
+            "${widget.user['email']}",
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+          ),
+        ],
       ),
-      currentAccountPicture: GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: () => _handleImagePick(),
-        child: CircleAvatar(
-          radius: 35,
-          backgroundColor: AppColors.buttonColor,
-          backgroundImage: _getProfileImage(),
-          child: _viewModel.image == null ? const Icon(Icons.person, size: 35, color: Colors.white70) : null,
-        ),
-      ),
+      // currentAccountPicture:
     );
   }
 
-  Widget _buildMenuItems(BuildContext context) {
+  Widget buildMenuItems(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
+          child: Column(
+            children: [
+              tile(
+                context: context,
+                icon: Icons.assignment_ind_outlined,
+                title: "İzin Bilgileri",
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PermissionInformationView(user: widget.user)),
+                  );
+                },
+              ),
+              tile(
+                context: context,
+                icon: Icons.flight,
+                title: "Uçuş Bilgileri",
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => FlightTimeView()));
+                },
+              ),
+              tile(
+                context: context,
+                icon: Icons.car_crash,
+                title: "Servis Saatleri",
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceHoursView(user: widget.user)));
+                },
+              ),
+              tile(
+                context: context,
+                icon: Icons.business_center_outlined,
+                title: "Kurumsal Anlaşmalar",
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CorporateAgreementsView()));
+                },
+              ),
+              tile(
+                context: context,
+                icon: Icons.document_scanner_outlined,
+                title: "Faydalı Dökümanlar",
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => UsefulDocumentView(user: widget.user)),
+                  );
+                },
+              ),
+              tile(
+                context: context,
+                icon: Icons.currency_exchange,
+                title: "Döviz Kurları",
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => CurrencyScreen()));
+                },
+              ),
+              tile(
+                context: context,
+                icon: WeatherIcons.day_sunny,
+                title: "Hava Durumu",
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => WeatherView()));
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  /* Widget _buildMenuItems(BuildContext context) {
     return GridView.count(
       padding: const EdgeInsets.all(16),
       crossAxisCount: 3,
@@ -128,8 +203,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
       ],
     );
   }
-
-  Widget _buildLogoutButton(BuildContext context) {
+*/
+  /* Widget _buildLogoutButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: GestureDetector(
@@ -172,6 +247,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
     );
   }
 
+*/
   ImageProvider? _getProfileImage() {
     if (_viewModel.image != null) {
       return FileImage(_viewModel.image!);
@@ -222,4 +298,36 @@ class CustomNavigationButton extends StatelessWidget {
       ],
     );
   }
+}
+
+Widget tile({
+  required BuildContext context,
+  required IconData icon,
+  required String title,
+  String? trailing,
+  VoidCallback? onTap,
+}) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      decoration: BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, color: Theme.of(context).iconTheme.color, size: 20),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Text(title, style: TextStyle(fontSize: 15.5, color: Theme.of(context).textTheme.bodySmall?.color)),
+          ),
+          if (trailing != null)
+            Text(trailing, style: TextStyle(fontSize: 14, color: Theme.of(context).textTheme.bodyLarge!.color)),
+          if (onTap != null) Icon(FeatherIcons.chevronRight, color: Theme.of(context).iconTheme.color, size: 18),
+        ],
+      ),
+    ),
+  );
 }

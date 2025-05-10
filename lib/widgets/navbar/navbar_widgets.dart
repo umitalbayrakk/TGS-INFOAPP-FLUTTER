@@ -6,6 +6,8 @@ import 'package:tgs_info_app_flutter/presentation/views/home/home_page_screen.da
 import 'package:tgs_info_app_flutter/presentation/views/phone_number/phone_numbers_views.dart';
 import 'package:tgs_info_app_flutter/presentation/views/settings/settings_view.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
+import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
+import 'package:tgs_info_app_flutter/widgets/custom_drawer/custom_drawer_view.dart';
 
 class ModernGoogleNavBar extends StatefulWidget {
   final Map<String, String> user;
@@ -31,6 +33,8 @@ class _ModernGoogleNavBarState extends State<ModernGoogleNavBar> {
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
+      drawer: CustomDrawer(user: widget.user),
+      appBar: AppBarWidgets(),
       extendBody: true,
       body: _pages[_selectedIndex],
       bottomNavigationBar: Padding(

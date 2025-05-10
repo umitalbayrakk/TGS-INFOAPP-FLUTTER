@@ -40,7 +40,7 @@ class PhoneNumbersViews extends StatelessWidget {
                 ),
               ),
             ), */
-            appBar: AppBarWidgets(),
+            // appBar: AppBarWidgets(),
             body: Padding(
               padding: const EdgeInsets.all(12.0),
               child: Column(

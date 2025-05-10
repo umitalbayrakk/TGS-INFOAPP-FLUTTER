@@ -3,15 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tgs_info_app_flutter/core/themes/theme_provider.dart';
 import 'package:tgs_info_app_flutter/presentation/views/feedback/feedback_page_view.dart';
+import 'package:tgs_info_app_flutter/presentation/views/login/login_page_view.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
-import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/profile/profile_view.dart';
 
 class SettingsPageView extends StatefulWidget {
   final Map<String, String> user;
   const SettingsPageView({super.key, required this.user});
-  
- 
 
   @override
   State<SettingsPageView> createState() => _SettingsPageViewState();
@@ -24,7 +22,7 @@ class _SettingsPageViewState extends State<SettingsPageView> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBarWidgets(),
+      // appBar: AppBarWidgets(),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         children: [
@@ -56,6 +54,20 @@ class _SettingsPageViewState extends State<SettingsPageView> {
           const SizedBox(height: 24),
           _tile(icon: FeatherIcons.info, title: "Sürüm", trailing: "v1.0.0"),
           const SizedBox(height: 16),
+          _tile(
+            icon: FeatherIcons.mail,
+            title: "Çıkış Yap",
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Başarılı Bir Şekilde Çıkış Yapıldı"),
+                  backgroundColor: AppColors.snackBarGreen,
+                  duration: Duration(seconds: 2),
+                ),
+              );
+            },
+          ),
         ],
       ),
     );

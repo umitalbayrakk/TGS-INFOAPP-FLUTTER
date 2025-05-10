@@ -6,7 +6,6 @@ import 'package:tgs_info_app_flutter/core/themes/app_themes.dart';
 import 'package:tgs_info_app_flutter/core/themes/theme_provider.dart';
 import 'package:tgs_info_app_flutter/presentation/viewmodel/weather_viewmodel.dart';
 import 'package:tgs_info_app_flutter/presentation/views/oboardind/onboarding_view.dart';
-import 'package:tgs_info_app_flutter/widgets/navbar/navbar_widgets.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

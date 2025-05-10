@@ -9,7 +9,7 @@ class WeatherViewModel with ChangeNotifier {
   WeatherModel? _weather;
   bool _isLoading = false;
   String? _errorMessage;
-  String? _selectedCity = 'İstanbul'; // Default city set to İstanbul
+  String? _selectedCity = 'İstanbul';
   WeatherModel? get weather => _weather;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
@@ -101,7 +101,6 @@ class WeatherViewModel with ChangeNotifier {
 
   Map<String, Map<String, double>> get cities => _cities;
 
-  // Constructor to fetch Istanbul's weather on initialization
   WeatherViewModel() {
     fetchWeather('İstanbul');
   }
@@ -171,5 +170,3 @@ class WeatherViewModel with ChangeNotifier {
     }
   }
 }
-
-// weather_view.dart
