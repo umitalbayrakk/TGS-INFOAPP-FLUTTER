@@ -1,19 +1,15 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:tgs_info_app_flutter/presentation/viewmodel/drawer_viewmodel.dart';
-import 'package:tgs_info_app_flutter/presentation/views/Exchange_Rates/exchange_rates_view.dart';
-import 'package:tgs_info_app_flutter/presentation/views/Weather/weather_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/corporate_agreements/corporate_agreements_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/flight_time/flight_time_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/permission_information/permission_information_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/service_hours/service_hours_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/useful_document/useful_document_view.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
-import 'package:weather_icons/weather_icons.dart';
 
 class CustomDrawer extends StatefulWidget {
   final Map<String, String> user;
-
   const CustomDrawer({super.key, required this.user});
 
   @override
@@ -44,12 +40,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
         color: Theme.of(context).scaffoldBackgroundColor,
         child: Column(
           children: [
-            //Image.asset("assets/tgs.png"),
             _buildHeader(context),
             Expanded(child: buildMenuItems(context)),
-            //  _buildLogoutButton(context),
-            Text("TURKISH GROUNDS SERVICES", style: Theme.of(context).textTheme.bodyLarge),
-            const SizedBox(height: 100),
+            //Text("TURKISH GROUNDS SERVICES", style: Theme.of(context).textTheme.bodyLarge),
+            //const SizedBox(height: 100),
           ],
         ),
       ),
@@ -79,7 +73,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
           ),
         ],
       ),
-      // currentAccountPicture:
     );
   }
 
@@ -100,6 +93,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   );
                 },
               ),
+              Divider(),
               tile(
                 context: context,
                 icon: Icons.flight,
@@ -108,6 +102,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => FlightTimeView()));
                 },
               ),
+              Divider(),
               tile(
                 context: context,
                 icon: Icons.car_crash,
@@ -116,6 +111,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceHoursView(user: widget.user)));
                 },
               ),
+              Divider(),
               tile(
                 context: context,
                 icon: Icons.business_center_outlined,
@@ -124,6 +120,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => CorporateAgreementsView()));
                 },
               ),
+              Divider(),
               tile(
                 context: context,
                 icon: Icons.document_scanner_outlined,
@@ -135,22 +132,23 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   );
                 },
               ),
-              tile(
-                context: context,
-                icon: Icons.currency_exchange,
-                title: "Döviz Kurları",
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => CurrencyScreen()));
-                },
-              ),
-              tile(
-                context: context,
-                icon: WeatherIcons.day_sunny,
-                title: "Hava Durumu",
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => WeatherView()));
-                },
-              ),
+              Divider(),
+              //    tile(
+              //     context: context,
+              //       icon: Icons.currency_exchange,
+              //      title: "Döviz Kurları",
+              // onTap: () {
+              //    Navigator.push(context, MaterialPageRoute(builder: (context) => CurrencyScreen()));
+              //  },
+              // ),
+              // tile(
+              //   context: context,
+              //  icon: WeatherIcons.day_sunny,
+              //  title: "Hava Durumu",
+              //   onTap: () {
+              //    Navigator.push(context, MaterialPageRoute(builder: (context) => WeatherView()));
+              //  },
+              //  ),
             ],
           ),
         ),
@@ -248,7 +246,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
   }
 
 */
-  ImageProvider? _getProfileImage() {
+  /* ImageProvider? _getProfileImage() {
     if (_viewModel.image != null) {
       return FileImage(_viewModel.image!);
     }
@@ -259,6 +257,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
     await _viewModel.pickImage();
     if (mounted) setState(() {});
   }
+*/
 }
 
 class CustomNavigationButton extends StatelessWidget {

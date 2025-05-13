@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tgs_info_app_flutter/presentation/viewmodel/service_hours_viewmodel.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
-import 'package:tgs_info_app_flutter/widgets/custom_drawer/custom_drawer_view.dart';
+import 'package:tgs_info_app_flutter/widgets/drawer/custom_drawer_view.dart';
 
 class ServiceHoursView extends StatelessWidget {
   final Map<String, String> user;

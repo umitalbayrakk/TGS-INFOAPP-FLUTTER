@@ -157,7 +157,7 @@ class _SettingsPageViewState extends State<SettingsPageView> {
 
   Widget themeSelectorTile(ThemeProvider themeProvider) {
     return _tile(
-      icon: FeatherIcons.moon,
+      icon: themeProvider.themeMode == ThemeMode.dark ? FeatherIcons.moon : FeatherIcons.sun,
       title: "Tema",
       trailing:
           themeProvider.themeMode == ThemeMode.light

@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tgs_info_app_flutter/presentation/viewmodel/phone_numbers_viewmodel.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
-import 'package:tgs_info_app_flutter/widgets/custom_drawer/custom_drawer_view.dart';
+import 'package:tgs_info_app_flutter/widgets/drawer/custom_drawer_view.dart';
 
 class PhoneNumbersViews extends StatelessWidget {
   const PhoneNumbersViews({super.key});

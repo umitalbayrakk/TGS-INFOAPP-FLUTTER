@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
-import 'package:tgs_info_app_flutter/widgets/custom_drawer/custom_drawer_view.dart';
+import 'package:tgs_info_app_flutter/widgets/drawer/custom_drawer_view.dart';
 
 class ProfileView extends StatefulWidget {
   final Map<String, String> user;
