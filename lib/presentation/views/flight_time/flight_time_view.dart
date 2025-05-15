@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tgs_info_app_flutter/presentation/viewmodel/flight_time_viewmodel.dart';
+import 'package:tgs_info_app_flutter/presentation/views/flight_time/flight_time_view_viewmodel.dart';
 import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
 
 class FlightTimeView extends StatelessWidget {

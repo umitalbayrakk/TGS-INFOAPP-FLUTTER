@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
-import 'package:tgs_info_app_flutter/presentation/viewmodel/phone_numbers_viewmodel.dart';
+import 'package:tgs_info_app_flutter/presentation/views/phone_number/phone_numbers_view_viewmodel.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
-import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/drawer/custom_drawer_view.dart';
 
 class PhoneNumbersViews extends StatelessWidget {
@@ -19,96 +18,90 @@ class PhoneNumbersViews extends StatelessWidget {
           return Scaffold(
             drawer: const CustomDrawer(user: {}),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            /*  appBar: AppBar(
-              automaticallyImplyLeading: false,
-              backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-              shadowColor: AppColors.borderColor,
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.arrow_back, color: Theme.of(context).appBarTheme.iconTheme!.color, size: 30),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ],
-              ),
-              bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(60),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-                  child: PhoneSearchBar(controller: viewModel.searchController),
-                ),
-              ),
-            ), */
-            // appBar: AppBarWidgets(),
-            body: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                children: [
-                  const SizedBox(height: 12),
-                  PhoneSearchBar(controller: viewModel.searchController),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: viewModel.filteredContacts.length,
-                      itemBuilder: (context, index) {
-                        final contact = viewModel.filteredContacts[index];
-                        return Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CircleAvatar(
-                                radius: 28,
-                                backgroundColor:
-                                    Theme.of(context).brightness == Brightness.dark
-                                        ? AppColors.whiteSpot
-                                        : AppColors.borderColor,
-                                child: Icon(FeatherIcons.user),
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '${contact.name} ${contact.surname}',
-                                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                                    ),
-                                    const SizedBox(height: 6),
-                                    Row(
-                                      children: [
-                                        Icon(Icons.calendar_month, size: 15),
-                                        SizedBox(width: 5),
-                                        Text(contact.birthDate, style: const TextStyle(color: Colors.grey)),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Icon(Icons.phone, size: 15),
-                                        SizedBox(width: 5),
-                                        Text(contact.phone, style: const TextStyle(color: Colors.grey)),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              IconButton(
-                                icon: const Icon(FeatherIcons.phoneCall, color: AppColors.snackBarGreen),
-                                onPressed: () => viewModel.makePhoneCall(contact.phone),
-                              ),
-                            ],
+            body: Column(
+              children: [
+                const SizedBox(height: 5),
+                PhoneSearchBar(controller: viewModel.searchController),
+                const SizedBox(height: 8),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10, left: 10),
+                  child: Container(
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: AppColors.buttonColor),
+                    height: 50,
+                    width: double.infinity,
+                    child: MaterialButton(
+                      onPressed: () => _showAddContactDialog(context, viewModel),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Yeni Kişi Ekle",
+                            style: Theme.of(
+                              context,
+                            ).textTheme.bodyLarge?.copyWith(color: AppColors.whiteSpot, fontWeight: FontWeight.bold),
                           ),
-                        );
-                      },
+                          Icon(FeatherIcons.plus, color: AppColors.whiteSpot, size: 30),
+                        ],
+                      ),
                     ),
                   ),
-                ],
-              ),
-            ),
-            floatingActionButton: FloatingActionButton(
-              backgroundColor: AppColors.buttonColor,
-              onPressed: () => _showAddContactDialog(context, viewModel),
-              child: const Icon(Icons.person_2, color: AppColors.cardColor3, size: 40),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: viewModel.filteredContacts.length,
+                    itemBuilder: (context, index) {
+                      final contact = viewModel.filteredContacts[index];
+                      return Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CircleAvatar(
+                              radius: 28,
+                              backgroundColor:
+                                  Theme.of(context).brightness == Brightness.dark
+                                      ? AppColors.whiteSpot
+                                      : AppColors.borderColor,
+                              child: Icon(FeatherIcons.user),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${contact.name} ${contact.surname}',
+                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                  ),
+                                  const SizedBox(height: 6),
+                                  Row(
+                                    children: [
+                                      Icon(Icons.calendar_month, size: 15),
+                                      SizedBox(width: 5),
+                                      Text(contact.birthDate, style: const TextStyle(color: Colors.grey)),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Icon(Icons.phone, size: 15),
+                                      SizedBox(width: 5),
+                                      Text(contact.phone, style: const TextStyle(color: Colors.grey)),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(FeatherIcons.phoneCall, color: AppColors.snackBarGreen),
+                              onPressed: () => viewModel.makePhoneCall(contact.phone),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
           );
         },
@@ -235,23 +228,26 @@ class PhoneSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      style: const TextStyle(fontSize: 16),
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: AppColors.searcColor.withOpacity(0.08),
-        prefixIcon: Icon(FeatherIcons.search, color: Theme.of(context).iconTheme.color),
-        hintText: 'Telefon Ara...',
-        hintStyle: const TextStyle(color: Colors.grey),
-        contentPadding: const EdgeInsets.symmetric(vertical: 12),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: AppColors.borderColor.withOpacity(0.3)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: AppColors.borderColor),
+    return Padding(
+      padding: const EdgeInsets.only(right: 10, left: 10),
+      child: TextField(
+        controller: controller,
+        style: const TextStyle(fontSize: 16),
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: AppColors.searcColor.withOpacity(0.08),
+          prefixIcon: Icon(FeatherIcons.search, color: Theme.of(context).iconTheme.color),
+          hintText: 'Telefon Ara...',
+          hintStyle: const TextStyle(color: Colors.grey),
+          contentPadding: const EdgeInsets.symmetric(vertical: 12),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide(color: AppColors.borderColor.withOpacity(0.3)),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: const BorderSide(color: AppColors.borderColor),
+          ),
         ),
       ),
     );

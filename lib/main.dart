@@ -8,6 +8,7 @@ import 'package:tgs_info_app_flutter/presentation/views/oboardind/onboarding_vie
 void main() async {
   //WidgetsFlutterBinding.ensureInitialized();
   //await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  ErrorWidget.builder = (FlutterErrorDetails details) => Container(); // Daha güzel bir hata mesajı için
   await initializeDateFormatting('tr_TR');
   runApp(const MyApp());
 }

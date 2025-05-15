@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tgs_info_app_flutter/presentation/viewmodel/shift_card_viewmodel.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
+import 'package:tgs_info_app_flutter/widgets/shiftcard/shift_card_widgets_viewmodel.dart';
 
 class ShiftCardWidgets extends StatelessWidget {
   final ShiftViewModel viewModel;
@@ -68,7 +68,9 @@ class ShiftCardWidgets extends StatelessWidget {
                     ),
                     child: Text(
                       'Kapat',
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600, color: AppColors.whiteSpot),
                     ),
                   ),
                 ),

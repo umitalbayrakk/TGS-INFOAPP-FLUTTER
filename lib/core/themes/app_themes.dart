@@ -19,18 +19,20 @@ class AppThemes {
       bodySmall: TextStyle(color: AppColors.borderColor),
       bodyLarge: TextStyle(color: AppColors.borderColor),
       bodyMedium: TextStyle(color: AppColors.borderColor),
+      titleLarge: TextStyle(color: AppColors.borderColor),
+      titleMedium: TextStyle(color: AppColors.borderColor),
+      titleSmall: TextStyle(color: AppColors.borderColor),
     ),
     buttonTheme: const ButtonThemeData(buttonColor: AppColors.darkModColor, textTheme: ButtonTextTheme.primary),
     iconTheme: const IconThemeData(color: Colors.black, size: 24),
     colorScheme: ColorScheme.light(
-      primary: AppColors.darkColor, 
+      primary: AppColors.darkColor,
       secondary: AppColors.buttonColor,
-      surface: Colors.white, 
+      surface: Colors.white,
       onSurface: Colors.black,
-      background: AppColors.scaffoldBackgroundColor, 
-      onBackground: Colors.black, 
     ),
     inputDecorationTheme: const InputDecorationTheme(
+      fillColor: AppColors.borderColor,
       hintStyle: TextStyle(color: AppColors.borderColor),
       border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.borderColor)),
       labelStyle: TextStyle(color: AppColors.borderColor),
@@ -55,6 +57,11 @@ class AppThemes {
       bodySmall: TextStyle(color: AppColors.whiteSpot),
       bodyLarge: TextStyle(color: AppColors.whiteSpot),
       bodyMedium: TextStyle(color: AppColors.whiteSpot),
+      titleLarge: TextStyle(color: AppColors.whiteSpot),
+      titleMedium: TextStyle(color: AppColors.whiteSpot),
+      titleSmall: TextStyle(color: AppColors.whiteSpot),
+      
+      
     ),
     iconTheme: const IconThemeData(color: Colors.white, size: 24),
     colorScheme: ColorScheme.dark(
@@ -64,9 +71,9 @@ class AppThemes {
       onSurface: AppColors.borderColor,
     ),
     inputDecorationTheme: const InputDecorationTheme(
-      fillColor: Colors.amber,
+      
       border: OutlineInputBorder(borderSide: BorderSide(color: AppColors.borderColor)),
-      labelStyle: TextStyle(color: AppColors.borderColor),
+      labelStyle: TextStyle(color: AppColors.borderColor ),
       focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: AppColors.appBarColor)),
     ),
     dividerColor: Colors.black,

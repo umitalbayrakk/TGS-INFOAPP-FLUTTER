@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:tgs_info_app_flutter/presentation/viewmodel/permission_information_viewmodel.dart';
+import 'package:tgs_info_app_flutter/presentation/views/permission_information/permission_information_view_viewmodel.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
 
 class PermissionInformationView extends StatefulWidget {
   final Map<String, String> user;
+
   const PermissionInformationView({super.key, required this.user});
 
   @override
@@ -63,7 +64,7 @@ class PermissionStatusCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "${user['name']} İzin Bilgisi",
+                  "Yıllık İzin Bilgisi",
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 16),

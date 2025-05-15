@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tgs_info_app_flutter/presentation/viewmodel/shift_card_viewmodel.dart';
 import 'package:tgs_info_app_flutter/utils/constant.dart';
 import 'package:tgs_info_app_flutter/widgets/borncard/born_card_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/drawer/custom_drawer_view.dart';
 import 'package:tgs_info_app_flutter/widgets/foodcart/food_card_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/gameCard/game_card_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/shiftcard/shift_card_widgets.dart';
+import 'package:tgs_info_app_flutter/widgets/shiftcard/shift_card_widgets_viewmodel.dart';
 import 'package:tgs_info_app_flutter/widgets/tgs_news/news_section_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/carousel_slider/coursel_slider.dart';
 

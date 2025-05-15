@@ -8,13 +8,13 @@ class AppBarWidgets extends StatelessWidget implements PreferredSizeWidget {
   const AppBarWidgets({super.key});
 
   @override
-  Size get preferredSize => const Size.fromHeight(45.0);
+  Size get preferredSize => const Size.fromHeight(50.0);
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-
     return AppBar(
+      centerTitle: true,
       iconTheme: IconThemeData(
         color: Theme.of(context).appBarTheme.iconTheme!.color,
         size: Theme.of(context).appBarTheme.iconTheme!.size ?? 24,
@@ -22,12 +22,7 @@ class AppBarWidgets extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 5, bottom: 10),
-            child: Image.asset("assets/tgs.png", height: 150, width: 150),
-          ),
-        ],
+        children: [Image.asset("assets/tgs.png", height: 150, width: 150)],
       ),
       actions: [
         IconButton(

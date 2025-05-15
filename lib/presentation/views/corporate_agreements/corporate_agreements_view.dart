@@ -1,6 +1,6 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:tgs_info_app_flutter/presentation/viewmodel/corparate_agreements_viewmodel.dart';
+import 'package:tgs_info_app_flutter/presentation/views/corporate_agreements/corporate_agreements_view_viewmodel.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
 
@@ -58,10 +58,7 @@ class _CorporateAgreementsViewState extends State<CorporateAgreementsView> {
 
   Widget _buildAgreementCard({required CorporateAgreement agreement}) {
     return Container(
-      decoration: BoxDecoration(
-        color: AppColors.cardColor3,
-        borderRadius: BorderRadius.circular(16),
-      ),
+      decoration: BoxDecoration(color: AppColors.cardColor3, borderRadius: BorderRadius.circular(16)),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
         onTap: () {

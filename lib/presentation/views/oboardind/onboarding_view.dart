@@ -52,13 +52,7 @@ class _OnboardingViewState extends State<OnboardingView> with SingleTickerProvid
     return Scaffold(
       body: Container(
         width: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            colors: [AppColors.scaffoldBackgroundColor, AppColors.scaffoldBackgroundColor],
-            end: Alignment.bottomCenter,
-          ),
-        ),
+        decoration: BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -66,11 +60,11 @@ class _OnboardingViewState extends State<OnboardingView> with SingleTickerProvid
               opacity: _fadeAnimation,
               child: ScaleTransition(
                 scale: _scaleAnimation,
-                child: Column(children: [Image.asset("assets/tgs.png", height: 200, width: 200)]),
+                child: Column(children: [Image.asset("assets/images/tgs.png", height: 200, width: 200)]),
               ),
             ),
             const SizedBox(height: 20),
-            const CircularProgressIndicator(color: AppColors.borderColor, strokeWidth: 4),
+            CircularProgressIndicator(color: Theme.of(context).iconTheme.color, strokeWidth: 4),
           ],
         ),
       ),

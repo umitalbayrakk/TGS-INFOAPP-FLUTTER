@@ -11,6 +11,8 @@ class CourselSlider extends StatelessWidget {
     'assets/images/uygulama-next_00044_.png',
     'assets/images/uygulama-next_00075_.png',
     'assets/images/uygulama-next_00035_.png',
+    'assets/images/Gemini_Generated_Image_5isic05isic05isi.jpeg',
+    'assets/images/Gemini_Generated_Image_5isic05isic05isi.jpeg',
   ];
 
   @override

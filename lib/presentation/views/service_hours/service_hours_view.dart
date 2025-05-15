@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tgs_info_app_flutter/presentation/viewmodel/service_hours_viewmodel.dart';
+import 'package:tgs_info_app_flutter/presentation/views/service_hours/service_hours_view_viewmodel.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/drawer/custom_drawer_view.dart';
 

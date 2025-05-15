@@ -47,7 +47,6 @@ class _ModernGoogleNavBarState extends State<ModernGoogleNavBar> {
             decoration: BoxDecoration(
               color: isDark ? Colors.white.withOpacity(0.05) : Colors.white.withOpacity(0.4),
               borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: isDark ? Colors.white.withOpacity(0.1) : Colors.black.withOpacity(0.1)),
             ),
             child: GNav(
               gap: 6,
