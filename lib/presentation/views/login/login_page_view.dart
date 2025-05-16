@@ -110,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               context: context,
                               builder:
                                   (context) => AlertDialog(
-                                    backgroundColor: AppColors.scaffoldBackgroundColor,
+                                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                                     title: Text(
                                       "Hata",
                                       style: TextStyle(color: AppColors.greenSpot, fontWeight: FontWeight.bold),
@@ -119,7 +119,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                     actions: [
                                       TextButton(
                                         onPressed: () => Navigator.pop(context),
-                                        child: Text("Tamam", style: TextStyle(color: AppColors.borderColor)),
+                                        child: Text(
+                                          "Tamam",
+                                          style: TextStyle(color: Theme.of(context).textTheme.bodySmall?.color),
+                                        ),
                                       ),
                                     ],
                                   ),

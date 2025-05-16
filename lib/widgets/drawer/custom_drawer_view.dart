@@ -5,7 +5,6 @@ import 'package:tgs_info_app_flutter/presentation/views/flight_time/flight_time_
 import 'package:tgs_info_app_flutter/presentation/views/permission_information/permission_information_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/service_hours/service_hours_view.dart';
 import 'package:tgs_info_app_flutter/presentation/views/useful_document/useful_document_view.dart';
-import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/drawer/custom_drawe_view_viewmodel.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -48,6 +47,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
     );
   }
 
+/// Header
   Widget _buildHeader(BuildContext context) {
     return Column(
       children: [
@@ -116,33 +116,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
       child: Column(
         children: [
           const SizedBox(height: 8),
-          GestureDetector(
-            onTap: () {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(const SnackBar(content: Text('Çıkış Yapıldı'), backgroundColor: AppColors.snackBarGreen));
-            },
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Theme.of(context).iconTheme.color!),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(FeatherIcons.logOut, color: Theme.of(context).iconTheme.color, size: 20),
-                  SizedBox(width: 8),
-                  Text(
-                    'Çıkış Yap',
-                    style: TextStyle(color: Theme.of(context).iconTheme.color, fontWeight: FontWeight.w600),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
           Text(
             'TURKISH GROUND SERVICES',
             style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).textTheme.bodySmall?.color),
@@ -194,6 +167,7 @@ class ModernMenuTile extends StatelessWidget {
   }
 }
 
+/// Model
 class MenuItemModel {
   final IconData icon;
   final String title;

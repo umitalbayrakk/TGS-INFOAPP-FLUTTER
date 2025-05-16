@@ -30,7 +30,7 @@ class ServiceHoursView extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(right: 5, bottom: 10),
-                child: Image.asset("assets/tgs.png", height: 150, width: 150),
+                child: Image.asset("assets/images/tgs.png", height: 150, width: 150),
               ),
             ],
           ),

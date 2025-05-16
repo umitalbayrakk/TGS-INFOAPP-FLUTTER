@@ -65,7 +65,9 @@ class PermissionStatusCard extends StatelessWidget {
               children: [
                 Text(
                   "Yıllık İzin Bilgisi",
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, color: AppColors.borderColor),
                 ),
                 const SizedBox(height: 16),
                 Text(

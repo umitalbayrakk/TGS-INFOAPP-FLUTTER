@@ -34,8 +34,7 @@ class _ModernGoogleNavBarState extends State<ModernGoogleNavBar> {
   Widget build(BuildContext context) {
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Scaffold(
-      drawer: CustomDrawer(user: widget.user),
+    return Scaffold(      drawer: CustomDrawer(user: widget.user),
       appBar: AppBarWidgets(),
       extendBody: true,
       body: _pages[_selectedIndex],

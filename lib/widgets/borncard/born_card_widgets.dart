@@ -84,7 +84,9 @@ class BirthdayCard extends StatelessWidget {
           children: [
             Text(
               "Bugün Doğanlar ",
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: AppColors.borderColor),
             ),
             const SizedBox(height: 12),
             if (todaysBirthdays.isEmpty)

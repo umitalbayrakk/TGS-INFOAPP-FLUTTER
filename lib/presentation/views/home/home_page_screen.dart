@@ -43,6 +43,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
               GameCard(user: widget.user),
               BirthdayCard(),
               TurkishFoodCard(),
+              SizedBox(height: 70),
             ],
           ),
         ),

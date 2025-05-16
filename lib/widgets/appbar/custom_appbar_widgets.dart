@@ -1,8 +1,4 @@
-import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:tgs_info_app_flutter/core/themes/theme_provider.dart';
-import 'package:tgs_info_app_flutter/utils/colors.dart';
 
 class AppBarWidgets extends StatelessWidget implements PreferredSizeWidget {
   const AppBarWidgets({super.key});
@@ -12,7 +8,7 @@ class AppBarWidgets extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
+    // final themeProvider = Provider.of<ThemeProvider>(context);
     return AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(
@@ -22,9 +18,9 @@ class AppBarWidgets extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [Image.asset("assets/tgs.png", height: 150, width: 150)],
+        children: [Image.asset("assets/images/tgs.png", height: 150, width: 150)],
       ),
-      actions: [
+      /* actions: [
         IconButton(
           icon: Icon(
             themeProvider.themeMode == ThemeMode.dark ? FeatherIcons.moon : FeatherIcons.sun,
@@ -35,7 +31,7 @@ class AppBarWidgets extends StatelessWidget implements PreferredSizeWidget {
           },
           tooltip: 'Temayı Değiştir',
         ),
-      ],
+      ], */
     );
   }
 }

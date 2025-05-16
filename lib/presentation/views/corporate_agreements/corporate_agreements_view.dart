@@ -172,7 +172,10 @@ class AgreementDetailsSheet extends StatelessWidget {
                 child: Container(
                   width: 60,
                   height: 4,
-                  decoration: BoxDecoration(color: AppColors.borderColor, borderRadius: BorderRadius.circular(2)),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).iconTheme.color,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
