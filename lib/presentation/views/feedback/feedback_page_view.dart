@@ -5,7 +5,6 @@ import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
 
 class FeedbackPage extends StatefulWidget {
   const FeedbackPage({super.key});
-
   @override
   State<FeedbackPage> createState() => _FeedbackPageState();
 }
@@ -16,7 +15,6 @@ class _FeedbackPageState extends State<FeedbackPage> {
   final _surnameController = TextEditingController();
   final _emailController = TextEditingController();
   final _feedbackController = TextEditingController();
-
   @override
   void dispose() {
     _nameController.dispose();
@@ -92,7 +90,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         height: 50,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: AppColors.buttonColor,
+                          color: AppColors.appBarColor,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: MaterialButton(

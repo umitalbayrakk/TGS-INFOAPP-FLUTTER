@@ -284,11 +284,10 @@ class ServiceHoursViewModel with ChangeNotifier {
     'Avcılar': LatLng(40.9790, 28.7210),
     'Beşiktaş': LatLng(41.0438, 29.0094),
   };
-
   String _selectedDistrict = 'Arnavutköy';
-
   var user;
 
+  
   ServiceHoursViewModel({required Map<String, String> user}) {
     _initializeSelectedDistrict(user);
   }

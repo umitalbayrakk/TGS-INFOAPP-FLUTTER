@@ -47,7 +47,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
     );
   }
 
-/// Header
+  /// Header
   Widget _buildHeader(BuildContext context) {
     return Column(
       children: [
@@ -140,11 +140,7 @@ class ModernMenuTile extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 6),
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Theme.of(context).iconTheme.color!),
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
         child: Row(
           children: [
             Icon(icon, color: Theme.of(context).iconTheme.color, size: 24),

@@ -61,10 +61,10 @@ class ShiftCardWidgets extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () => Navigator.pop(context),
                     style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(300, 56),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      minimumSize: const Size(200, 50),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       elevation: 2,
-                      backgroundColor: AppColors.buttonColor,
+                      backgroundColor: AppColors.appBarColor,
                     ),
                     child: Text(
                       'Kapat',

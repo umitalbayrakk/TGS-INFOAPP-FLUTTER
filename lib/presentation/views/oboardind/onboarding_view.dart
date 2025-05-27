@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tgs_info_app_flutter/presentation/views/login/login_page_view.dart';
-import 'package:tgs_info_app_flutter/utils/colors.dart';
 
 class OnboardingView extends StatefulWidget {
   const OnboardingView({super.key});

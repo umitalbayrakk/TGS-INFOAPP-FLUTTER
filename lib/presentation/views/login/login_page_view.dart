@@ -1,6 +1,6 @@
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:tgs_info_app_flutter/presentation/views/login/login_page_view_viewmodel.dart';
+import 'package:tgs_info_app_flutter/presentation/views/login/login_page_viewmodel.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 
 class LoginScreen extends StatefulWidget {

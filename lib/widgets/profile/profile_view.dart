@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/appbar/custom_appbar_widgets.dart';
-import 'package:tgs_info_app_flutter/widgets/drawer/custom_drawer_view.dart';
 
 class ProfileView extends StatefulWidget {
   final Map<String, String> user;
@@ -17,59 +16,74 @@ class _ProfileViewState extends State<ProfileView> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidgets(),
-      body: Column(
-        children: [
-          Text(
-            "Profil Detayları",
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 30, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 30),
-          CircleAvatar(
-            radius: 80,
-            backgroundColor: Theme.of(context).iconTheme.color,
-            child: Icon(Icons.person, size: 130),
-          ),
-          SizedBox(height: 30),
-          Center(
-            child: Column(
-              children: [
-                ProfileCard(Icons.person, "${widget.user["name"]}"),
-                SizedBox(height: 20),
-                ProfileCard(Icons.email, "${widget.user["email"]}"),
-                SizedBox(height: 20),
-                ProfileCard(Icons.badge, "${widget.user["bio"]}"),
-                SizedBox(height: 20),
-                ProfileCard(Icons.calendar_month, "${widget.user["birthDate"]}"),
-                SizedBox(height: 20),
-                ProfileCard(Icons.location_on, "${widget.user["location"]}"),
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 24),
+            Text(
+              "Profil Detayları",
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
             ),
-          ),
-        ],
+            const SizedBox(height: 32),
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Theme.of(context).colorScheme.primary.withOpacity(0.2), width: 4),
+                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 12, spreadRadius: 2)],
+              ),
+              child: CircleAvatar(
+                radius: 80,
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                child: Icon(Icons.person, size: 100, color: Theme.of(context).colorScheme.onPrimaryContainer),
+              ),
+            ),
+            const SizedBox(height: 32),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                children: [
+                  _buildProfileItem(context, icon: Icons.person_outline_rounded, title: "${widget.user["name"]}"),
+                  const SizedBox(height: 16),
+                  _buildProfileItem(context, icon: Icons.email_outlined, title: "${widget.user["email"]}"),
+                  const SizedBox(height: 16),
+                  _buildProfileItem(context, icon: Icons.work_outline, title: "${widget.user["bio"]}"),
+                  const SizedBox(height: 16),
+                  _buildProfileItem(context, icon: Icons.calendar_today_outlined, title: "${widget.user["birthDate"]}"),
+                  const SizedBox(height: 16),
+                  _buildProfileItem(context, icon: Icons.location_on_outlined, title: "${widget.user["location"]}"),
+                ],
+              ),
+            ),
+            const SizedBox(height: 32),
+          ],
+        ),
       ),
     );
   }
 
-  Container ProfileCard(icon, title) {
+
+
+  Widget _buildProfileItem(BuildContext context, {required IconData icon, required String title}) {
     return Container(
-      height: 50,
-      width: 350,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.borderColor),
-        borderRadius: BorderRadius.circular(10),
         color: AppColors.cardColor3,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 8, offset: const Offset(0, 4))],
       ),
       child: Row(
         children: [
-          SizedBox(width: 10),
-          Icon(icon, color: AppColors.borderColor),
-          SizedBox(width: 20),
-          Center(
+          Icon(icon, color: AppColors.borderColor, size: 28),
+          const SizedBox(width: 16),
+          Expanded(
             child: Text(
               title,
-              style: TextStyle(color: AppColors.borderColor, fontWeight: FontWeight.bold, fontSize: 18),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
             ),
           ),
+          Icon(Icons.chevron_right_rounded, color: AppColors.borderColor, size: 28),
         ],
       ),
     );

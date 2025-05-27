@@ -33,7 +33,7 @@ class PhoneNumbersViewModel extends ChangeNotifier {
     final String? contactsJson = _prefs.getString('contacts');
     if (contactsJson != null) {
       final List<dynamic> decodedList = jsonDecode(contactsJson);
-      _contacts = decodedList.map((item) => Contact.fromJson(item)).toList();
+      _contacts = decodedList.map((item) => Contact.fromJson(item)).toList(); 
     } else {
       _contacts = [
         Contact(name: 'Ahmet', surname: 'Yılmaz', birthDate: '01/05/1990', phone: '05551234567'),

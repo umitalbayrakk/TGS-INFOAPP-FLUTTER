@@ -19,6 +19,7 @@ class ModernGoogleNavBar extends StatefulWidget {
 
 class _ModernGoogleNavBarState extends State<ModernGoogleNavBar> {
   int _selectedIndex = 0;
+
   late final List<Widget> _pages;
 
   @override
@@ -33,8 +34,8 @@ class _ModernGoogleNavBarState extends State<ModernGoogleNavBar> {
   @override
   Widget build(BuildContext context) {
     final bool isDark = Theme.of(context).brightness == Brightness.dark;
-
-    return Scaffold(      drawer: CustomDrawer(user: widget.user),
+    return Scaffold(
+      drawer: CustomDrawer(user: widget.user),
       appBar: AppBarWidgets(),
       extendBody: true,
       body: _pages[_selectedIndex],
@@ -50,7 +51,7 @@ class _ModernGoogleNavBarState extends State<ModernGoogleNavBar> {
             child: GNav(
               gap: 6,
               backgroundColor: isDark ? const Color(0xff30444E) : const Color(0xFFFFFFFF),
-              tabBackgroundColor: AppColors.darkColor,
+              tabBackgroundColor: AppColors.appBarColor,
               activeColor: isDark ? Colors.white : AppColors.whiteSpot,
               color: isDark ? Colors.white70 : Colors.black54,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

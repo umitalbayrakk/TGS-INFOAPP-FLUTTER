@@ -110,10 +110,10 @@ class TurkishFoodCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final food = _getFoodItem();
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: GestureDetector(
-        onTap: onTap ?? () {},
+    return GestureDetector(
+      onTap: onTap ?? () {},
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20, right: 20),
         child: Container(
           width: double.infinity,
           decoration: BoxDecoration(

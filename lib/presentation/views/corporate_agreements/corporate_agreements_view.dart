@@ -170,7 +170,7 @@ class AgreementDetailsSheet extends StatelessWidget {
             children: [
               Center(
                 child: Container(
-                  width: 60,
+                  width: 100,
                   height: 4,
                   decoration: BoxDecoration(
                     color: Theme.of(context).iconTheme.color,

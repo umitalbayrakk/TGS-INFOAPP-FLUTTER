@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:tgs_info_app_flutter/utils/constant.dart';
+import 'package:tgs_info_app_flutter/widgets/Calendar/calendar_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/borncard/born_card_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/drawer/custom_drawer_view.dart';
-import 'package:tgs_info_app_flutter/widgets/foodcart/food_card_widgets.dart';
+import 'package:tgs_info_app_flutter/widgets/carousel_slider/coursel_slider.dart';
+import 'package:tgs_info_app_flutter/widgets/foodcart/food_card_widgets.dart' show TurkishFoodCard;
 import 'package:tgs_info_app_flutter/widgets/gameCard/game_card_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/shiftcard/shift_card_widgets.dart';
 import 'package:tgs_info_app_flutter/widgets/shiftcard/shift_card_widgets_viewmodel.dart';
 import 'package:tgs_info_app_flutter/widgets/tgs_news/news_section_widgets.dart';
-import 'package:tgs_info_app_flutter/widgets/carousel_slider/coursel_slider.dart';
 
 class HomePageScreen extends StatefulWidget {
   final Map<String, String> user;
@@ -30,22 +31,24 @@ class _HomePageScreenState extends State<HomePageScreen> {
       drawer: CustomDrawer(user: widget.user),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SingleChildScrollView(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 5),
-              CourselSlider(),
-              SizedBox(height: 10),
-              LastNewsText(),
-              NewsSection(),
-              SizedBox(height: 10),
-              ShiftCardWidgets(viewModel: ShiftViewModel()),
-              GameCard(user: widget.user),
-              BirthdayCard(),
-              TurkishFoodCard(),
-              SizedBox(height: 70),
-            ],
-          ),
+        child: Column(
+          children: [
+            SizedBox(height: 5),
+            CourselSlider(),
+            SizedBox(height: 10),
+            CalendarWidgets(),
+            LastNewsText(),
+            SizedBox(height: 10),
+            NewsSection(),
+            SizedBox(height: 10),
+            ShiftCardWidgets(viewModel: ShiftViewModel()),
+            SizedBox(height: 10),
+            GameCard(user: widget.user),
+            BirthdayCard(),
+            SizedBox(height: 10),
+            TurkishFoodCard(),
+            SizedBox(height: 70),
+          ],
         ),
       ),
     );

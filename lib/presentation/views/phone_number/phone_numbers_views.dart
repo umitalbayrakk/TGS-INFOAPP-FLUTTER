@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
-import 'package:tgs_info_app_flutter/presentation/views/phone_number/phone_numbers_view_viewmodel.dart';
+import 'package:tgs_info_app_flutter/presentation/views/phone_number/phone_numbers_viewmodel.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
 import 'package:tgs_info_app_flutter/widgets/drawer/custom_drawer_view.dart';
 
@@ -26,7 +26,7 @@ class PhoneNumbersViews extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 10, left: 10),
                   child: Container(
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: AppColors.buttonColor),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: AppColors.appBarColor),
                     height: 50,
                     width: double.infinity,
                     child: MaterialButton(
@@ -40,6 +40,7 @@ class PhoneNumbersViews extends StatelessWidget {
                               context,
                             ).textTheme.bodyLarge?.copyWith(color: AppColors.whiteSpot, fontWeight: FontWeight.bold),
                           ),
+                          SizedBox(width: 5),
                           Icon(FeatherIcons.plus, color: AppColors.whiteSpot, size: 30),
                         ],
                       ),
@@ -60,9 +61,9 @@ class PhoneNumbersViews extends StatelessWidget {
                               radius: 28,
                               backgroundColor:
                                   Theme.of(context).brightness == Brightness.dark
-                                      ? AppColors.whiteSpot
-                                      : AppColors.borderColor,
-                              child: Icon(FeatherIcons.user),
+                                      ? AppColors.appBarColor
+                                      : AppColors.appBarColor,
+                              child: Icon(FeatherIcons.user, color: AppColors.whiteSpot),
                             ),
                             const SizedBox(width: 12),
                             Expanded(

@@ -10,11 +10,11 @@ class GameCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: 20, left: 20, top: 10),
+      padding: const EdgeInsets.only(left: 20, right: 20),
       child: Container(
         width: double.infinity,
         height: 45,
-        decoration: BoxDecoration(color: AppColors.buttonColor, borderRadius: BorderRadius.circular(16)),
+        decoration: BoxDecoration(color: AppColors.appBarColor, borderRadius: BorderRadius.circular(16)),
         child: MaterialButton(
           onPressed: () {
             print('GameCard user: $user');
