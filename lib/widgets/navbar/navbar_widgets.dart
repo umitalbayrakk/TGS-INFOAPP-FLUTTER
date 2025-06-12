@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:tgs_info_app_flutter/presentation/views/flight_page/flight_page.dart';
 import 'package:tgs_info_app_flutter/presentation/views/home/home_page_screen.dart';
 import 'package:tgs_info_app_flutter/presentation/views/phone_number/phone_numbers_views.dart';
 import 'package:tgs_info_app_flutter/presentation/views/settings/settings_view.dart';
@@ -23,12 +24,24 @@ class _ModernGoogleNavBarState extends State<ModernGoogleNavBar> {
   late final List<Widget> _pages;
 
   @override
+  /*************  ✨ Windsurf Command ⭐  *************/
+  /// Called when the widget is inserted into the tree.
+  ///
+  /// Checks if user data is empty and prints a warning message if it is.
+  /// Then, initializes the list of pages with the home page, phone numbers page
+  /// and settings page.
+  /*******  38bf92f5-e317-4072-a1bd-85c6b9ae8a47  *******/
   void initState() {
     super.initState();
     if (widget.user.isEmpty) {
       debugPrint('Uyarı: user verisi boş');
     }
-    _pages = [HomePageScreen(user: widget.user), PhoneNumbersViews(), SettingsPageView(user: widget.user)];
+    _pages = [
+      HomePageScreen(user: widget.user),
+      PhoneNumbersViews(),
+      FlightPage(),
+      SettingsPageView(user: widget.user),
+    ];
   }
 
   @override
@@ -51,7 +64,7 @@ class _ModernGoogleNavBarState extends State<ModernGoogleNavBar> {
             child: GNav(
               gap: 6,
               backgroundColor: isDark ? const Color(0xff30444E) : const Color(0xFFFFFFFF),
-              tabBackgroundColor: AppColors.appBarColor,
+              tabBackgroundColor: AppColors.cardColor2,
               activeColor: isDark ? Colors.white : AppColors.whiteSpot,
               color: isDark ? Colors.white70 : Colors.black54,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -70,6 +83,7 @@ class _ModernGoogleNavBarState extends State<ModernGoogleNavBar> {
               tabs: const [
                 GButton(icon: Icons.home_rounded, text: 'Ana Sayfa'),
                 GButton(icon: Icons.call_rounded, text: 'Telefon'),
+                GButton(icon: Icons.flight, text: 'Uçuşlar'),
                 GButton(icon: Icons.settings, text: 'Ayarlar'),
               ],
             ),

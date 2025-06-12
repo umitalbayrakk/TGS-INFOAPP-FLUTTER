@@ -14,7 +14,7 @@ class GameCard extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: 45,
-        decoration: BoxDecoration(color: AppColors.appBarColor, borderRadius: BorderRadius.circular(16)),
+        decoration: BoxDecoration(color: AppColors.cardColor2, borderRadius: BorderRadius.circular(16)),
         child: MaterialButton(
           onPressed: () {
             print('GameCard user: $user');

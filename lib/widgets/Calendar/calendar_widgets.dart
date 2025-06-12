@@ -18,11 +18,13 @@ class CalendarWidgets extends StatelessWidget {
       calendarStyle: CalendarStyle(
         outsideDaysVisible: false,
         weekendTextStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
-        selectedTextStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
+        selectedTextStyle: Theme.of(
+          context,
+        ).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold, color: AppColors.whiteSpot), //
         defaultTextStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
         todayTextStyle: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
         todayDecoration: BoxDecoration(color: AppColors.appBarColor, shape: BoxShape.circle),
-        selectedDecoration: BoxDecoration(color: AppColors.appBarColor, shape: BoxShape.circle),
+        selectedDecoration: BoxDecoration(color: AppColors.cardColor2, shape: BoxShape.circle),
       ),
       locale: 'tr',
       selectedDayPredicate: (day) => isSameDay(day, DateTime.now()),

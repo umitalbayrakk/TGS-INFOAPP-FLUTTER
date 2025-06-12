@@ -26,7 +26,7 @@ class PhoneNumbersViews extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 10, left: 10),
                   child: Container(
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: AppColors.appBarColor),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: AppColors.cardColor2),
                     height: 50,
                     width: double.infinity,
                     child: MaterialButton(
@@ -61,8 +61,8 @@ class PhoneNumbersViews extends StatelessWidget {
                               radius: 28,
                               backgroundColor:
                                   Theme.of(context).brightness == Brightness.dark
-                                      ? AppColors.appBarColor
-                                      : AppColors.appBarColor,
+                                      ? AppColors.cardColor2
+                                      : AppColors.cardColor2,
                               child: Icon(FeatherIcons.user, color: AppColors.whiteSpot),
                             ),
                             const SizedBox(width: 12),

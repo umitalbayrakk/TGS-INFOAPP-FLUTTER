@@ -89,10 +89,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                       Container(
                         height: 50,
                         width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: AppColors.appBarColor,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+                        decoration: BoxDecoration(color: AppColors.cardColor2, borderRadius: BorderRadius.circular(10)),
                         child: MaterialButton(
                           onPressed: _submitFeedback,
                           child: Row(
