@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import 'package:tgs_info_app_flutter/presentation/views/service_hours/service_hours_view_viewmodel.dart';
 import 'package:tgs_info_app_flutter/utils/colors.dart';
@@ -58,12 +60,25 @@ class ServiceHoursView extends StatelessWidget {
                         new Container(
                           height: 200,
                           width: double.infinity,
-                          decoration: new BoxDecoration(
-                            borderRadius: BorderRadius.circular(16),
-                            image: new DecorationImage(
-                              image: new AssetImage('assets/images/map.png'),
-                              fit: BoxFit.cover,
-                            ),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
+                          child: FlutterMap(
+                            options: MapOptions(initialCenter: LatLng(41.1856, 28.7406), initialZoom: 13.0),
+                            children: [
+                              TileLayer(
+                                urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                userAgentPackageName: 'com.example.app',
+                              ),
+                              MarkerLayer(
+                                markers: [
+                                  Marker(
+                                    width: 80.0,
+                                    height: 80.0,
+                                    point: LatLng(41.1856, 28.7406),
+                                    child: Icon(Icons.location_pin, color: AppColors.cardColor, size: 40.0),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                         SizedBox(height: 10),
@@ -71,7 +86,6 @@ class ServiceHoursView extends StatelessWidget {
                           height: 80,
                           width: double.infinity,
                           decoration: new BoxDecoration(
-                            borderRadius: BorderRadius.circular(16),
                             image: new DecorationImage(
                               image: new AssetImage('assets/images/newmapss.png'),
                               fit: BoxFit.cover,
